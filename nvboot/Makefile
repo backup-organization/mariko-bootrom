@@ -40,6 +40,7 @@ $(TARGETS): core-libs io-libs
 	@$(DMP) -Mreg-names-raw -d $@ > $(@:axf=dis)
 	@echo "  SYM   " $(@:axf=sym)
 	@$(DMP) -t $@ > $(@:axf=sym)
+	@$(BR_ROOT)/nvboot/region_check_gcc $(@:axf=dis)
 	@echo "  BIN   " $(@:axf=bin)
 	@$(BIN) $@ $(@:axf=bin)
 	dd if=$(@:axf=bin) bs=92k conv=sync of=$(@:axf=bin).92k_padded

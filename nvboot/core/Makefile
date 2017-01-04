@@ -34,17 +34,6 @@ make: $(BR_ROOT)/make/Makefile.in
 
 # Integrate MC code everytime we build.
 sdram_source:
-	rsync -cupE $(DEPTH)/clib/libbootrom/sdram/$(PROJECT)/nvboot_sdram.c $(DEPTH)/drv/bootrom/nvboot/core/sdram
-	rsync -cupE $(DEPTH)/clib/libbootrom/sdram/$(PROJECT)/nvboot_wb0_sdram_pack.c $(DEPTH)/drv/bootrom/nvboot/core/sdram
-	rsync -cupE $(DEPTH)/clib/libbootrom/sdram/$(PROJECT)/nvboot_wb0_sdram_unpack.c $(DEPTH)/drv/bootrom/nvboot/core/sdram
-	rsync -cupE $(DEPTH)/cmod/mc/tools/$(PROJECT)/nvboot_wb0_sdram_unpack_pllm_generated.c $(DEPTH)/drv/bootrom/include/$(PROJECT)
-	#rsync -cupE $(DEPTH)/clib/libbootrom/sdram/$(PROJECT)/nvboot_sdram_int.h $(DEPTH)/drv/bootrom/nvboot/include/$(PROJECT)
-	rsync -cupE $(DEPTH)/clib/libbootrom/sdram/$(PROJECT)/nvboot_wb0_sdram_scratch_list.h $(DEPTH)/drv/bootrom/include/$(PROJECT)
-	rsync -cupE $(DEPTH)/clib/libbootrom/sdram/$(PROJECT)/nvboot_sdram_param.h $(DEPTH)/drv/bootrom/include/$(PROJECT)
-	rsync -cupE $(DEPTH)/cmod/mc/tools/$(PROJECT)/sdram_scratch_list_generated.h   $(DEPTH)/drv/bootrom/include/$(PROJECT)
-	rsync -cupE $(DEPTH)/cmod/mc/tools/$(PROJECT)/sdram_scratch_list_secure_generated.h  $(DEPTH)/drv/bootrom/include/$(PROJECT)
-	rsync -cupE $(DEPTH)/cmod/mc/tools/$(PROJECT)/nvboot_sdram_param_generated.h   $(DEPTH)/drv/bootrom/include/$(PROJECT)
-	rsync -cupE $(DEPTH)/cmod/mc/tools/$(PROJECT)/nvboot_wb0_sdram_unpack.h   $(DEPTH)/drv/bootrom/include/$(PROJECT)
 
 all: $(TARGETS)
 
