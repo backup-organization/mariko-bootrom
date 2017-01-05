@@ -1733,14 +1733,16 @@ void NvBootXusbDeviceGetClockTable(void **XusbClockTable, ClockTableType *Id)
             XusbClockTables[OSC_TABLE] = s_XUSBTrackingClockFrequency_38_4;
     }
     // Passing in list of tables.
-    if(NvBootIsPlatformFpga())
-    {
-        *XusbClockTable= XusbFpgaClockTables;
-    }
-    else
-    {
+    // Don't need fpga specific tables anymore. Use for reference for future if needed.
+    // if(NvBootIsPlatformFpga())
+    // {
+        // *XusbClockTable= XusbFpgaClockTables;
+    // }
+    // else
+    // {
+        // *XusbClockTable= XusbClockTables;
+    // }
         *XusbClockTable= XusbClockTables;
-    }
     // Indicate to clocks engine multi-tables.
     *Id = TYPE_MULTI_TABLE;
 }

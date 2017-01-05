@@ -608,7 +608,12 @@ NvBootError NvBootCryptoMgrReadyEncKey()
 
         //load FEK and clear out the IRAM right away
         NvBootCryptoMgrCopyArrayFromRegToBuffer(NvAesFuseDecryptionKey, KeyAddress, NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
+        // Load OEM FEK into SE.
         LoadKeyIVIntoSlot(AES_DEVICE_KEYSLOT_OEM_FEK, SE_MODE_PKT_AESMODE_KEY128, NvAesFuseDecryptionKey, 0, 0);
+
+        // Load OEM FEK into SE2.
+        LoadKeyIVIntoSlotSE2(AES_DEVICE_KEYSLOT_OEM_FEK, SE_MODE_PKT_AESMODE_KEY128, NvAesFuseDecryptionKey, 0, 0);
+
         NvBootUtilMemset(NvAesFuseDecryptionKey, 0, NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
     }
 

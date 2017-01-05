@@ -158,6 +158,7 @@ const ClockInst s_XUSBDeviceClkTable[] =
  *  register space.
  *  c. UTMIPLL won't lock. This might not be specific to UTMIPLL.
  */
+ /*
 const ClockInst s_XUSBDeviceFpgaClkTable[] = 
 {
      // Needed for HSIC_480 branch.
@@ -178,10 +179,10 @@ const ClockInst s_XUSBDeviceFpgaClkTable[] =
     Instc(Clk_Src,  CLK_SOURCE_XUSB_CORE_DEV, XUSB_CORE_DEV_CLK_SRC, PLLP_OUT0,
                                               XUSB_CORE_DEV_CLK_DIVISOR, 6),
     // Xusb SS clock @120 Mhz (HSIC_480M/4)
-    // Instc(Clk_Src,  CLK_SOURCE_XUSB_SS, XUSB_SS_CLK_SRC, HSIC_480,  // NOTE: Commenting this out
-                                        // XUSB_SS_CLK_DIVISOR, 6),    // on fpga because dividing fpga clk by 6 does n't make sense.
+    Instc(Clk_Src,  CLK_SOURCE_XUSB_SS, XUSB_SS_CLK_SRC, HSIC_480,  // NOTE: Commenting this out
+                                         XUSB_SS_CLK_DIVISOR, 6),    // on fpga because dividing fpga clk by 6 does n't make sense.
     // Xsub FS Clock @ FO_48M
-    // Instc(Clk_Rmw_Def,  CLK_SOURCE_XUSB_FS, XUSB_FS_CLK_SRC, FO_48M),
+    Instc(Clk_Rmw_Def,  CLK_SOURCE_XUSB_FS, XUSB_FS_CLK_SRC, FO_48M),
     // De-assert Reset to SS, PadCtl
     Instc(Clk_W1b,  RST_DEV_W_CLR,    CLR_XUSB_PADCTL_RST,
                                       CLR_XUSB_SS_RST),
@@ -190,7 +191,7 @@ const ClockInst s_XUSBDeviceFpgaClkTable[] =
                                       CLR_XUSB_HOST_RST),
     // Poll UTMI Pll lock
     TODO // Move to platform specific code.
-    // Instc(Poll_Num, 100, UTMIPLL_HW_PWRDN_CFG0, UTMIPLL_LOCK, 1),
+    Instc(Poll_Num, 1000, UTMIPLL_HW_PWRDN_CFG0, UTMIPLL_LOCK, 1),
     // Enable tracking clock
     Instc(Clk_W1b,  CLK_ENB_Y_SET, SET_CLK_ENB_USB2_TRK),
     // Powerup and remove power down on Samplers
@@ -204,6 +205,7 @@ const ClockInst s_XUSBDeviceFpgaClkTable[] =
     Instc(Clk_Rmw_Num,  UTMIP_PLL_CFG2, UTMIP_FORCE_PD_SAMP_D_POWERUP, 1),
     {0} // Zero array Terminated.
 };
+*/
 
 /**
  * The frequency for the tracking circuit should be between 1 to 10 MHz.
@@ -245,6 +247,7 @@ ClockTable XusbClockTables[] =
     0 // Null pointer terminated. Note the difference from ClockInst termination with a zero array.
 };
 
+/*
 ClockTable XusbFpgaClockTables[] = 
 {
     // Oscillator freq dependent table, default to Osc 38_4
@@ -254,5 +257,5 @@ ClockTable XusbFpgaClockTables[] =
     s_XUSBDeviceFpgaClkTable,
     0 // Null pointer terminated. Note the difference from ClockInst termination with a zero array.
 };
-
+*/
 /***************************** Clock Tables End ****************************************************/

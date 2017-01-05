@@ -676,6 +676,8 @@ NvBootError
 NvBootMainSecureInit()
 {
     NvBootUtilMemset(&Context, 0, sizeof(NvBootContext));
+    NvBootUtilMemset( (void*) &__bct_start, 0, sizeof(NvBootConfigTable) );
+    NvBootUtilMemset( (void*) &__bit_start, 0, sizeof(NvBootInfoTable) );
 
     // Init security related context.
     Context.FactorySecureProvisioningMode = 0;
@@ -741,7 +743,7 @@ NvBootMainSecureRomExit(NvBool IsWarmBoot,
 
     // Zero out the BCT for WB0 and forced Recovery boot types,
     if (BootRomExitOptionsBitmap & NVBOOT_SECURE_EXIT_OPTION_CLEAR_BCT) {
-        NvBootUtilMemset( (void*) __bct_start, 0, sizeof(NvBootConfigTable) );
+        NvBootUtilMemset( (void*) &__bct_start, 0, sizeof(NvBootConfigTable) );
     }
 
     //lock down / clear keyslots
