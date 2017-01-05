@@ -47,7 +47,7 @@ NvBootWdtGetStatus(void)
     return NV_FALSE;
 }
 
-void
+void FT_NONSECURE
 NvBootWdtInit(void)
 {
     NvU32 RegData;
@@ -80,7 +80,7 @@ NvBootWdtInit(void)
     NV_WRITE32(NV_ADDRESS_MAP_TMR_BASE + TIMER_TMR1_TMR_PTV_0, RegData);
 }
 
-void
+void FT_NONSECURE
 NvBootWdtStart(void)
 {
     NvU32 RegData;

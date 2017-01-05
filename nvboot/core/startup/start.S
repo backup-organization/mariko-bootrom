@@ -188,9 +188,6 @@ NvBootAsmSecureEnter:
         strlt	r2, [r0], #4
         blt	    .L__bss_loop
 
-        // Handle wdt and tsense
-        bl      NvBootResetRailsAndResetHandler
-
         bl	    main
         b	    .
 .ltorg

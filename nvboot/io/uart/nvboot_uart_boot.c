@@ -107,7 +107,11 @@ void FT_NONSECURE NvBootUartDownload_internal (NvBootClocksOscFreq OscFreq)
         length = pHeader->MainLength;
 
         // limit our length to the size left in iram
-        NvU32 maxLength = NVBOOT_BL_IRAM_END - (NvU32) RxBuf;
+        // stack is also at end of iram, so leave 0x2000 (8K) for stack
+        // this is more than enough, and never a security issue since UART boot
+        // is not availible outside NVIDIA.
+        const NvU32 stackSpace = 0x2000;
+        NvU32 maxLength = (NVBOOT_BL_IRAM_END - stackSpace) - (NvU32) RxBuf;
         if (length > maxLength) {
             length = maxLength;
         }

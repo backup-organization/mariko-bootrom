@@ -12,7 +12,7 @@
 #include <nvboot_tasks_ns.h>
 #include <nvboot_dispatcher_int.h>
 #include <nvboot_bpmp_int.h>
-//#include <nvboot_external_pmic_int.h>
+#include <nvboot_reset_pmu_int.h>
 #include "nvboot_util_int.h"
 #include "nvboot_clocks_int.h"
 #include "nvboot_pads_int.h"
@@ -34,12 +34,16 @@ static const NvBootTask VT_NONSECURE TasksNS[] = {
     // Note: NvBootBpmpNonsecureRomEnter may branch to UART boot here
     // if the UART boot conditions are satisfied.
     { (NvBootError(*)())&NvBootBpmpNonsecureRomEnter, 0x4 },
+    // This must precede External PMIC code
+    { (NvBootError(*)())&NvBootBpmpEnableWdt, 0x5 },
+    // This must precede Enabling PllP
+    { (NvBootError(*)())&NvBootResetRailsAndResetHandler, 0x6 },
     // All code before this point must be in the non-secure
     // section (everything to get to UART boot for FA mode).
     // Move Pllp start and clock source switch of AVP to PLLP here,
     // which will speed up simulation time. This diverges from the T210
     // slightly, which had this function just before main() entry.
-    { (NvBootError(*)())&NvBootBpmpEnablePllp, 0x05 },
+    { (NvBootError(*)())&NvBootBpmpEnablePllp, 0x07 },
     { (NvBootError(*)())&NvBootClocksSetAvpClockBeforeScatterLoad, 0x09 },
 };
 

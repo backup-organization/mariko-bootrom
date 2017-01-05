@@ -36,7 +36,6 @@ NvBootError NvBootMemSysRamSetup();
  *                 NvBootError.
 */
 NvBootTask Tasks[] = {
-    { (NvBootError(*)())&NvBootBpmpEnableWdt, 0x50 },
     { &NvBootMainSecureInit, 0x54},
 };
 

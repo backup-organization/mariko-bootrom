@@ -173,7 +173,7 @@ NvBootFuseIsSecureProvisionTestPartFuseBurned()
  * @return NV_TRUE if any of the Secure Boot Key fuses are set (burned); else
  *         NV_FALSE
  */
-static NvBool
+static NvBool FT_NONSECURE
 NvBootFuseIsSbkSet(void)
 {
     NvU32 AllSbkOred;

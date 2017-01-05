@@ -92,13 +92,13 @@ void FT_NONSECURE NvBootBpmpSetupPads(void);
  * Set up and enable WDT if appropriate
  *
  */
-void FT_NONSECURE NvBootBpmpEnableWdt(void);
+void NvBootBpmpEnableWdt(void);
 
 /**
  * Enable Pllp clock and check for lock bit status.
  *
  */
-void FT_NONSECURE NvBootBpmpEnablePllp(void);
+void NvBootBpmpEnablePllp(void);
 
 /**
  * This routine is located in the Secure Section of iROM and is responsable

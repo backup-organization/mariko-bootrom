@@ -1447,7 +1447,7 @@ NvBootClocksConfigureUsecTimer(NvBootClocksOscFreq OscFreq)
 }
 
 // The code in this function for T210 is in NvBootMainSecureRomEnterBeforeScatter().
-void FT_NONSECURE NvBootClockEnablePllp()
+void NvBootClockEnablePllp()
 {
     //leave unused variable for now TODO why was this here
     NvBootClocksOscFreq __attribute__((unused)) OscFreq;

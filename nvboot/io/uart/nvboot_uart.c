@@ -76,21 +76,6 @@ do {                                                                     \
 
 void FT_NONSECURE NvBootUartFifoFlush(void);
 
-typedef struct
-{
-    uint32_t setup;	
-    uint32_t kcp;
-    uint32_t kvco;
-    uint32_t divm;
-    uint32_t divn;
-    uint32_t divp;
-    uint32_t misc1;
-    uint_fast16_t uartdiv;
-	
-} NvBootUartFastClkPllParams;
-static const VT_NONSECURE NvBootUartFastClkPllParams s_PllMiscTbl[] = {
-    {.setup = 0x00, .kcp = 0x00, .kvco = 0x00, .divm = 0x2,
-     .divn = 0x32, .divp = 0, .misc1 = 0x08000, .uartdiv = 0x0 }};
 
 void FT_NONSECURE
 NvBootUartInit(NvBootClocksOscFreq oscFreq, bool isNvProdMode)
@@ -408,6 +393,10 @@ NvBootUartFifoFlush()
     NvBootUtilWaitUS(ONE_CHARACTER_WAIT_US);
 
     // Program TX_CLR and RX_CLR
+    // Doing a RMW with FCR would be meaningless, it has write only registers
+    // For chips that change other FCR parameters we need to revisit this, it does
+    // overwrite some stuff if you change it away from default. Maybe a shadow register?
+    // But this way is fine for T214, and matches previous chips
     uint32_t fcr = 0x00; //NV_READ8(NV_UARTA_FCR); 
     fcr = NV_FLD_SET_DRF_DEF(UART, IIR_FCR, FCR_EN_FIFO, ENABLE, fcr);
     fcr = NV_FLD_SET_DRF_DEF(UART, IIR_FCR, RX_CLR, CLEAR, fcr);

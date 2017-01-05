@@ -484,7 +484,7 @@ NvBootClocksConfigureUsecTimer(NvBootClocksOscFreq OscFreq);
  * NvBootClockEnablePllp(): Start/Enable clock source Pllp
  * Check for Pllp lock.
  */
-void FT_NONSECURE NvBootClockEnablePllp(void);
+void NvBootClockEnablePllp(void);
 
 /* 
  * NvBootClocksGetOscFreq(): 

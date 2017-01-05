@@ -36,7 +36,7 @@
 
 #define I2C_BASE_ADDR NV_ADDRESS_MAP_I2C5_BASE
 
-void FT_NONSECURE NvBootI2cInit(const NvBootI2cCntlrTbl i2cCntlr)
+void NvBootI2cInit(const NvBootI2cCntlrTbl i2cCntlr)
 {
     // If BootROM returns to having multiple options for I2C controller, pinmux
     // etc. then this will have to be relocated and a more sophisticated init

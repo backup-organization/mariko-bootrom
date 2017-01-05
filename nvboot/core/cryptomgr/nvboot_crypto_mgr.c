@@ -1288,7 +1288,7 @@ NvBootError NvBootCryptoMgrOemDecryptRcmPayload(const NvBootRcmMsg *RcmMsg)
  */
 NvBootError NvBootCryptoMgrLoadDefaultSEKeys()
 {
-    uint8_t AesKeyDecryptionBuffer[NVBOOT_SE_AES_KEY128_LENGTH_BYTES];
+    uint8_t AesKeyDecryptionBuffer[NVBOOT_SE_AES_KEY128_LENGTH_BYTES] __attribute__((aligned(4)));
     NvBootSecureIromLayout *SecureIrom = (NvBootSecureIromLayout*)(NVBOOT_SEC_IROM_START);
  
     TODO // does this have to be protected by NV key. 

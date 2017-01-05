@@ -541,6 +541,15 @@ NvBootSdmmcWritePage(
             // If response fails, return error. Nothing to clean up.
             NV_BOOT_CHECK_ERROR_CLEANUP(EmmcVerifyResponse(SdmmcCommand_WriteSingle,
                  NV_FALSE));
+
+            if (HwSdmmcWaitForDataLineReady() != NvBootError_Success)
+            {
+                WriteXferStatus = NvBootSdmmcQueryStatus();
+                if (WriteXferStatus == NvBootDeviceStatus_Idle)
+                    e= NvBootError_Success;
+                else
+                   e = NvBootError_TxferFailed;
+            }
             
             Page2Access++;
             if (Page2Access >= (uint32_t)(1 << s_SdmmcContext->PagesPerBlockLog2))

@@ -630,7 +630,7 @@ void NvBootBpmpEnableWdt(void)
     }
 }
 
-void FT_NONSECURE NvBootBpmpEnablePllp(void)
+void NvBootBpmpEnablePllp(void)
 {
     NvBootClockEnablePllp();
 	//log BIT

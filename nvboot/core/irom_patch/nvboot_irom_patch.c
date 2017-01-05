@@ -411,7 +411,7 @@ void FT_NONSECURE NvBootApplyIRomPatch(void) {
 #endif
     while(NumOfPatchWords) {
         TotalPatchRecordSize += NumOfPatchWords;
-        if(TotalPatchRecordSize >= MAX_PAYLOAD)
+        if(TotalPatchRecordSize > MAX_PAYLOAD)
         {
             //update the status and return.
             // further reads violates the fuse irompatch size.
