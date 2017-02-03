@@ -958,7 +958,7 @@ NvBootClocksStartPll(NvBootClocksPllId PllId,
         RegData = NV_READ32(NV_ADDRESS_MAP_CAR_BASE + NVBOOT_CLOCKS_PLL_MISC(PllId));
         RegData = NV_FLD_SET_DRF_NUM(CLK_RST_CONTROLLER, PLLE_MISC, PLLE_IDDQ_OVERRIDE_VALUE, 0x1, RegData);
         RegData = NV_FLD_SET_DRF_NUM(CLK_RST_CONTROLLER, PLLE_MISC, PLLE_IDDQ_SWCTL, 0x1, RegData);
-        RegData = NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + NVBOOT_CLOCKS_PLL_MISC(PllId), RegData);
+        NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + NVBOOT_CLOCKS_PLL_MISC(PllId), RegData);
         // Set PlleRefSource, SelectPllRefe in PLLE_AUX
         RegPllAuxData = NV_READ32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_PLLE_AUX_0);
         RegData = NV_DRF_VAL(CLK_RST_CONTROLLER, PLLE_AUX, PLLE_REF_SRC, Misc2);
@@ -980,7 +980,7 @@ NvBootClocksStartPll(NvBootClocksPllId PllId,
         // PLLE_IDDQ_OVERRIDE_VAL = 0
         RegData = NV_READ32(NV_ADDRESS_MAP_CAR_BASE + NVBOOT_CLOCKS_PLL_MISC(PllId));
         RegData = NV_FLD_SET_DRF_NUM(CLK_RST_CONTROLLER, PLLE_MISC, PLLE_IDDQ_OVERRIDE_VALUE, 0x0, RegData);
-        RegData = NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + NVBOOT_CLOCKS_PLL_MISC(PllId), RegData);
+        NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + NVBOOT_CLOCKS_PLL_MISC(PllId), RegData);
 
         // Wait for 5 usec per PLLE spec
         NvBootUtilWaitUS(5);
@@ -1182,7 +1182,7 @@ NvBootClocksSetEnable(NvBootClocksClockId ClockId, NvBool Enable) {
     NvU32 RegData;
     NvU32 RegAddr;
 
-const NvU32 ClocksRegSetClrTbl[ClocksReg_Num] = {
+static const NvU32 VT_NONSECURE ClocksRegSetClrTbl[ClocksReg_Num] = {
     NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_L_SET_0,
     NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_H_SET_0,
     NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_U_SET_0,

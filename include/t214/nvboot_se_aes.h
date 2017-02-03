@@ -306,7 +306,7 @@ typedef struct NvBootAes256KeyRec
 typedef struct NvBootAes128KeyNvU8Rec
 {
     /// Specifies the key data.
-    uint8_t Key[NVBOOT_SE_AES_KEY128_LENGTH_BYTES];
+    NvU8 Key[NVBOOT_SE_AES_KEY128_LENGTH_BYTES];
 } NvBootAes128KeyNvU8;
 
 /**
@@ -315,7 +315,7 @@ typedef struct NvBootAes128KeyNvU8Rec
 typedef struct NvBootAes192KeyNvU8Rec
 {
     /// Specifies the key data.
-    uint8_t Key[NVBOOT_SE_AES_KEY192_LENGTH_BYTES];
+    NvU8 Key[NVBOOT_SE_AES_KEY192_LENGTH_BYTES];
 } NvBootAes192KeyNvU8;
 
 /**
@@ -324,7 +324,7 @@ typedef struct NvBootAes192KeyNvU8Rec
 typedef struct NvBootAes256KeyNvU8Rec
 {
     /// Specifies the key data.
-    uint8_t Key[NVBOOT_SE_AES_KEY256_LENGTH_BYTES];
+    NvU8 Key[NVBOOT_SE_AES_KEY256_LENGTH_BYTES];
 } NvBootAes256KeyNvU8;
 
 /**

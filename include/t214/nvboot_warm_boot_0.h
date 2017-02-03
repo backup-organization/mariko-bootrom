@@ -60,10 +60,12 @@ typedef struct NvBootWb0RecoveryHeaderRec
     /// Specifies the length of the recovery code header
     NvU32      LengthSecure;
 
+    /// NOTE: This field is deprecated.
     /// Specifies the starting address of the recovery code in the
     /// destination area.
     NvU32      Destination;
 
+    /// NOTE: This field is deprecated.
     /// Specifies the entry point of the recovery code in the destination area.
     NvU32      EntryPoint;
 

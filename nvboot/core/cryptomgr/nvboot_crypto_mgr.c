@@ -33,6 +33,8 @@
 #include "nvboot_fuse_int.h"
 #include "nvboot_address_int.h"
 #include "nvboot_crypto_mgr_int.h"
+#include "nvboot_bpmp_int.h"
+#include "nvboot_rng_int.h"
 
 // Not static for debugability.
 NvBootCryptoMgrContext s_CryptoMgrContext;
@@ -44,6 +46,8 @@ VT_CRYPTO_BUFFER NvBootCryptoMgrBuffers s_CryptoMgr_Buffers;
 VT_CRYPTO_BUFFER NvBootAesKey256 FskpKeyBuf;
 
 extern NvBootContext Context;
+
+extern int32_t FI_counter1;
 
 static void LoadKeyIVIntoSlot(uint8_t KeySlot, uint8_t KeySize, uint8_t *KeyData, uint8_t *IV, uint8_t *UIV)
 {
@@ -160,11 +164,16 @@ void NvBootCryptoMgrSenseChipState()
     }
 }
 
-NvBootError NvBootCryptoMgrHwEngineInit()
+void NvBootCryptoMgrHwEngineInit()
 {
+    NvBootError e = NvBootError_NotInitialized;
     NvBootSeInitializeSE();
     NvBootPkaHwInit();
-    return NvBootError_Success;
+    
+    // Any error from the RNG is considered an attempt to glitch. Lock down and sit tight.
+    e = NvBootRngInit();
+    if(e != NvBootError_Success)
+        do_exception();
 }
 
 NvBootCryptoMgrStatus NvBootCryptoMgrGetStatus()
@@ -532,14 +541,32 @@ void NvBootTestNvSign(void)
 }
 #endif
 
+static void DecrementReadyEncKeyCounter(void)
+{
+    FI_counter1 -= READY_ENC_KEY_STEPS*COUNTER1;
+    if(NvBootFuseIsOemFuseEncryptionEnabled())
+        FI_counter1 -= READY_ENC_KEY_FUSE_ENCRYPTION_STEPS*COUNTER1;
+}
+static void DecrementLoadOemAesKeysCounter(void)
+{
+    FI_counter1 -= LOAD_OEM_AES_KEY_STEPS*COUNTER1;
+}
 NvBootError NvBootCryptoMgrDecKeys()
 {
-
     NvBootError e;
+    FI_counter1 = 0;
     e = NvBootCryptoMgrReadyEncKey();
+    DecrementReadyEncKeyCounter();
+    if(FI_counter1 != 0)
+        return NvBootError_Fault_Injection_Detection;
     if(e != NvBootError_Success)
         return e;
+
+    FI_counter1 = 0;
     e = NvBootCryptoMgrLoadOemAesKeys();
+    DecrementLoadOemAesKeysCounter();
+    if(FI_counter1 != 0)
+        return NvBootError_Fault_Injection_Detection;
     if(e != NvBootError_Success)
         return e;
 #if 0
@@ -579,16 +606,26 @@ NvBootError NvBootCryptoMgrReadyEncKey()
     {
         NvKeyRegAddr = NV_ADDRESS_MAP_APB_MISC_BASE + FEK_FUSEROMENCRYPTIONNVKEY1_0_0;
     }
+    FI_counter1 += COUNTER1;
+
+    // Read lock SE key slot before loading.
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_NV_FEK, NvBootSeInstance_Se1);
+    FI_counter1 += COUNTER1;
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_NV_FEK, NvBootSeInstance_Se2);
+    FI_counter1 += COUNTER1;
+
     // Load NV FEK into SE and SE2, slot 0
     NvBootCryptoMgrCopyArrayFromRegToBuffer(NvAesFuseDecryptionKey, NvKeyRegAddr, NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
-
     // Load into SE, Slot 0
     LoadKeyIVIntoSlot(AES_DEVICE_KEYSLOT_NV_FEK, SE_MODE_PKT_AESMODE_KEY128, NvAesFuseDecryptionKey, 0, 0);
+    FI_counter1 += COUNTER1;
 
     // Load into SE2, Slot 0
     LoadKeyIVIntoSlotSE2(AES_DEVICE_KEYSLOT_NV_FEK, SE_MODE_PKT_AESMODE_KEY128, NvAesFuseDecryptionKey, 0, 0);
+    FI_counter1 += COUNTER1;
 
     NvBootUtilMemset(NvAesFuseDecryptionKey, 0, NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
+    FI_counter1 += COUNTER1;
 
     //OEM KEY
     //need to decide which one to load
@@ -606,74 +643,53 @@ NvBootError NvBootCryptoMgrReadyEncKey()
             KeyAddress = NV_ADDRESS_MAP_APB_MISC_BASE + FEK_FUSEROMENCRYPTIONTESTKEY1_0_0;
         KeyAddress = KeyAddress + (NvBootFuseGetFuseDecryptionKeySelection() * NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
 
+        // Read lock SE key slot before loading.
+        NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_OEM_FEK, NvBootSeInstance_Se1);
+        FI_counter1 += COUNTER1;
+        NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_OEM_FEK, NvBootSeInstance_Se2);
+        FI_counter1 += COUNTER1;
+
         //load FEK and clear out the IRAM right away
         NvBootCryptoMgrCopyArrayFromRegToBuffer(NvAesFuseDecryptionKey, KeyAddress, NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
         // Load OEM FEK into SE.
         LoadKeyIVIntoSlot(AES_DEVICE_KEYSLOT_OEM_FEK, SE_MODE_PKT_AESMODE_KEY128, NvAesFuseDecryptionKey, 0, 0);
+        FI_counter1 += COUNTER1;
 
         // Load OEM FEK into SE2.
         LoadKeyIVIntoSlotSE2(AES_DEVICE_KEYSLOT_OEM_FEK, SE_MODE_PKT_AESMODE_KEY128, NvAesFuseDecryptionKey, 0, 0);
+        FI_counter1 += COUNTER1;
 
         NvBootUtilMemset(NvAesFuseDecryptionKey, 0, NVBOOT_SE_AES_KEY128_LENGTH_BYTES);
+        FI_counter1 += COUNTER1;
     }
 
 
     // lock FEK right away after loaded into key slot.
     NvU32 MiscLock = NV_DRF_NUM(APB_MISC, PP_FEK_RD_DIS, FEK_RD_DIS, 1);
     NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_FEK_RD_DIS_0, MiscLock);
+    FI_counter1 += COUNTER1;
 
     return NvBootError_Success;
-}
-
-static void NvBootCryptoMgrProvisionSsk()
-{
-#if 0
-    uint8_t * ssk = (uint8_t*)NVBOOT_CRYPTO_MGR_BUF_KEY_DECRYPTION_REGION_R5;
-    uint8_t * kek = (uint8_t*)NVBOOT_CRYPTO_MGR_BUF_KEY_DECRYPTION_REGION_R5 + NVBOOT_SE_AES_BLOCK_LENGTH_BYTES;
-    uint8_t uid[NVBOOT_SE_AES_BLOCK_LENGTH_BYTES];
-
-    //read kek into kek
-    NvBootSeKeySlotReadKeyIV(NvBootSeAesKeySlot_KEK2_128b,
-            SE_MODE_PKT_AESMODE_KEY128,
-            SE_CRYPTO_KEYIV_PKT_WORD_QUAD_KEYS_0_3,
-            (NvU32*)kek);
-
-    //encrypt it with sbk inplace
-    NvBootSeAesEncrypt(
-        NvBootSeAesKeySlot_SBK,
-        SE_MODE_PKT_AESMODE_KEY128,
-        NV_TRUE,
-        1,
-        kek,
-        kek);
-
-    //get uuid
-    NvBootFuseGetUniqueId((NvBootECID *) uid);
-
-    // XOR the uid and AES(SBK, DK, Encrypt)
-    NvU32 i=0;
-    for (;i < NVBOOT_SE_AES_BLOCK_LENGTH_BYTES; i++)
-        ssk[i] = uid[i] ^ kek[i];
-
-    //get real ssk
-    NvBootSeAesEncrypt(
-        NvBootSeAesKeySlot_SBK,
-        SE_MODE_PKT_AESMODE_KEY128,
-        NV_TRUE,
-        1,
-        ssk,
-        ssk);
-
-    //load ssk into slot
-    LoadKeyIVIntoSlot(NvBootSeAesKeySlot_SSK, SE_MODE_PKT_AESMODE_KEY128,
-            ssk, 0, 0);
-#endif
 }
 
 NvBootError NvBootCryptoMgrLoadOemAesKeys()
 {
     // Decryption Buffer for AES keys
     NvU8 AesKeyDecryptionBuffer[128] __attribute__((aligned(4)));
+
+    // Disable key slot read locks before loading.
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_KEK, NvBootSeInstance_Se1);
+    FI_counter1 += COUNTER1;
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_KEK, NvBootSeInstance_Se2);
+    FI_counter1 += COUNTER1;
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_SBK, NvBootSeInstance_Se1);
+    FI_counter1 += COUNTER1;
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_SBK, NvBootSeInstance_Se2);
+    FI_counter1 += COUNTER1;
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_BEK, NvBootSeInstance_Se1);
+    FI_counter1 += COUNTER1;
+    NvBootSeDisableAesKeySlotRead(AES_DEVICE_KEYSLOT_BEK, NvBootSeInstance_Se2);
+    FI_counter1 += COUNTER1;
 
     // OEM assets are SBK, KEK, BEK which could optionally be encrypted.
     if( NvBootFuseIsOemFuseEncryptionEnabled() )
@@ -795,6 +811,7 @@ NvBootError NvBootCryptoMgrLoadOemAesKeys()
         // Zero out buffer just in case before next use.
         NvBootUtilMemset((uint8_t*)AesKeyDecryptionBuffer, 0, sizeof(AesKeyDecryptionBuffer));
     }
+    FI_counter1 += COUNTER1;
 
 #if TEST_SEC_KEYS
     uint8_t KEK_readback[NVBOOT_SE_AES_KEY128_LENGTH_BYTES];
@@ -815,12 +832,11 @@ NvBootError NvBootCryptoMgrLoadOemAesKeys()
             (NvU32*)BEK_readback);
 #endif
 
-    //now all data is there, calculate and load SSK
-    TODO // Add ssk generation code.
-    NvBootCryptoMgrProvisionSsk();
+    FI_counter1 += COUNTER1;
 
     //clear out buffer.
     NvBootUtilMemset((uint8_t*)AesKeyDecryptionBuffer, 0, sizeof(AesKeyDecryptionBuffer));
+    FI_counter1 += COUNTER1;
     return NvBootError_Success;
 }
 
@@ -851,7 +867,9 @@ void NvBootCryptoMgrLoadFSKP(uint8_t KeySelection, uint8_t KeySlot)
 NvBootError NvBootCryptoMgrAuthBct(const NvBootConfigTable *Bct)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
 
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
@@ -916,7 +934,10 @@ NvBootError NvBootCryptoMgrDecryptBct(NvBootConfigTable *Bct)
     size_t bct_encrypted_section_size = SIZE_BCT_ENCRYPTED_SECT(Bct);
 
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
+
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC(start_decrypt_address,
                                                 decrypt_output_address,
                                                 AES_DEVICE_KEYSLOT_BEK,
@@ -928,7 +949,9 @@ NvBootError NvBootCryptoMgrDecryptBct(NvBootConfigTable *Bct)
 NvBootError NvBootCryptoMgrAuthOemBootBinaryHeader(const NvBootOemBootBinaryHeader *OemHeader)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
 
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
@@ -1087,7 +1110,10 @@ NvBootError NvBootCryptoMgrDecryptBlPackage(const NvBootOemBootBinaryHeader *Oem
     uint8_t * start_decrypt_address = (uint8_t *) BlBinary;
     uint8_t * decrypt_output_address = (uint8_t *) BlBinary;
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
+
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC(start_decrypt_address,
                                                 decrypt_output_address,
                                                 AES_DEVICE_KEYSLOT_BEK,
@@ -1099,7 +1125,9 @@ NvBootError NvBootCryptoMgrDecryptBlPackage(const NvBootOemBootBinaryHeader *Oem
 NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
 
     // Sanitize address and size, if it can fit into NVBOOT_SC7_FW_START to NVBOOT_SC7_FW_END + 1.
     uint32_t AuthAddrStart = (uint32_t) Sc7Header +  OFFSET_SC7_SIGNED_SECT(Sc7Header);
@@ -1108,11 +1136,13 @@ NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header
     // an ARM mode branch to self).
     uint32_t AuthSize = Sc7Header->LengthInsecure - sizeof(NvBootWb0RecoveryHeader) + SIZE_SC7_SIGNED_SECT(Sc7Header);
 
-    e = NvBootValidateAddress(Sc7FwRamRange, AuthAddrStart, AuthSize);
-    NV_BOOT_CHECK_ERROR(e);
+    NV_BOOT_CHECK_ERROR(NvBootValidateAddress(Sc7FwRamRange, AuthAddrStart, AuthSize));
 
     // Re-init default error code to a fail value.
-    e = NvBootError_Initial_Value;
+    e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
+
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
         // Setup RSASSA-PSS context.
@@ -1149,7 +1179,7 @@ NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header
         AesDevMgr.AesDevMgrCallbacks->AesCmacHash(&s_CryptoMgr_Buffers.AesCmacContext);
 
         FI_bool compare_result = FI_FALSE;
-        compare_result = NvBootUtilCompareConstTimeFI(s_CryptoMgr_Buffers.AesCmacContext.pHash, &Sc7Header->Signatures.RsaSsaPssSig, NVBOOT_AES_BLOCK_LENGTH_BYTES);
+        compare_result = NvBootUtilCompareConstTimeFI(s_CryptoMgr_Buffers.AesCmacContext.pHash, &Sc7Header->Signatures.AesCmacHash, NVBOOT_AES_BLOCK_LENGTH_BYTES);
         if(compare_result == FI_TRUE)
             e = NvBootError_Success;
         else
@@ -1166,7 +1196,9 @@ NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header
 NvBootError NvBootCryptoMgrOemDecryptSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
 
     if (s_CryptoMgrContext.EncryptionScheme != CryptoAlgo_AES)
     {
@@ -1181,11 +1213,13 @@ NvBootError NvBootCryptoMgrOemDecryptSc7Fw(const NvBootWb0RecoveryHeader *Sc7Hea
     uint32_t decrypt_size = Sc7Header->LengthInsecure - sizeof(NvBootWb0RecoveryHeader) + SIZE_SC7_SIGNED_SECT(Sc7Header);
 
     // Sanitize address and size, if it can fit into NVBOOT_SC7_FW_START to NVBOOT_SC7_FW_END + 1.
-    e = NvBootValidateAddress(Sc7FwRamRange, start_decrypt_address, decrypt_size);
-    NV_BOOT_CHECK_ERROR(e);
+    NV_BOOT_CHECK_ERROR(NvBootValidateAddress(Sc7FwRamRange, start_decrypt_address, decrypt_size));
 
     // Re-init error to fail before decryption.
-    e = NvBootError_Initial_Value;
+    e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
+
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC((uint8_t *) start_decrypt_address,
                                                 (uint8_t *) start_decrypt_address,
                                                 AES_DEVICE_KEYSLOT_BEK,
@@ -1197,18 +1231,22 @@ NvBootError NvBootCryptoMgrOemDecryptSc7Fw(const NvBootWb0RecoveryHeader *Sc7Hea
 NvBootError NvBootCryptoMgrOemAuthRcmPayload(const NvBootRcmMsg *RcmMsg)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
 
     uint32_t AuthSize = 0;
     // Calculate the length to authenticate
 
-    e = NvBootValidateAddress(RcmMsgRange, (uint32_t) RcmMsg, RcmMsg->LengthInsecure);
-    NV_BOOT_CHECK_ERROR(e);
+    NV_BOOT_CHECK_ERROR(NvBootValidateAddress(RcmMsgRange, (uint32_t) RcmMsg, RcmMsg->LengthInsecure));
 
     AuthSize = RcmMsg->LengthInsecure - OFFSET_RCM_SIGNED_SECT(RcmMsg);
 
     // Re-init error to fail before authentication.
-    e = NvBootError_Initial_Value;
+    e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
+
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
         // Setup RSASSA-PSS context.
@@ -1262,7 +1300,9 @@ NvBootError NvBootCryptoMgrOemAuthRcmPayload(const NvBootRcmMsg *RcmMsg)
 NvBootError NvBootCryptoMgrOemDecryptRcmPayload(const NvBootRcmMsg *RcmMsg)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
 
     if (s_CryptoMgrContext.EncryptionScheme != CryptoAlgo_AES)
     {
@@ -1274,11 +1314,13 @@ NvBootError NvBootCryptoMgrOemDecryptRcmPayload(const NvBootRcmMsg *RcmMsg)
     uint32_t start_decrypt_address = (uint32_t) RcmMsg +  OFFSET_RCM_SIGNED_SECT(RcmMsg);
     uint32_t decrypt_size = RcmMsg->LengthInsecure - SIZE_RCM_SIGNED_SECT(RcmMsg);
 
-    e = NvBootValidateAddress(RcmMsgRange, start_decrypt_address, decrypt_size);
-    NV_BOOT_CHECK_ERROR(e);
+    NV_BOOT_CHECK_ERROR(NvBootValidateAddress(RcmMsgRange, start_decrypt_address, decrypt_size));
 
     // Re-init error to fail before authentication.
-    e = NvBootError_Initial_Value;
+    e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        return NvBootError_Fault_Injection_Detection;
+
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC((uint8_t *) start_decrypt_address,
                                                 (uint8_t *) start_decrypt_address,
                                                 AES_DEVICE_KEYSLOT_BEK,
@@ -1456,9 +1498,7 @@ NvBootError NvBootCryptoMgrAuthRcmPayloadFskp(const NvBootRcmMsg *RcmMsg)
     // is a download & execute or not.
     if(RcmMsg->Opcode == NvBootRcmOpcode_DownloadExecute)
     {
-        e = NvBootValidateAddress(RcmMsgRange, (uint32_t) RcmMsg, RcmMsg->LengthInsecure);
-        NV_BOOT_CHECK_ERROR(e);
-
+        NV_BOOT_CHECK_ERROR(NvBootValidateAddress(RcmMsgRange, (uint32_t) RcmMsg, RcmMsg->LengthInsecure));
         AuthSize = RcmMsg->LengthInsecure - OFFSET_RCM_SIGNED_SECT(RcmMsg);
     }
     else
@@ -1508,8 +1548,7 @@ NvBootError NvBootCryptoMgrDecryptRcmPayloadFskp(const NvBootRcmMsg *RcmMsg)
     uint32_t start_decrypt_address = (uint32_t) RcmMsg +  OFFSET_RCM_SIGNED_SECT(RcmMsg);
     uint32_t decrypt_size = RcmMsg->LengthInsecure - SIZE_RCM_SIGNED_SECT(RcmMsg);
 
-    e = NvBootValidateAddress(RcmMsgRange, start_decrypt_address, decrypt_size);
-    NV_BOOT_CHECK_ERROR(e);
+    NV_BOOT_CHECK_ERROR(NvBootValidateAddress(RcmMsgRange, start_decrypt_address, decrypt_size));
 
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC((uint8_t *) start_decrypt_address,
                                                 (uint8_t *) start_decrypt_address,

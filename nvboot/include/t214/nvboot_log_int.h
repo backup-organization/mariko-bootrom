@@ -15,7 +15,7 @@
 #ifndef INCLUDED_NVBOOT_LOG_INT_H
 #define INCLUDED_NVBOOT_LOG_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_msg_defs_int.h"
 
 #if 1

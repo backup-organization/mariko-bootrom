@@ -16,6 +16,8 @@
 #include "nvtypes.h"
 #include "nvboot_devmgr_int.h"
 #include "nvboot_util_int.h"
+#include "nvboot_rng_int.h"
+#include "nvboot_bpmp_int.h"
 
 
 void FT_NONSECURE UpdateBootFlowTracker(NvU32 Init, NvU32 Exit, NvU32 Id, NvU32 Status);
@@ -50,30 +52,52 @@ int FT_NONSECURE NvBootNonsecureDispatcher()
     return 0;
 }
 
-
 NvBootError NvBootSecureDispatcher(NvBootTaskListId TaskListId)
 {
     int i = 0;
-    NvBootTaskPtr TaskPtr = GetPtrTasks(TaskListId);
-    NvBootError Error;
+    NvBootTaskPtr TaskPtr;
+    NvBootError Error = NvBootError_NotInitialized;
     volatile NvBootDispatchStat stat;
-    int cnt = GetCntTasks(TaskListId);
+    int cnt;
     NvBootError (*func)(void);
     unsigned long funcStartTick;
+    
+    // Sanitize TaskListId
+    Error = IsValidTaskListId(TaskListId);
+    if(Error != NvBootError_Success)
+        return Error;
+        
+    TaskPtr = GetPtrTasks(TaskListId);
+    cnt = GetCntTasks(TaskListId);
     
     for (i=0; i<cnt; i++)
     {
         func = TaskPtr[i].funcPtr;
         stat.curCheckPoint = TaskPtr[i].checkPoint;
         funcStartTick = NvBootUtilGetTimeUS();
+        // Introduce a random delay by looping n cycles, n in range 0-1023
+        NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
         Error = (*func)();
+        // Handle fault detection right away.
+        if(Error == NvBootError_Fault_Injection_Detection)
+        {
+            do_exception();
+        }
+        
         stat.nTicks = NvBootUtilGetTimeUS() - funcStartTick;
+        
         UpdateBootFlowTracker(funcStartTick, stat.nTicks, stat.curCheckPoint, (NvU32)(Error));
 
         if(Error != NvBootError_Success)
             return Error;
     }
     
+    // Double check that the dispatcher executed all tasks in the table.
+    int cnt_verify = GetCntTasks(TaskListId);
+    if(cnt != cnt_verify)
+        do_exception();
+
     return NvBootError_Success;
 }
 

@@ -84,98 +84,6 @@ extern uint32_t * __crypto_buffer_end;
 /* BPMP exception loop in SYSRAM */
 NV_ALIGN(4) NvU32 VT_NOZI ExcpLoop;
 
-void FT_NONSECURE NvBootIsFAPreProductionModeUart()
-{
-    NvBootClocksOscFreq OscFreq;
-    NvU32 RegData;
-    NvBool IsPreproductionUartBoot = NV_FALSE;
-
-    OscFreq = NvBootClocksGetOscFreq();
-
-    // check for Failure Analysis (FA) Mode
-    //
-    // FA Mode is the highest priority; it overrides all other modes
-    // In FA and Preproduction, the only possible path is to the UART
-    // bootloader
-#if NVBOOT_TARGET_QT
-    // Bit 29:26 are BOOT_SELECT. Bit 9 is BOOT_FAST_UART.
-    // Use UART boot and select slow UART
-    NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE +
-                APB_MISC_PP_STRAPPING_OPT_A_0, 0x0);
-#endif
-
-    if ( NvBootFuseIsFailureAnalysisMode() || NvBootFuseIsPreproductionMode() )
-    {
-    	if (NvBootFuseIsPreproductionMode())
-    	{
-    		// Ignore strap on LP0 exit
-            RegData = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SCRATCH0_0); 
-    		if (RegData & NvBootPmcFlagId_Wb0)
-    			return;
-    		// Or Enter UART Boot if BOOT_SELECT = NvBootStrapDevSel_UartBoot_Preproduction
-    		// replace MISCREG_STRAP_STRAPPING_OPT_A_0 with NvBootReadStrap
-    		RegData = NvBootReadStrap();
-    		if (NV_DRF_VAL(APB_MISC_PP, STRAPPING_OPT_A,
-    					   BOOT_SELECT, RegData) == NvBootStrapDevSel_UartBoot_PreProduction)
-    			IsPreproductionUartBoot = NV_TRUE;
-    
-    		if (IsPreproductionUartBoot == NV_FALSE)
-    			return;
-
-    		BootInfoTable.BootROMtracker = NvBootFlowStatus_PreproductionModeUart;
-    
-    	}
-    
-        // TODO move this to it's own function.
-    	// By design in RTL, the Protected PIROM cannot be read when the FA
-    	// fuse is blown. However, we must ensure that the BPMP_ATCMCFG_SB_CFG_0
-    	// register is also write protected to ensure that the Protected
-    	// ROM start address is not programmed to some non-expected value
-    	// by a mallicious entity such that the Protected IROM can be read even
-    	// though we are in FA mode and the ACCESS_PIROM bit is set.
-    	//
-    	// The SB_PIROM_START_0 register is only programmable while
-    	// SECURE_BOOT_FLAG is in SECURE. Thus, in FA mode, before downloading
-    	// and executing the UART payload, set SECURE_BOOT_FLAG to NON_SECURE
-    	// and ACCESS_PIROM to DISABLED. Setting SECURE_BOOT_FLAG to NON_SECURE
-    	// write protects SB_PIROM_START_0, making it impossible to change the
-    	// start address to some non-expected value such that the PIROM is
-    	// able to be read. In addition, ACCESS_PIROM is set to NON_SECURE to
-    	// disable the reading of the PIROM region.
-    	//
-    	// Any entity should not be able to read the protected IROM except for
-    	// the Boot ROM starting in T132. This is to protect the MTS Decryption
-    	// Key which will be stored in IROM for T132.
-    	// See http://nvbugs/1185573 and http://nvbugs/1034867.
-    	//
-    	// Notes: Setting ACCESS_PIROM is just a guarantee mechanism. If the
-    	// FA fuse is burnt, PIROM shouldn't be readable regardless.
-    	if (NvBootFuseIsFailureAnalysisMode())
-    	{
-            RegData = NV_READ32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0);
-            RegData = NV_FLD_SET_DRF_DEF(SB,            
-                                         CSR,
-                                         PIROM_DISABLE,
-                                         DISABLE,
-                                         RegData);
-            RegData = NV_FLD_SET_DRF_DEF(SB,
-                                         CSR,
-                                         SECURE_BOOT_FLAG,
-                                         DISABLE,
-                                         RegData);
-            NV_WRITE32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0, RegData);
-    		BootInfoTable.BootROMtracker = NvBootFlowStatus_FAMode;
-    	}
-    
-    	// boot from UART
-    	// NOTE: this routine should never return
-    	NvBootUartDownload(OscFreq);
-    
-    	// if we got here, something went terribly wrong ... reset the chip
-    	NvBootResetFullChip();
-    }
-}
-
 void FT_NONSECURE SetupGlobalClockOverride()
 {
 #if 0
@@ -598,6 +506,12 @@ NvBootBpmpNonsecureRomEnter(void)
                                          DISABLE,
                                          RegData);
             NV_WRITE32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0, RegData);
+
+            // Ensure FEK is read locked in FA mode.
+            RegData = NV_DRF_NUM(APB_MISC, PP_FEK_RD_DIS, FEK_RD_DIS, 1);
+            NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_FEK_RD_DIS_0, RegData);
+
+    		BootInfoTable.BootROMtracker = NvBootFlowStatus_FAMode;
         }
 
         // boot from UART
@@ -656,10 +570,13 @@ NvBootError NvBootBpmpEnableApb2jtag(void)
     return NvBootError_Success;
 }
 
+/*
+ * Do not use this anymore. FI attacks possible.
 void FT_NONSECURE NvBootMainNonSecureBootLoader()
 {
     while(1);
 }
+*/
 
 static const NvU32 EvpTable[] = {
 //    NV_ADDRESS_MAP_VECTOR_BASE + EVP_COP_RESET_VECTOR_0,
@@ -672,7 +589,9 @@ static const NvU32 EvpTable[] = {
     NV_ADDRESS_MAP_VECTOR_BASE + EVP_COP_FIQ_VECTOR_0
 };
 
-NvBootError
+extern int32_t FI_counter1;
+
+void
 NvBootMainSecureInit()
 {
     NvBootUtilMemset(&Context, 0, sizeof(NvBootContext));
@@ -683,7 +602,8 @@ NvBootMainSecureInit()
     Context.FactorySecureProvisioningMode = 0;
     Context.ProvisioningKeyNum = FSKP_DISABLED;
     Context.Rcm_CopyKeysToSysram = NV_FALSE;
-    return NvBootError_Success;
+
+    FI_counter1 = 0;
 }
 
 /* Bare minimum secure rom exit routine **/
@@ -841,6 +761,15 @@ NvBootError NvBootBpmpSecureExitStart()
     {
         NvBootSeClearTzram();
     }
+
+    FI_counter1 = 0;
+    // Re-run the SE housekeeping function out of an abundance of caution.
+    // It should have been run already in the NvBootTaskListId_SecureExit task table.
+    NvBootSeHousekeepingBeforeBRExit();
+    FI_counter1 -= SE_HOUSEKEEPING_STEPS*COUNTER1;
+    // If the increment count is not what we expect, some instruction skipping
+    // might have happened. Reset the chip.
+    if(FI_counter1 != 0) NvBootResetFullChip();
 
     // flush all secure information in preparation for exiting Secure Section
     // of boot ROM --
@@ -1009,3 +938,55 @@ void NvBootBpmpSecureExit(NvU32 BootloaderEntryAddress,
                             SecureRegisterValueAddr);
 }
 
+/**
+ *  Minimal secure exit that can be achieved during early boot for errors encountered in non-secure
+ *  region code.
+ */
+void FT_NONSECURE NvBootMinimalAssetLockDownExit()
+{
+    NvU32 RegData;
+    NvU32 SBCSRMask = NV_DRF_DEF(SB, CSR, PIROM_DISABLE, DISABLE) | \
+                      NV_DRF_DEF(SB, CSR, SECURE_BOOT_FLAG, DISABLE);
+    NvU32 FekRdDisMask = NV_DRF_NUM(APB_MISC, PP_FEK_RD_DIS, FEK_RD_DIS,1);
+
+    // Set Secure Boot flag
+    do
+    {
+        // Do once
+        RegData = NV_READ32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0);
+        RegData = NV_FLD_SET_DRF_DEF(SB,
+                                     CSR,
+                                     PIROM_DISABLE,
+                                     DISABLE,
+                                     RegData);
+        RegData = NV_FLD_SET_DRF_DEF(SB,
+                                     CSR,
+                                     SECURE_BOOT_FLAG,
+                                     DISABLE,
+                                     RegData);
+        NV_WRITE32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0, RegData);
+        
+        // Do twice
+        NV_READ32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0);
+        
+        NV_WRITE32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0, RegData);
+        
+        RegData = NV_READ32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0);
+    } while((RegData &  SBCSRMask) != SBCSRMask);
+    
+    // Ensure FEK is read locked.
+    do
+    {
+        // Do once
+        RegData = NV_DRF_NUM(APB_MISC, PP_FEK_RD_DIS, FEK_RD_DIS, 1);
+        NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_FEK_RD_DIS_0, RegData);
+        
+        // Do twice
+        NV_READ32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_FEK_RD_DIS_0);
+        NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_FEK_RD_DIS_0, RegData);
+        // RegData = NV_DRF_NUM(APB_MISC, PP_FEK_RD_DIS, FEK_RD_DIS, 1);
+        
+        RegData = NV_READ32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_FEK_RD_DIS_0);
+    }
+    while((RegData & FekRdDisMask) != FekRdDisMask);
+}

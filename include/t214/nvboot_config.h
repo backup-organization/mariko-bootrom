@@ -236,14 +236,14 @@ extern "C"
 #define NVBOOT_DEV_DS_SIZE	(8192) // 8K space shared by controllers for hw data structures
 
 /**
- * Defines the starting physical address of IRAM
+ * Defines the starting physical address of BL IRAM buffer.
  */
 #define NVBOOT_BL_IRAM_START  (NV_ADDRESS_MAP_IRAM_A_BASE + 0x10000)
 
 /**
- * Defines the ending physical address of IRAM
+ * Defines the ending physical address of IRAM.
  */
-#define NVBOOT_BL_IRAM_END    (NV_ADDRESS_MAP_IRAM_D_LIMIT + 1)
+#define NVBOOT_BL_IRAM_END    (NV_ADDRESS_MAP_IRAM_D_LIMIT)
 
 /**
  * Defines the starting physical address of SDRAM
@@ -387,6 +387,28 @@ extern "C"
  * UART IRAM bootloader stack.
  */
 #define NVBOOT_UART_IRAM_BLDR_STACK (NV_ADDRESS_MAP_DATAMEM_IRAM_D_LIMIT + 1)
+
+
+// Use a prime number as the counter to track correctness of execution path.
+#define COUNTER1 17
+// Number of critical counter increments in NvBootSeHousekeepingBeforeBRExit().
+// 1 increment for the RSA key slot clearing + 16 SE key slots.
+#define SE_HOUSEKEEPING_STEPS (1+16)
+
+// Hardcoded instruction step counter for FI mitigation.
+#define READY_ENC_KEY_STEPS (7)
+#define READY_ENC_KEY_FUSE_ENCRYPTION_STEPS (5)
+
+#define LOAD_OEM_AES_KEY_STEPS (9)
+
+#define NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS (7)
+
+#define NvBootWb0CopyHeaderAndFirmware_COUNTER_STEPS (6)
+
+#define RcmValidate_COUNTER_STEPS (10)
+
+// 10-bits; up to 1024 values.
+#define INSTRUCTION_DELAY_ENTROPY_BITS (1 << 10)
 
 #if defined(__cplusplus)
 }

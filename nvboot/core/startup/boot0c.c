@@ -16,6 +16,10 @@
 #include "nvboot_uart_int.h"
 #include "nvboot_reset_int.h"
 #include "nvboot_util_int.h"
+#include "nvboot_bpmp_int.h"
+#include "nvboot_rng_int.h"
+#include "nvboot_crypto_mgr_int.h"
+#include "nvboot_fidet_int.h"
 #include "nvboot_version_rom.h"
 
 NvBootInfoTable VT_MAINBIT BootInfoTable;
@@ -29,6 +33,10 @@ NvBootInfoTable VT_MAINBIT BootInfoTable;
 NvBootConfigTableBuffer VT_MAINBCT BootConfigTable;
 NvBootContext  VT_ZIRW Context;
 NvBootConfigTable *pBootConfigTable;
+
+// global counter for FI mitigation.
+int32_t FI_counter1;
+
 extern void NvBootMainNonSecureBootLoader();
 NvBool IsRcmMode()
 {
@@ -73,6 +81,19 @@ void SetBctPointers()
     pBootConfigTable = &(BootConfigTable.Bct);
 }
 
+/**
+ * do_exception(void)
+ *
+ */
+void trap_exception(void);
+__attribute__((noreturn)) void FT_NONSECURE do_exception(void)
+{
+    NvBootMinimalAssetLockDownExit();
+    NvBootFaultInjectDetect();
+    trap_exception();
+    for(;;);
+}
+
 extern void *__secure_region__;
 void FT_NONSECURE NvBootSetupPiromRegion(void)
 {
@@ -83,6 +104,28 @@ void FT_NONSECURE NvBootSetupPiromRegion(void)
     piromStart = NV_READ32(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_PIROM_START_0);
 }
 
+/**
+ *  Setup/Clear structures/variables not setup by runtime init.
+ *  Start RNG.
+ *  Everything that is needed before invoking dispatcher tables goes here.
+ */
+void NvBootPreDispatcherSetup()
+{
+    // Authentication scheme 
+    NvBootFuseGetBootSecurityAuthenticationInfo(&(BootInfoTable.AuthenticationScheme));
+    
+    //Encryption scheme
+    BootInfoTable.EncryptionEnabled = NvBootFuseBootSecurityIsEncryptionEnabled();
+    
+    // Set global BCT pointer to point to global BCT instance.
+    SetBctPointers();
+    
+    NvBootMainSecureInit();
+    
+    // Bring up SE clocks and initialize RNG.
+    NvBootCryptoMgrHwEngineInit();
+}
+
 // Main in T210 is also in boot0c.c.
 // See also NvBootMainSecureRomEnter() in T210.
 // WDT has been initialized in non-secure dispatcher if the conditions
@@ -90,31 +133,28 @@ void FT_NONSECURE NvBootSetupPiromRegion(void)
 int main(void)
 {
     NvBootError Error = NvBootError_Idle;
-    NvBool Rst_Status = NV_FALSE;
     NvBool IsRcmMode_Status = NV_FALSE;
     NvBool IsWarmBoot_Status = NV_FALSE;
 
-    (void)Rst_Status;
+    /* Check RMA status if ODM enabled this */
+    NvBootCheckRMAStatus();
 
-    // Authentication scheme 
-    NvBootFuseGetBootSecurityAuthenticationInfo(&(BootInfoTable.AuthenticationScheme));
-    //Encryption scheme
-    BootInfoTable.EncryptionEnabled = NvBootFuseBootSecurityIsEncryptionEnabled();
+    /** 
+     *  Everything that is needed before invoking dispatcher tables goes here.
+     *  This can't be put in dispatcher because it sets up RNG which is used by dispatcher.
+     */
+    NvBootPreDispatcherSetup();
 
-    BootInfoTable.BootROMtracker = NvBootFlowStatus_SecureDispatcherEntry;
+    /**
+     *  Run Crypto Init dispatcher. We need these tasks to run regardless of earlier Error.
+     *  So OR with Error of this dispatcher run. Will be handler later.
+     *  Coldboot - Force RCM
+     *  Warmboot - Reset.
+     */
 
-    // Execute first secure IROM section dispatcher.
-    Error = NvBootSecureDispatcher(NvBootTaskListId_SecureInit);
-
-    BootInfoTable.BootROMtracker = NvBootFlowStatus_SecureDispatcherExit;
-
-    // Run Crypto Init dispatcher.
     BootInfoTable.BootROMtracker =  NvBootFlowStatus_CryptoInitEntry;
     Error = NvBootSecureDispatcher(NvBootTaskListId_CryptoInit);
     BootInfoTable.BootROMtracker = NvBootFlowStatus_CryptoInitExit;
-
-    // Set global BCT pointer to point to global BCT instance.
-    SetBctPointers();
 
     // Check if Warmboot
     IsWarmBoot_Status = NvBootQueryRstStatusWarmBootFlag();
@@ -152,7 +192,7 @@ int main(void)
         if (Error != NvBootError_Success)
         {
             // Set the BL to the dummy BL that spins.
-            Context.BootLoader = (uint8_t*)NvBootMainNonSecureBootLoader;
+            Context.BootLoader = (uint8_t*)do_exception;
             
             // Mark the boot as a success to ensure a proper exit.
             Error = NvBootError_Success;
@@ -164,20 +204,29 @@ int main(void)
         Context.BootFlowStatus.NvBootPreserveDram = NV_TRUE;
         Context.BootFlowStatus.NvBootRamDumpEnabled = NV_FALSE;
         BootInfoTable.BootROMtracker = NvBootFlowStatus_Sc7Entry;
+        BootInfoTable.BootType = NvBootType_Sc7;
+
+        // We might have encountered an error during the Predispatcher init or CryptoMgr Init routines.
+        // Don't enter warmboot dispatcher in such cases.
+        if(Error == NvBootError_Success) 
+        {
         Error = NvBootSecureDispatcher(NvBootTaskListId_WarmBoot);
+        }
         // Context Restore failure is ok.
         if(Error == NvBootError_SE_Context_Restore_Failure)
             Error = NvBootError_Success;
 
         BootInfoTable.BootROMtracker = NvBootFlowStatus_Sc7Exit;
         Context.BootFlowStatus.NvBootFlowSc7Exit = 1;
+
         // Reset full chip UNLESS SCRATCH_DBG_NORST_SPIN is set.
         if(Error != NvBootError_Success)
         {
             if(NvBootQueryWarmbootErrorDebugSpin())
             {
                 // Infinite loop
-                NvBootMainNonSecureBootLoader();
+                while(1); // Do not call into another routine that does a while(1).
+                          // If this is glitched, we fall into Reset or even better Secure Exit.
             }
             NvBootResetFullChip();
         }
@@ -192,7 +241,6 @@ int main(void)
     BootInfoTable.BootROMtracker = NvBootFlowStatus_SecureExitStart;
     NvBootSecureDispatcher(NvBootTaskListId_SecureExit);
 
-	
     return 0;
 }
 

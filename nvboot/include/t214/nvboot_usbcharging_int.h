@@ -21,7 +21,7 @@
 #ifndef INCLUDED_NVBOOT_USB_CHARGING_INT_H
 #define INCLUDED_NVBOOT_USB_CHARGING_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_error.h"
 
 

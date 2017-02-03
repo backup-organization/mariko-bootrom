@@ -181,7 +181,7 @@ void NvBootXusbDeviceSetRunStatus(NvU32 Run)
                                      RUN,
                                      RUN,   
                                      RegData);
-        RegData = NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0, RegData);
+        NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0, RegData);
     }
     else
     {
@@ -191,7 +191,7 @@ void NvBootXusbDeviceSetRunStatus(NvU32 Run)
                                      RUN,
                                      STOP,   
                                      RegData);
-        RegData = NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0, RegData);
+        NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0, RegData);
     }
     // Also clear Run Change bit just in case to enable Doorbell register.
     RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_ST_0);
@@ -200,7 +200,7 @@ void NvBootXusbDeviceSetRunStatus(NvU32 Run)
                                  RC,
                                  CLEAR,
                                  RegData);
-    RegData = NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_ST_0, RegData);
+    NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_ST_0, RegData);
 }
  
  /**
@@ -485,10 +485,10 @@ NvBootError NvBootXusbDeviceHaltEp(Endpoint_T EpIndex, NvU32 Halt)
                        return e;
                     RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_EP_PAUSE_0);
                     RegData &= ~(1 << EP0_IN);
-                    RegData = NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_EP_PAUSE_0, RegData);
+                NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_EP_PAUSE_0, RegData);
                     RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_EP_HALT_0);
                     RegData &= ~(1 << EP0_IN);
-                    RegData = NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_EP_HALT_0, RegData);
+                NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_EP_HALT_0, RegData);
                 }
     #endif
             }
@@ -632,7 +632,7 @@ NvBootError NvBootXusbDeviceHaltEp(Endpoint_T EpIndex, NvU32 Halt)
                                  IE,
                                  TRUE,   
                                  RegData);
-    RegData = NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0, RegData);
+    NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0, RegData);
 
   }
   
@@ -669,7 +669,7 @@ NvBootError NvBootXusbDeviceHaltEp(Endpoint_T EpIndex, NvU32 Halt)
   void NvBootXusbDeviceEnumerateHw()
   {
       NvU32 RegData;
-      //NvU32 T210Algo = 0;
+    NvU32 T210Algo = 0;
      if(NvBootIsPlatformRtl())
      {
         NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_COUNT0_0, 0x12c);  // : FS reset min
@@ -713,21 +713,20 @@ NvBootError NvBootXusbDeviceHaltEp(Endpoint_T EpIndex, NvU32 Halt)
                                      RegData);
         NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_PORTHALT_0, RegData);
 
-        TODO
         // Deserializer selection algorithm.
         // 0: T210, 1: MCP
-        // T210Algo = NvBootGetSwCYA() & NVBOOT_SW_CYA_DEVICE_DESERIALIZER_ENABLE;
+    T210Algo = NvBootGetSwCYA() & NVBOOT_SW_CYA_DEVICE_DESERIALIZER_ENABLE;
 
-        // if(T210Algo)
-        // {
-            // RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_NVWRAP_DESER_0);
-            // RegData = NV_FLD_SET_DRF_NUM(XUSB_DEV_XHCI,
-                                         // HSFSPI_NVWRAP_DESER,
-                                         // MCP_MODE,
-                                         // 0,
-                                         // RegData);
-            // NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_NVWRAP_DESER_0, RegData);
-        // }
+    if(T210Algo)
+    {
+        RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_NVWRAP_DESER_0);
+        RegData = NV_FLD_SET_DRF_NUM(XUSB_DEV_XHCI,
+                                     HSFSPI_NVWRAP_DESER,
+                                     MCP_MODE,
+                                     0,
+                                     RegData);
+        NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_NVWRAP_DESER_0, RegData);
+    }
 
         // Write Enable for device mode.
         RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_CTRL_0);
@@ -769,8 +768,8 @@ NvBootError NvBootXusbDeviceHaltEp(Endpoint_T EpIndex, NvU32 Halt)
                                      RegData);
         NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_CFG_DEV_FE_0, RegData);
 
-        TODO
-        // // Bug 1645744. No need of the chirp timer
+    // Bug 1645744. No need of the chirp timer.
+    // Don't need this for t214 http://nvbugs/1841934
         // RegData = NV_READ32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_COUNT16_0);
         // RegData = NV_FLD_SET_DRF_NUM(XUSB_DEV_XHCI,
                                      // HSFSPI_COUNT16,
@@ -778,6 +777,7 @@ NvBootError NvBootXusbDeviceHaltEp(Endpoint_T EpIndex, NvU32 Halt)
                                      // 0,   
                                      // RegData);
         // NV_WRITE32(XUSB_BASE + XUSB_DEV_XHCI_HSFSPI_COUNT16_0, RegData);
+
         if(NvBootIsPlatformFpga())
         {
             NV_WRITE32(0x700d8200,0x34000);
@@ -926,7 +926,7 @@ NvBootError NvBootXusbDeviceSetupStaticParamsPad(void)
     RegData = NV_READ32(NV_ADDRESS_MAP_XUSB_PADCTL_BASE + 
                         XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD0_CTL1_0);
     // USB Pad protection circuit activation bug #1500052 , T186: 1536486 http://nvbugs/1536486/29
-    // Decided this is not needed.
+    // Decided this is not needed. T214: http://nvbugs/1841934
     RegData = NV_FLD_SET_DRF_NUM( XUSB_PADCTL, USB2_BATTERY_CHRG_OTGPAD0_CTL1, PD_VREG, 1, RegData);
     NV_WRITE32(NV_ADDRESS_MAP_XUSB_PADCTL_BASE + 
                         XUSB_PADCTL_USB2_BATTERY_CHRG_OTGPAD0_CTL1_0, RegData);

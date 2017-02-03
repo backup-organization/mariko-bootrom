@@ -76,11 +76,6 @@ static NvBootSpiFlashTrimmers s_Trimmers[] =
 {
     	{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
 };
-static const NvBootSpiFlashDataXferConfig s_DataXferConfig[] =
-{
-    {0x00, 0x00, 32, 64 },
-    {0x03, 0x03, 32, 64 }
-};
 
 static const NvBootSpiFlashTimeouts s_SpiFlashXferTimeouts[] =
 {
@@ -95,7 +90,7 @@ static const NvBootSpiFlashQuadSdrLC s_QuadOpTable[] =
     // for QUAD SDR performance.
     // HW team has recommended the default value or the value read
     // from CR1V register to be used for the number of dummy cycles.
-    {0x3, 2, 4}
+    {0x3, 2, 8}
 };
 
 /**
@@ -157,26 +152,6 @@ const ClockInst s_SpiClkDiv_19_2[] =
     {0} // Null terminated.
 };
 
-// clock Divisor for Spi controller 80 Mhz IO clock.
-const ClockInst s_SpiClkDiv_80[] = 
-{
-    // Configure the clock source with divider 21, which gives 80MHz.
-    // (PllC4_Muxed@1G/21)
-    Instc(Clk_Src,  CLK_SOURCE_QSPI, QSPI_CLK_SRC, PLLC4_OUT0,
-                                              QSPI_CLK_DIVISOR, NVBOOT_CLOCKS_7_1_DIVIDER_BY(21, 0)),
-    {0} // Null terminated.
-};
-
-// clock Divisor for Spi controller 81.6 Mhz IO clock.
-const ClockInst s_SpiClkDiv_81_6[] = 
-{
-    // Configure the clock source with divider 5, which gives 81.6MHz.
-    // (Pllp_out0@408M/21)
-    Instc(Clk_Src,  CLK_SOURCE_QSPI, QSPI_CLK_SRC, PLLP_OUT0,
-                                              QSPI_CLK_DIVISOR, NVBOOT_CLOCKS_7_1_DIVIDER_BY(5, 0)),
-    {0} // Null terminated.
-};
-
 void NvBootSpiClockTable(void **SpiClockTable, ClockTableType *Id)
 {
     // Passing in list of tables.
@@ -201,9 +176,6 @@ NvU32 * GetSpiFlashConstantsTable(SpiFlashConstantTableIdx idx)
         break;
     case SpiFlashConstantTableIdx_TrimmersConfigTable: 
         pTable = (NvU32 *)s_Trimmers;
-        break;
-    case SpiFlashConstantTableIdx_DataTransferConfigTable:
-        pTable = (NvU32 *)s_DataXferConfig;
         break;
     case SpiFlashConstantTableIdx_SpiFlashXferTimeoutTable:
         pTable = (NvU32 *)s_SpiFlashXferTimeouts;
@@ -230,7 +202,6 @@ static NvBootError    EnableClockSource(const NvBootSpiFlashContext *Context)
     {
     case NvBootSpiClockSource_PllC4_Muxed:
         break;
-     
     case NvBootSpiClockSource_PllPOut0:
         /* PLLP is a FO pll. Do nothing. */
     case NvBootSpiClockSource_ClockM:
@@ -243,13 +214,6 @@ static NvBootError    EnableClockSource(const NvBootSpiFlashContext *Context)
     return NvBootError_Success;
 }
 
-static void ConfigureDataTranfer(const NvBootSpiFlashContext *Context)
-{
-    NvU32 RegVal = SPI_REG_READ32(DMA_CTL);
-    RegVal = NV_FLD_SET_DRF_NUM(SPI, DMA_CTL,  TX_TRIG, Context->TxFifoTriggerLevel, RegVal);
-    RegVal = NV_FLD_SET_DRF_NUM(SPI, DMA_CTL,  RX_TRIG, Context->RxFifoTriggerLevel, RegVal);
-    SPI_REG_WRITE32(DMA_CTL, RegVal);
-}
 static void PopulateCommand(uint8_t *Command, uint8_t CommandNum, uint8_t Byte1, uint8_t Byte2, uint8_t Byte3, uint8_t Byte4)
 {
     Command[0] = CommandNum; // 1 opcode
@@ -1112,7 +1076,6 @@ NvBootSpiFlashInit(
     // time Init
     unsigned long funcStartTick = 0;
 
-    NvBootSpiFlashDataXferConfig * DataXferConfig = (NvBootSpiFlashDataXferConfig *)(GetSpiFlashConstantsTable(SpiFlashConstantTableIdx_DataTransferConfigTable));
     NvBootSpiFlashTimeouts * SpiFlashXferTimeouts = (NvBootSpiFlashTimeouts *)(GetSpiFlashConstantsTable(SpiFlashConstantTableIdx_SpiFlashXferTimeoutTable));
     NvU32 * ClockDiv = (NvU32 *)(GetSpiFlashConstantsTable(SpiFlashConstantTableIdx_ClockDivisorsTable));
     NvBootSpiFlashQuadSdrLC * QReadTable = (NvBootSpiFlashQuadSdrLC *)(GetSpiFlashConstantsTable(SpiFlashConstantTableIdx_QReadConfigTable));
@@ -1127,13 +1090,6 @@ NvBootSpiFlashInit(
     else if (Params->SpiConfig == Spi_Config_2)
         s_pSpiFlashContext->BusWidth = NvBootSpiDataWidth_x4;
 
-    if(DataXferConfig)
-    {
-        s_pSpiFlashContext->TxFifoTriggerLevel = DataXferConfig[s_pSpiFlashContext->XferMode].TxFifoTriggerLevel;
-        s_pSpiFlashContext->RxFifoTriggerLevel = DataXferConfig[s_pSpiFlashContext->XferMode].RxFifoTriggerLevel;
-        s_pSpiFlashContext->TxFifoDepth = DataXferConfig[s_pSpiFlashContext->XferMode].TxFifoDepth;
-        s_pSpiFlashContext->RxFifoDepth = DataXferConfig[s_pSpiFlashContext->XferMode].RxFifoDepth;
-    }
     if(SpiFlashXferTimeouts)
         s_pSpiFlashContext->DataXferTimeout = (s_pSpiFlashContext->XferMode== NvBootSpiXferMode_Dma) ? SpiFlashXferTimeouts->DmaReadTimeout : SpiFlashXferTimeouts->PioReadTimeout;
 
@@ -1225,17 +1181,12 @@ NvBootSpiFlashInit(
         //Number of bits to be transmitted per packet in unpacked mode = 32
         RegData = NV_FLD_SET_DRF_NUM(SPI, COMMAND, BIT_LENGTH,SPI_MAX_BIT_LENGTH, RegData);
         SPI_REG_WRITE32(COMMAND, RegData);
-        //configure timing register
-        RegData = SPI_REG_READ32(TIMING_REG2);
-        RegData = NV_FLD_SET_DRF_DEF(SPI, TIMING_REG2,CS_ACTIVE_BETWEEN_PACKETS_0,DEFAULT, RegData);
-        SPI_REG_WRITE32(TIMING_REG2, RegData);
         //Flush Tx fifo 
         SpiHwFlushFifos(NV_DRF_DEF(SPI, FIFO_STATUS, TX_FIFO_FLUSH, FLUSH));
         //Flush Rx fifo
         SpiHwFlushFifos(NV_DRF_DEF(SPI, FIFO_STATUS, RX_FIFO_FLUSH, FLUSH));
         // Program Trimmers
         ProgramTrimmerValues();
-        ConfigureDataTranfer(Context);
 
         if(s_pSpiFlashContext->BusWidth == NvBootSpiDataWidth_x4)
         {

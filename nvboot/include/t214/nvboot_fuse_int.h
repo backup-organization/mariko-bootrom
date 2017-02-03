@@ -77,36 +77,6 @@ typedef enum
 } NvBootFuseOperatingMode;
 
 /**
- * Reports chip's operating mode
- *
- * The Decision Tree is as follows --
- * 1. if Failure Analysis (FA) Fuse burned, then Failure Analysis Mode
- * 2. if ODM Production Fuse burned and ...
- *    a. if SBK Fuses are NOT all zeroes, then ODM Production Mode Secure
- *    b. if SBK Fuses are all zeroes, then ODM Production Mode Non-Secure
- * 3. if NV Production Fuse burned, then NV Production Mode
- * 4. else, Preproduction Mode
- *
- *                                  Fuse Value*
- *                             ----------------------
- * Operating Mode              FA    NV    ODM    SBK
- * --------------              --    --    ---    ---
- * Failure Analysis            1     x     x      x
- * ODM Production Secure       0     x     1      <>0
- * ODM Production Non-Secure   0     x     1      ==0
- * NV Production               0     1     0      x
- * Preproduction               0     0     0      x
- *
- * * where 1 = burned, 0 = unburned, x = don't care
- *
- * @param pMode pointer to buffer where operating mode is to be stored
- *
- * @return void, table is complete decode and so cannot fail
- */
-void
-NvBootFuseGetOperatingMode(NvBootFuseOperatingMode *pMode);
-    
-/**
  * Reports whether chip is in Failure Analysis (FA) Mode
  *
  * Failure Analysis Mode means all of the following are true --
@@ -191,6 +161,14 @@ NvBootFuseIsOemFuseEncryptionEnabled(void);
  */
 NvU32
 NvBootFuseGetFuseDecrypitonKeySelection(void);
+
+/**
+ * Reports whether or not SE atomic context save is enabled.
+ *
+ * @return NV_TRUE if SE aomtic context save is enabled.
+ */
+NvBool
+NvBootFuseIsSeContextAtomicSaveEnabled(void);
 
 /**
  * Reports whether chip is in Preproduction Mode
@@ -531,6 +509,11 @@ NvBootFuseIsOemFuseEncryptionEnabled(void);
  *  Get OEM FEK Selection
  */
 NvU32 NvBootFuseGetFuseDecryptionKeySelection();
+
+/**
+ *  Check FUSE_JTAG_SECUREID_VALID_0. This is a dependency for SE RNG.
+ */
+NvBool NvBootFuseIsJtagSecureIdFuseSet(void);
 
 #if defined(__cplusplus)
 }

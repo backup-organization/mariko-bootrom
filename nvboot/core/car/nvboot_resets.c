@@ -30,7 +30,7 @@ void FT_NONSECURE
 NvBootResetSetEnable(const NvBootResetDeviceId DeviceId, const NvBool Enable) {
     // Offsets to the Set reset registers. Clr register offsets are always
     // +4 after the Set register.
-    const NvU32 CarResetSetClrTbl[CarResetReg_Num] = {
+    static const VT_NONSECURE NvU32 CarResetSetClrTbl[CarResetReg_Num] = {
         NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_RST_DEV_L_SET_0,
         NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_RST_DEV_H_SET_0,
         NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_RST_DEV_U_SET_0,

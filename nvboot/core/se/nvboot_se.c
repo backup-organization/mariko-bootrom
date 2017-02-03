@@ -35,6 +35,8 @@
 #include "nvboot_pka_int.h"
 #include "nvboot_ssk_int.h"
 #include "nvboot_util_int.h"
+#include "nvboot_fuse_int.h"
+#include "nvboot_rng_int.h"
 #include "nvboot_crypto_sha_param.h"
 
 //---------------------MACRO DEFINITIONS--------------------------------------
@@ -417,6 +419,42 @@ NvBootSeInitializeSE(void)
     return;
 }
 
+NvBootError NvBootSeEnableAtomicSeContextSave()
+{
+    uint32_t RegData = 0;
+
+    // Random delay before enabling SE atomic context save.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    if( (NvBootGetSwCYA() & NVBOOT_SW_CYA_ATOMIC_SE_CONTEXT_SAVE_ENABLE) ||
+        (NvBootFuseIsSeContextAtomicSaveEnabled()) )
+    {
+        // Enable atomic SE context save.
+        RegData = NvBootGetSeInstanceReg(NvBootSeInstance_Se1, SE_CTX_SAVE_AUTO_0);
+        RegData = NV_FLD_SET_DRF_DEF(SE, CTX_SAVE_AUTO, ENABLE, YES, RegData);
+        RegData = NV_FLD_SET_DRF_DEF(SE, CTX_SAVE_AUTO, LOCK, YES, RegData);
+        NvBootSetSeInstanceReg(NvBootSeInstance_Se1, SE_CTX_SAVE_AUTO_0, RegData);
+
+        // Program SE context blob locations into the assigned secure scratch
+        // registers.
+        // Secure scratch 116 <-- ARSE_TZRAM_CARVEOUT_ADDR_SE2 (0x7C04D000)
+        // Secure scratch 117 <-- ARSE_TZRAM_CARVEOUT_ADDR_SE1 (0x7C04C000)
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH117_0, ARSE_TZRAM_CARVEOUT_ADDR_SE1);
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH116_0, ARSE_TZRAM_CARVEOUT_ADDR_SE2);
+
+        // Set WRITE lock for the two PMC secure scratch registers above.
+        RegData = 0;
+        RegData = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE117, ON, RegData);
+        RegData = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE116, ON, RegData);
+
+        // Set both the non-secure disables and the TZ disables for completeness.
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_0, RegData);
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_NS_0, RegData);
+    }
+
+    return NvBootError_Success;
+}
+
 // PKA1 ref manual not in Tegra format. Also THRESHOLD field isn't defined.
 #define PKA1_SLCG_CTRL_0_THRESHOLD_SHIFT _MK_SHIFT_CONST(22)
 #define PKA1_SLCG_CTRL_0_THRESHOLD_FIELD _MK_FIELD_CONST(0x3ff, PKA1_SLCG_CTRL_0_THRESHOLD_SHIFT)
@@ -427,16 +465,20 @@ NvBootSeInitializeSE(void)
 
 NvBootError NvBootSeHousekeepingBeforeBRExit()
 {
-    // BIT available for all boot paths.
-    if(BootInfoTable.BootType == NvBootType_Cold)
+    // BIT available for all boot paths. Per http://nvbugs/1859111, do this
+    // for all non-SC7 boot paths.
+    if(BootInfoTable.BootType != NvBootType_Sc7)
     {
-        // Clear RSA key slots for coldboot.
+        // Clear RSA key slots.
         for (uint32_t seRsaSlot = NvBootSeRsaKeySlot_1; seRsaSlot < NvBootSeRsaKeySlot_Num; seRsaSlot++)
         {
             // Clearing only the SE1 instance, since we didn't use SE2
             // RSA key slots.
             NvBootSeRsaClearKeySlot(seRsaSlot);
         }
+
+        // Clear all PKA key slots.
+        NvBootPkaClearAllKeySlots();
     }
 
     /**
@@ -1664,6 +1706,20 @@ void NvBootLP0ContextRestoreStage1(NvBootSeInstance SeInstance, void *pSeDecrypt
     // Write the SRK into key slot 0
     NvBootSeInstanceKeySlotWriteKeyIV(SeInstance, NvBootSeAesKeySlot_0, SE_MODE_PKT_AESMODE_KEY128, SE_CRYPTO_KEYIV_PKT_WORD_QUAD_KEYS_0_3, &Srk[0]);
 
+    /**
+     *  Clear SRK on stack to 0.
+     */
+    NvBootUtilMemset(&Srk[0], 0, sizeof(Srk));
+    
+    /**
+     * Clear the secure scratch registers associated with the SRK to 0. 
+     *
+     * Even though the SRK is generated at every LP0 entry, we don't want any
+     * untrusted SW after the Boot ROM to read it. 
+     *
+     */ 
+    NvBootSeClearSrkSecureScratch(SeInstance);
+
     // Initialize OriginalIv[127:0] to zero
     NvBootSeInstanceKeySlotWriteKeyIV(SeInstance, NvBootSeAesKeySlot_0, SE_MODE_PKT_AESMODE_KEY128, SE_CRYPTO_KEYIV_PKT_WORD_QUAD_ORIGINAL_IVS, 0);
 
@@ -1961,16 +2017,6 @@ NvBootError NvBootLP0ContextRestore(void)
     NvBootLP0ContextRestoreStage2(NvBootSeInstance_Se2, pSe2DecryptedContext);
 
     NvBootLP0ContextRestoreStage2(NvBootSeInstance_Se1, pSe1DecryptedContext);
-
-    /**
-     * Clear the secure scratch registers associated with the SRK to 0. 
-     *
-     * Even though the SRK is generated at every LP0 entry, we don't want any
-     * untrusted SW after the Boot ROM to read it. 
-     *
-     */ 
-    NvBootSeClearSrkSecureScratch(NvBootSeInstance_Se1);
-    NvBootSeClearSrkSecureScratch(NvBootSeInstance_Se2);
 
     return NvBootError_Success;
 }

@@ -30,8 +30,8 @@
  */
 typedef struct NvBootCryptoSignaturesRec
 {
-    NvBootAesCmacHash AesCmacHash __attribute__ ((aligned (NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
-    NvBootCryptoRsaSsaPssSig RsaSsaPssSig __attribute__ ((aligned (NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvBootAesCmacHash AesCmacHash;
+    NvBootCryptoRsaSsaPssSig RsaSsaPssSig;
     /*NvBootEcdsaSig EcdsaSig __attribute__ ((aligned (NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));*/ // No ECDSA for this chip.
 } NvBootCryptoSignatures;
 

@@ -13,6 +13,7 @@
 #include "nvboot_rsa_devmgr_int.h"
 #include "nvboot_sha_devmgr_int.h"
 #include "nvboot_util_int.h"
+#include "nvboot_rng_int.h"
 //NV debug #include "nvboot_printf_int.h"
 
 static void ReverseList(uint8_t *original, uint32_t listSize)
@@ -502,6 +503,16 @@ NvBootError NvBootCryptoRsaSsaPssVerify(NvBootCryptoRsaSsaPssContext *RsaSsaPssC
     {
         return NvBootError_RsaPssVerify_ShaHash_Error;
     }
+
+    // Add random delay to the end of the function to help mitigate against
+    // attacks on r0 immediately at function return.
+    // For example:
+    //
+    // 1036ea:	f004 fd89 	bl	108200 <NvBootCryptoRsaSsaPssVerify>
+    // 1036ee:	2800      	cmp	r0, #0 <-- if an attacker can somehow glitch here
+    //                                     any mitigations after this would not be
+    //                                     effective.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
 
     // Step 14. If H = H' output "consistent". Otherwise, output "inconsistent".
     if(NvBootUtilCompareConstTimeFI(H, &H_Prime, hLen) != FI_TRUE)

@@ -45,4 +45,5 @@ CORELIB += wdt
 CORELIB += warm_boot
 CORELIB += platform
 CORELIB += debug
-CORELIB += usbcharging
+CORELIB += rng
+CORELIB += fidet

@@ -510,7 +510,7 @@ typedef struct NvBootConfigTableBufferRec
     union
     {
         NvBootConfigTable Bct;
-        uint8_t min_size[MIN_BCT_BUFFER_SIZE];
+        NvU8 min_size[MIN_BCT_BUFFER_SIZE];
     };
 } NvBootConfigTableBuffer;
 

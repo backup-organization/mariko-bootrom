@@ -18,7 +18,7 @@
 #define INCLUDED_NVBOOT_PMC_INT_H
 
 #include <stdbool.h>
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvrm_drf.h"
 #include "arapbpm.h"
 #include "nvboot_osc.h"

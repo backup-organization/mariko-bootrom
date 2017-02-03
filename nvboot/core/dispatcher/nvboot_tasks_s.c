@@ -35,18 +35,21 @@ NvBootError NvBootMemSysRamSetup();
  * IMPORTANT NOTE: Secure dispatcher expects functions to return
  *                 NvBootError.
 */
-NvBootTask Tasks[] = {
-    { &NvBootMainSecureInit, 0x54},
-};
+
+/// Tasks moved to PreDispatcher init routines.
+// NvBootTask Tasks[] = {
+    // { &NvBootCryptoMgrHwEngineInit, 0x53},
+    // { &NvBootMainSecureInit, 0x54},
+// };
 
 static const NvBootTask CryptoInitTasks[] = {
-    { &NvBootCryptoMgrHwEngineInit, 0x70},
     { &NvBootCryptoMgrInit, 0x71},
     { &NvBootCryptoMgrDecKeys, 0x72},
     { &NvBootCryptoMgrLoadDefaultSEKeys, 0x73},
     // Note: SSK generated for all boot paths, but in the keyslot holding the SSK
     // SC7 is overwritten by SE context restore.
     { &NvBootSskGenerate, 0x74},
+    { &NvBootSeEnableAtomicSeContextSave, 0x75},
 };
 
 static const NvBootTask RCMTasks[] = {
@@ -83,20 +86,13 @@ static const NvBootTask WarmBootTasks[] = {
     { &NvBootArcDisableUnconditional, 0x609},
 };
 
-// Tasks related to Ramdump(coldboot) flow
-static const NvBootTask RamDumpTasks[] = {
-    //{ &NvBootWarmBootUnPackSdramStartPllm, 0x701},
-    //{ &NvBootMemClkEnable, 0x702},
-};
 
 // Supported array of task lists in Bootrom.
-static const NvBootTaskLists TaskLists[] =  { {Tasks, (sizeof(Tasks)/TASK_ENTRY)},
-                                              {CryptoInitTasks, (sizeof(CryptoInitTasks)/TASK_ENTRY)},
+static const NvBootTaskLists TaskLists[] =  { {CryptoInitTasks, (sizeof(CryptoInitTasks)/TASK_ENTRY)},
                                               {ColdBootTasks, (sizeof(ColdBootTasks)/TASK_ENTRY)},
                                               {RCMTasks, (sizeof(RCMTasks)/TASK_ENTRY)},
                                               {SecureExitBootTasks, (sizeof(SecureExitBootTasks)/TASK_ENTRY)},
                                               {WarmBootTasks, (sizeof(WarmBootTasks)/TASK_ENTRY)},
-                                              {RamDumpTasks, (sizeof(RamDumpTasks)/TASK_ENTRY)},
 };
 
 
@@ -198,3 +194,15 @@ int GetCntTasks(NvBootTaskListId TaskListId)
     return TaskLists[TaskListId].numTasks;
 }
 
+/**
+ *  Check if TaskListId for a task table is valid.
+ */
+NvBootError IsValidTaskListId(NvBootTaskListId TaskListId)
+{
+    NvBootError e = NvBootError_IllegalParameter;
+    
+    if(TaskListId < sizeof(TaskLists)/sizeof(NvBootTaskLists))
+        e = NvBootError_Success;
+
+    return e;
+}

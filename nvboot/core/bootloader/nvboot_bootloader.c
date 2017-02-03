@@ -34,7 +34,7 @@
 extern NvBootInfoTable   BootInfoTable;
 extern NvBootConfigTable *pBootConfigTable;
 extern NvBootCryptoMgrPublicBuf *pPublicCryptoBufR5;
-extern void NvBootMainNonSecureBootLoader();
+extern void do_exception();
 
  // This buffer should be the size of the largest page size supported by bootrom. Adjust accordingly
 #define FirstBufPageSize (NV_ICEIL(sizeof(NvBootOemBootBinaryHeader), NVBOOT_MAX_SECONDARY_BOOT_DEVICE_PAGE_SIZE) * NVBOOT_MAX_SECONDARY_BOOT_DEVICE_PAGE_SIZE)
@@ -65,7 +65,8 @@ LoadOneBootLoader(
     NvBootContext    *Context,
     NvBootLoaderInfo *BlInfo)
 {
-    NvBootError             e;
+    // Default to "fail", subsequent functions can set to pass.
+    NvBootError e = NvBootInitializeNvBootError();
     NvBootDevMgr *DevMgr;
     NvBootDeviceStatus      ReadStatus;
     NvBootOemBootBinaryHeader *OemBootBinaryHeader;
@@ -221,7 +222,8 @@ NvBootLoadBootLoader(NvBootContext *Context)
 {
     NvU32       BootLoaderIndex;
     NvU32       MaxBootLoader;
-    NvBootError Error = NvBootError_Success;
+    // Default to "fail", subsequent functions can set to pass.
+    NvBootError Error = NvBootInitializeNvBootError();
     NvBootLoaderInfo *BlInfo = NULL;
 
     /*
@@ -230,7 +232,7 @@ NvBootLoadBootLoader(NvBootContext *Context)
      */
     /// Bootloader to use in case of failure. This will be overridden once 
     /// we successfully read the bootloader
-    Context->BootLoader = (uint8_t*)NvBootMainNonSecureBootLoader;
+    Context->BootLoader = (uint8_t*)do_exception;
     BootLoaderIndex = 0;
     MaxBootLoader = pBootConfigTable->BootLoadersUsed;
 
@@ -250,8 +252,6 @@ NvBootLoadBootLoader(NvBootContext *Context)
 
             case NvBootError_HashMismatch:
             case NvBootError_ValidationFailure:
-                TODO
-                // TODO: make sure all possible error codes from RSA-PSS verify handled here
             case NvBootError_SE_RsaPssVerify_Inconsistent:
                 BootInfoTable.BlState[BootLoaderIndex].Status =
                     NvBootRdrStatus_ValidationFailure;

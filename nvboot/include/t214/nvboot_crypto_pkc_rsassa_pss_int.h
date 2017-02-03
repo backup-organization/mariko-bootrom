@@ -17,6 +17,7 @@
 #include "nvboot_rsa_devmgr_int.h"
 #include "nvboot_crypto_sha_param.h"
 #include "nvboot_crypto_rsa_param.h"
+#include "nvboot_util_int.h"
 
 #if defined(__cplusplus)
 extern "C"

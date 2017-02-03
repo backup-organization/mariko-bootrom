@@ -120,19 +120,18 @@ NvBootDevMgrCallbacks s_DeviceCallbacks[] =
         // NvBootSataShutdown,
         // NvBootSataGetReaderBuffersBase
     // },
-    TODO // Uncomment when we have Prod uart drivers
-    { 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    // {
-        // /* Callbacks for Production Uart device */
-        // (NvBootDeviceGetParams)NvBootProdUartGetParams,
-        // (NvBootDeviceValidateParams)NvBootProdUartValidateParams,
-        // (NvBootDeviceGetBlockSizes)NvBootProdUartGetBlockSizes,
-        // (NvBootDeviceInit)NvBootProdUartInit,
-        // NvBootProdUartReadPage,
-        // NvBootProdUartQueryStatus,
-        // NvBootProdUartShutdown,
-        // NvBootProdUartGetReaderBuffersBase
-    // },
+    {
+        /* Callbacks for Production Uart device */
+        (NvBootDeviceGetParams)NvBootProdUartGetParams,
+        (NvBootDeviceValidateParams)NvBootProdUartValidateParams,
+        (NvBootDeviceGetBlockSizes)NvBootProdUartGetBlockSizes,
+        (NvBootDeviceInit)NvBootProdUartInit,
+        NvBootProdUartReadPage,
+        NvBootProdUartQueryStatus,
+        NvBootProdUartShutdown,
+        NvBootProdUartGetReaderBuffersBase,
+        NULL
+    },
 
 #if NVENABLE_FOOS_SUPPORT
     {

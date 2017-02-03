@@ -15,7 +15,7 @@
 #ifndef INCLUDED_NVBOOT_XUSB_MSC_H
 #define INCLUDED_NVBOOT_XUSB_MSC_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 
 
 

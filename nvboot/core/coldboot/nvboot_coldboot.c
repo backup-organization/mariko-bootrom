@@ -42,13 +42,27 @@ static NvBootError SetupBootDevice(NvBootContext *Context);
 // static void        MapFusesToCryptoOps(NvBootContext *Context);
 static NvBootError SetupSdram(NvBootContext *Context);
 
+/**
+ *  Attempt to disambiguate how a strap maps to a device.
+ *  Strap (type NvBootStrapDevSel)
+ *      |__ StrapDevSelMap[Strap] (type NvBootFuseBootDevice)
+ *                              |__ MapFuseDevToBitDevType[StrapDevSelMap[Strap]] (type NvBootDevType)
+ *  Strap=Rsvd < NvBootStrapDevSel_Num
+ *       |__ StrapDevSelMap[Strap]=NvBootFuseBootDevice_resvd_4
+ *                                  |__MapFuseDevToBitDevType[NvBootFuseBootDevice_resvd_4]= NvBootDevType_None
+ *  
+ *  Strap=Emmc < NvBootStrapDevSel_Num
+ *       |__ StrapDevSelMap[Strap]=NvBootFuseBootDevice_Sdmmc
+ *                                  |__MapFuseDevToBitDevType[NvBootFuseBootDevice_Sdmmc]= NvBootDevType_Sdmmc
+ *
+ */
 static NvBootFuseBootDevice StrapDevSelMap[] =
 {
     NvBootFuseBootDevice_Sdmmc,         // NvBootStrapDevSel_Emmc_x8_BootModeOff
     NvBootFuseBootDevice_SpiFlash,      // NvBootStrapDevSel_SpiFlash
-    NvBootFuseBootDevice_Sata,          // NvBootStrapDevSel_Sata
+    NvBootFuseBootDevice_resvd_4,       // Reserved, previously NvBootStrapDevSel_Sata
     NvBootFuseBootDevice_Sdmmc,         // 0x3 = Use Fuses when PRODUCTION_MODE fuse is set. 
-    NvBootFuseBootDevice_Usb3,          // NvBootStrapDevSel_Usb3
+    NvBootFuseBootDevice_resvd_4,       // Reserved, previously NvBootStrapDevSel_Usb3
                                         // Strap-> Fuse mapping not done for this strap.
 #if NVENABLE_FOOS_SUPPORT
     NvBootFuseBootDevice_Foos,          // NvBootStrapDevSel_foos
@@ -79,7 +93,7 @@ static NvU32 StrapDevConfigMap[] =
     SDMMC_CONFIG(2),           // NvBootStrapDevSel_UseFuses; Set default config to EMMC x4, Boot Mode OFF SinglePage, SDR 25Mhz for safety.
                                 // This is the same config as when BOOT_DEVICE_INFO and FUSE_RESERVED_SW[2:0] are
                                 // unfused.
-    XUSB_CONFIG(1, 5, 1),       // NvBootStrapDevSel_Usb3 : Vbus Enable 1, OC Detected Vbus Pad 1, port number 1
+    XUSB_CONFIG(1, 5, 1),       // reserved
 #if NVENABLE_FOOS_SUPPORT
     0, //foos
 #endif

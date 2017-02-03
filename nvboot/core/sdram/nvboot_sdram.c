@@ -412,6 +412,9 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 //     //    NvBootResetSetEnable(NvBootResetDeviceId_Emc1Id, NV_TRUE);
 //     //    NvBootResetSetEnable(NvBootResetDeviceId_Mc1Id,  NV_TRUE);
 //     }
+//     else
+
+
     // Set VDDP select
     //NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_VDDP_SEL_0,
     //           pData->PmcVddpSel);
@@ -478,9 +481,6 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
 
     // Update emc clock source register
-
-    RegData = NV_READ32(NV_ADDRESS_MAP_CAR_BASE +
-                        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0);
 
     // Update emc clock source register from pData ->EmcClockSource
     //        CLK_SOURCE_EMC.EMC_2X_CLK_SRC
@@ -562,13 +562,6 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     HW_REGW(EmcBase, EMC, DBG, pData->EmcDbg | NV_DRF_NUM(EMC,DBG, WRITE_MUX, pData->EmcDbgWriteMux));
     
-    NvU32 rfu_settings = NV_RESETVAL(EMC,PMACRO_BRICK_CTRL_RFU1);
-    NvU32 rfu_mask1 = 0x01120112;
-    NvU32 rfu_mask2 = 0x01bf01bf;
-
-    NvU32 rfu_step1 = rfu_settings & (pData->EmcPmacroBrickCtrlRfu1 | ~rfu_mask1);
-    NvU32 rfu_step2 = rfu_settings & (pData->EmcPmacroBrickCtrlRfu1 | ~rfu_mask2);
-
     //NvU32 common_pad_macro_reset_settings = NV_RESETVAL(EMC,PMACRO_COMMON_PAD_TX_CTRL);
     //NvU32 common_pad_macro_mask1 = 0x00000001;
     //NvU32 common_pad_macro_step1 = common_pad_macro_reset_settings & (pData->EmcPmacroCommonPadTxCtrl | ~common_pad_macro_mask1);
@@ -576,8 +569,6 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     // Patch 2 using BCT Spare Variables
     if(pData->EmcBctSpare2)
       NV_WRITE32(pData->EmcBctSpare2, pData->EmcBctSpare3);
-
-    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU1, rfu_step1);
 
     // This is required to do any reads from the pad macros
     HW_REGW(EmcBase, EMC, CONFIG_SAMPLE_DELAY,    pData->EmcConfigSampleDelay);
@@ -650,19 +641,18 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(EmcBase, EMC, QUSE_BRLSHFT_2, pData->EmcQuseBrlshft2);
     HW_REGW(EmcBase, EMC, QUSE_BRLSHFT_3, pData->EmcQuseBrlshft3);
 
-    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU1, rfu_step2);
+    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU1, pData->EmcPmacroBrickCtrlRfu1);
 
     HW_REGW(EmcBase, EMC, PMACRO_PAD_CFG_CTRL, pData->EmcPmacroPadCfgCtrl);
     HW_REGW(EmcBase, EMC, PMACRO_CMD_BRICK_CTRL_FDPD,    pData->EmcPmacroCmdBrickCtrlFdpd);
-    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU2,    pData->EmcPmacroBrickCtrlRfu2 & 0xFF7FFF7F);
+    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU2,    pData->EmcPmacroBrickCtrlRfu2);
     HW_REGW(EmcBase, EMC, PMACRO_DATA_BRICK_CTRL_FDPD,    pData->EmcPmacroDataBrickCtrlFdpd);
     HW_REGW(EmcBase, EMC, PMACRO_DATA_PAD_RX_CTRL, pData->EmcPmacroDataPadRxCtrl);
     HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_RX_CTRL, pData->EmcPmacroCmdPadRxCtrl);
     HW_REGW(EmcBase, EMC, PMACRO_DATA_PAD_TX_CTRL, pData->EmcPmacroDataPadTxCtrl);
-    //HW_REGW(EmcBase, EMC, PMACRO_COMMON_PAD_TX_CTRL, pData->EmcPmacroCommonPadTxCtrl);
     HW_REGW(EmcBase, EMC, PMACRO_DATA_RX_TERM_MODE, pData->EmcPmacroDataRxTermMode);
     HW_REGW(EmcBase, EMC, PMACRO_CMD_RX_TERM_MODE, pData->EmcPmacroCmdRxTermMode);
-    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl);
+    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl & 0xEFFFFFFF);
 
     HW_REGW(EmcBase, EMC, CFG_3, pData->EmcCfg3);
     HW_REGW(EmcBase, EMC, PMACRO_TX_PWRD_0, pData->EmcPmacroTxPwrd0);
@@ -721,7 +711,6 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(EmcBase, EMC, PMACRO_QUSE_DDLL_RANK1_3, pData->EmcPmacroQuseDdllRank1_3);
     HW_REGW(EmcBase, EMC, PMACRO_QUSE_DDLL_RANK1_4, pData->EmcPmacroQuseDdllRank1_4);
     HW_REGW(EmcBase, EMC, PMACRO_QUSE_DDLL_RANK1_5, pData->EmcPmacroQuseDdllRank1_5);
-    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU1, pData->EmcPmacroBrickCtrlRfu1);
     HW_REGW(EmcBase, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_0, pData->EmcPmacroObDdllLongDqRank0_0);
     HW_REGW(EmcBase, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_1, pData->EmcPmacroObDdllLongDqRank0_1);
     HW_REGW(EmcBase, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_2, pData->EmcPmacroObDdllLongDqRank0_2);
@@ -990,7 +979,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     if(pData->EmcBctSpareSecure12)
       NV_WRITE32(pData->EmcBctSpareSecure12, pData->EmcBctSpareSecure13);
     if(pData->EmcBctSpareSecure14)
-      NV_WRITE32(pData->EmcBctSpareSecure12, pData->EmcBctSpareSecure15);
+      NV_WRITE32(pData->EmcBctSpareSecure14, pData->EmcBctSpareSecure15);
     if(pData->EmcBctSpareSecure16)
       NV_WRITE32(pData->EmcBctSpareSecure16, pData->EmcBctSpareSecure17);
 
@@ -1007,7 +996,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     if (pData->EmcAutoCalInterval == 0) {
       HW_REGW(EmcBase, EMC, AUTO_CAL_CONFIG, pData->EmcAutoCalConfig | NV_DRF_DEF(EMC, AUTO_CAL_CONFIG, AUTO_CAL_MEASURE_STALL, ENABLE));
     }
-    HW_REGW(EmcBase, EMC, PMACRO_BRICK_CTRL_RFU2, pData->EmcPmacroBrickCtrlRfu2);
+    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl);
 
     // ZQ CAL setup, not actually issuing ZQ CAL now.
     if (!IsWarmboot && NV_DRF_VAL(EMCZCAL, BOOT_ENABLE, COLDBOOT, pData->EmcZcalWarmColdBootEnables)) {

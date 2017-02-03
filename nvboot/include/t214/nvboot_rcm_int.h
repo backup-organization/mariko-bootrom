@@ -11,7 +11,7 @@
 #ifndef INCLUDED_NVBOOT_RCM_INT_H
 #define INCLUDED_NVBOOT_RCM_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_error.h"
 #include "nvboot_rcm.h"
 #include "nvboot_fuse.h"

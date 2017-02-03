@@ -188,7 +188,7 @@ NvBool NvBootUtilCompareBytes(NvU8 *Value1, NvU8 *Value2, NvU32 ValueSizeBytes)
     return NV_TRUE;
 }
 
-FI_bool NvBootUtilCompareConstTimeFI(const void *Buffer1, const void *Buffer2, size_t length)
+FI_bool __attribute__((optimize("O0"))) NvBootUtilCompareConstTimeFI(const void *Buffer1, const void *Buffer2, size_t length)
 {
     const uint8_t *Buf1 = (const uint8_t *) Buffer1;
     const uint8_t *Buf2 = (const uint8_t *) Buffer2;
@@ -199,11 +199,16 @@ FI_bool NvBootUtilCompareConstTimeFI(const void *Buffer1, const void *Buffer2, s
         return FI_FALSE;
 
     uint8_t result = 0;
+    uint32_t i;
 
-    for (size_t i = 0; i < length; i++)
+    for (i = 0; i < length; i++)
     {
         result |= Buf1[i] ^ Buf2[i];
     }
+    // FI enhancement. Double check that loop actually looped the proper number
+    // of times. Requires optimization level O0 or else compilier will optimize it out.
+    if(i != length)
+        return FI_FALSE;
 
     // If result is 0, Buffer1 and Buffer 2 are identical, return true.
     // Otherwise, return false.
@@ -222,7 +227,7 @@ bool NvBootUtilCompareConstTime(const void *Buffer1, const void *Buffer2, size_t
 
     uint8_t result = 0;
 
-    for (size_t i = 0; i < length; i++)
+    for (uint32_t i = 0; i < length; i++)
     {
         result |= Buf1[i] ^ Buf2[i];
     }
@@ -249,3 +254,46 @@ NvBootError NvBootPollField(NvU32 RegAddr, NvU32 Mask, NvU32 ExpectedValue, NvU3
     } while(Timeout);
     return NvBootError_HwTimeOut;
 }
+
+/**
+ * Force e to be initialized to a non-success value, such that the skipping of a senstive
+ * section of the code will default the action to error.
+ * Tied to timer which uses a volatile declaration to avoid compiler optimization.
+ * Added optimize attribute to avoid the if statement getting optimized out (since
+ * Initial_e can not be zero if there is no tampering).
+ */
+NvBootError __attribute__((optimize("O0"))) NvBootInitializeNvBootError()
+{
+    NvBootError Initial_e;
+    Initial_e = NvBootError_Initial_Value | NvBootUtilGetTimeUS();
+    if(Initial_e != NvBootError_Success)
+        return Initial_e;
+    else
+        return NvBootError_Initial_Value;
+}
+
+
+/**
+ *  @brief Delay loop to introduce random delays during BR execution
+ *  @param loops Number of loop execution
+ *  @return NvBootError
+ */
+
+NvBootError  NvBootUtilInstrWait(const NvU32 loops)
+{
+    uint32_t j;
+    volatile uint32_t i;
+    NvBootError e = NvBootError_Fault_Injection_Detection;
+
+    for(i = 0, j = loops; i < loops; i++, j--)
+    {
+        if( (i + j) != loops )
+            break;
+    }
+
+    if(i == loops)
+        e = NvBootError_Success;
+
+    return e;
+}
+

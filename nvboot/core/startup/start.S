@@ -73,12 +73,13 @@ arm_fiq:
 	mvn 	r13, #1
 
 .Lexcp_loop:
+#if 0 /* Loop forever is preferred */
 	subs 	r13, r13, #1
-
 /* generate a full chip reset, we can clobber other registers now */
     ldreq   r0, =(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_CNTRL_0)
     ldreq   r1, =(APBDEV_PMC_CNTRL_0_MAIN_RST_FIELD)
     streq   r1, [r0]
+#endif 
 	b 	.Lexcp_loop
 
 /* make sure all related literals remain close */
@@ -189,7 +190,7 @@ NvBootAsmSecureEnter:
         blt	    .L__bss_loop
 
         bl	    main
-        b	    .
+        b	    do_exception
 .ltorg
 
 //=============================================================================
@@ -214,23 +215,33 @@ NvBootAsmSecureEnter:
 //      Part of the literal used by this code is in the secure portion
 //=============================================================================       
 .section ".text.boot"
-
+.code 16
+FUNCTION(trap_exception)
+        mov     r0, #0x01
+        lsl     r0, #20
+        add     r0, #0x0C
+        bx      r0
+.code 32        
 FUNCTION(NvBootMainAsmSecureExit)
-        // the first part efficiently clear memroy between r1 and r2
-        // we could use a LDM from a guaranteed zero string
-        ldr r4, =0x0
-        ldr r5, =0x0
-        ldr r6, =0x0
-        ldr r7, =0x0
-        ldr r8, =0x0
-        ldr r9, =0x0
-        ldr r10, =0x0
-        ldr r11, =0x0
+        // Efficiently set memory between r1 and r2 to ARM branch to self.
+        // We could also use a LDM from a guaranteed string of what we want to set.
+        ldr r4, =0xEAFFFFFE
+        ldr r5, =0xEAFFFFFE
+        ldr r6, =0xEAFFFFFE
+        ldr r7, =0xEAFFFFFE
+        ldr r8, =0xEAFFFFFE
+        ldr r9, =0xEAFFFFFE
+        ldr r10, =0xEAFFFFFE
+        ldr r11, =0xEAFFFFFE
         // loop between r1 and r2, STM with autoincrement
 .AsmSecureExitClearLoop:
         stm r1!,{r4-r11}
         cmp r1, r2
         blo .AsmSecureExitClearLoop
+
+        // Readback last written address in the clear loop above to flush the
+        // last stm.
+        ldr r4, [r2, #-4]
 
         // Log boot exit timestamp
         ldr r2, =(NV_ADDRESS_MAP_TMRUS_BASE)
@@ -239,17 +250,102 @@ FUNCTION(NvBootMainAsmSecureExit)
         ldr r3, [r3] // Load value of SB_CSR_0 stashed in BIT.NvBootTimeLogExit
         str r2, [r1] // Store timestamp to BIT.NvBootTimeLogExit
 
+        // Preserve r3 into r2, the value to write into SB_CSR_0.
+        mov r2, r3
+
         // make ROM secure, uses data part of the secure part of the IROM
         ldr r8, =(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0)
+        // Clear secure boot flag again, don't trust value from BIT.NvBootTimeLogExit.
+        bic r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
         str r3, [r8]
         ldr r3, [r8] // Force a readback of SB_CSR_0 to make sure it has
                      // taken effect before proceeding.
+        and r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        // Cannot use SB_CSR_0_SECURE_BOOT_FLAG_DISABLE directly.
+        // Double check that SECURE_BOOT_FLAG is 0.
+        // If not, retry up to 16 times, and then trigger an exception which
+        // will lead to a reset for production systems.
+        cmp r3, #0
+        beq  .BootRomDone
+
+        // Retry SECURE_BOOT_FLAG clear. Reload everything from scratch.
+        mov r3, r2
+        ldr r8, =(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0)
+        // Clear secure boot flag again, don't trust value from BIT.NvBootTimeLogExit.
+        bic r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        str r3, [r8]
+        ldr r3, [r8] // Force a readback of SB_CSR_0 to make sure it has
+                     // taken effect before proceeding.
+        and r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        // Cannot use SB_CSR_0_SECURE_BOOT_FLAG_DISABLE directly.
+        // Double check that SECURE_BOOT_FLAG is 0.
+        // If not, retry up to 16 times, and then trigger an exception which
+        // will lead to a reset for production systems.
+        cmp r3, #0
+        beq .BootRomDone
+
+        // Retry SECURE_BOOT_FLAG clear. Reload everything from scratch.
+        mov r3, r2
+        ldr r8, =(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0)
+        // Clear secure boot flag again, don't trust value from BIT.NvBootTimeLogExit.
+        bic r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        str r3, [r8]
+        ldr r3, [r8] // Force a readback of SB_CSR_0 to make sure it has
+                     // taken effect before proceeding.
+        and r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        // Cannot use SB_CSR_0_SECURE_BOOT_FLAG_DISABLE directly.
+        // Double check that SECURE_BOOT_FLAG is 0.
+        // If not, retry up to 16 times, and then trigger an exception which
+        // will lead to a reset for production systems.
+        cmp r3, #0
+        beq .BootRomDone
+
+        // Retry SECURE_BOOT_FLAG clear. Reload everything from scratch.
+        mov r3, r2
+        ldr r8, =(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0)
+        // Clear secure boot flag again, don't trust value from BIT.NvBootTimeLogExit.
+        bic r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        str r3, [r8]
+        ldr r3, [r8] // Force a readback of SB_CSR_0 to make sure it has
+                     // taken effect before proceeding.
+        and r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        // Cannot use SB_CSR_0_SECURE_BOOT_FLAG_DISABLE directly.
+        // Double check that SECURE_BOOT_FLAG is 0.
+        // If not, retry up to 16 times, and then trigger an exception which
+        // will lead to a reset for production systems.
+        cmp r3, #0
+        beq .BootRomDone
+
+        // Retry SECURE_BOOT_FLAG clear. Reload everything from scratch.
+        mov r3, r2
+        ldr r8, =(NV_ADDRESS_MAP_SECURE_BOOT_BASE + SB_CSR_0)
+        // Clear secure boot flag again, don't trust value from BIT.NvBootTimeLogExit.
+        bic r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        str r3, [r8]
+        ldr r3, [r8] // Force a readback of SB_CSR_0 to make sure it has
+                     // taken effect before proceeding.
+        and r3, #SB_CSR_0_SECURE_BOOT_FLAG_FIELD
+        // Cannot use SB_CSR_0_SECURE_BOOT_FLAG_DISABLE directly.
+        // Double check that SECURE_BOOT_FLAG is 0.
+        // If not, retry up to 16 times, and then trigger an exception which
+        // will lead to a reset for production systems.
+        cmp r3, #0
+        bne do_exception
+
+.BootRomDone:
         // clear all remaining registers not further needed
         // need to be preserved: r0, r13(sp) and r15(pc)
         ldr r1, =0
         ldr r2, =0
         ldr r3, =0
+        ldr r4, =0
+        ldr r5, =0
+        ldr r6, =0
+        ldr r7, =0
         ldr r8, =0
+        ldr r9, =0
+        ldr r10, =0
+        ldr r11, =0
         ldr r12, =0
         ldr r14, =0
         //;; jump to the required address, use BX to allow jump to thumb code

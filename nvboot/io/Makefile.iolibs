@@ -12,6 +12,6 @@ IOLIB := sdmmc
 IOLIB += uart
 #IOLIB += sata
 IOLIB += spi_flash
-#IOLIB += prod_uart
+IOLIB += prod_uart
 IOLIB += xusb_dev
 IOLIB += foos

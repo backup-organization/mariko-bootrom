@@ -189,31 +189,31 @@ typedef struct NvBootSdmmcStatusRec
     ///
 
     /// Specifies the clock source.
-    uint8_t ModuleClkSource;
+    NvU8 ModuleClkSource;
 
     /// Specifies the clk divisor.
-    uint8_t ModuleClkDivisor;
+    NvU8 ModuleClkDivisor;
 
     /// Specifies the clk enable.
-    uint8_t ModuleClkEnable;
+    NvU8 ModuleClkEnable;
 
     /// Specifies the module reset status.
-    uint8_t ModuleClkRstStatus;
+    NvU8 ModuleClkRstStatus;
 
     /// Specifies the clk internal divisor for interface via fuses or straps.
-    uint8_t SdmmcIntrlClkDivisor;
+    NvU8 SdmmcIntrlClkDivisor;
 
     /// Specifies the data transfer mode.
-    uint8_t SdmmcDataMode;
+    NvU8 SdmmcDataMode;
 
     /// Specifies the data width specified by fuses or straps.
-    uint8_t FuseDataWidth;
+    NvU8 FuseDataWidth;
 
     /// Specifies the Ddr mode specified by fuses or straps.
     NvBool FuseDdrMode;
 
     /// Specifies the Config option specified by fuses or straps.
-    uint8_t FuseConfig;
+    NvU8 FuseConfig;
 
     /// Specifies the Read multi/Single page option from config option.
     NvBool FuseReadMode;
@@ -223,16 +223,16 @@ typedef struct NvBootSdmmcStatusRec
     ///
 
     /// Specifies the discovered card type
-    uint8_t DiscoveredCardType;
+    NvU8 DiscoveredCardType;
 
     /// Specifies the discovered voltage range
-    uint32_t DiscoveredVoltageRange;
+    NvU32 DiscoveredVoltageRange;
 
     /// Specifies the data width chosen to conform to power class constraints
-    uint8_t DataWidthUnderUse;
+    NvU8 DataWidthUnderUse;
 
     /// Specifies the power class chosen to conform to power class constraints
-    uint8_t PowerClassUnderUse;
+    NvU8 PowerClassUnderUse;
 
     /// Specifies the Auto Cal status
     NvBool AutoCalStatus;
@@ -242,55 +242,55 @@ typedef struct NvBootSdmmcStatusRec
     ///
 
     /// Specifies the card identification data.
-    uint32_t Cid[4];
+    NvU32 Cid[4];
 
     ///
     /// Information for driver validation
     ///
 
     /// Specifies the number of pages read from the beginning.
-    uint32_t NumPagesRead;
+    NvU32 NumPagesRead;
 
     /// Specifies the # of CRC errors
-    uint32_t NumCrcErrors;
+    NvU32 NumCrcErrors;
 
     /// Specifies whether the boot was attempted from a Boot Partition.
-    uint8_t BootFromBootPartition;
+    NvU8 BootFromBootPartition;
 
     /// Overall sdmmc hw init and media enumeration time
-    uint32_t SdmmcInit;
+    NvU32 SdmmcInit;
     
     /// Controller, clock/resets & pad initialization.
-    uint32_t SdmmcControllerInit;
+    NvU32 SdmmcControllerInit;
     
     /// 	eMMC device Identification/Transfer state transition time
-    uint32_t eMMCDeviceEnumeration;
+    NvU32 eMMCDeviceEnumeration;
     
     /// Get Operating condition command 1 time, device power up
-    uint32_t eMMCCmd1;
+    NvU32 eMMCCmd1;
     
     /// Retrieve CID from attached device via Cmd2
-    uint32_t eMMC_ALL_SEND_CID;
+    NvU32 eMMC_ALL_SEND_CID;
     
     /// Retrieve Card Specific Data via SEND_CSD(CMD9) Command.
-    uint32_t eMMC_CSD;
+    NvU32 eMMC_CSD;
     
     /// Place attached card into transfer mode from identification mode 
-    uint32_t eMMC_transfer_mode;
+    NvU32 eMMC_transfer_mode;
     
     /// Obtain Extended Card specific data
-    uint32_t eMMC_ExtCsd;
+    NvU32 eMMC_ExtCsd;
     
     /// PowerClass settings based on BCT.
-    uint32_t eMMC_PowerClass;
+    NvU32 eMMC_PowerClass;
     
     /// Select Bus width and partition setup time.
-    uint32_t eMMC_WidthPartitionSetup;
+    NvU32 eMMC_WidthPartitionSetup;
     
     ///Data read time for payload (data throughput)
-    uint32_t ReadTime;
+    NvU32 ReadTime;
     ///Associated Data length in bytes for ReadTime
-    uint32_t Payload;
+    NvU32 Payload;
     
 } NvBootSdmmcStatus;
 /**
@@ -640,7 +640,7 @@ typedef struct NvBootInfoTableRec
 
     /// Specifies the status of attempting to read Size of BCT during the
     /// initial search process.  See the notes above for more details.
-    uint8_t                BctSizeStatus[NVBOOT_BCT_STATUS_BYTES];
+    NvU8                BctSizeStatus[NVBOOT_BCT_STATUS_BYTES];
 
     /// Specifies the status of the last journal block read for BCT size determination.
     NvBootRdrStatus     BctSizeLastJournalRead;

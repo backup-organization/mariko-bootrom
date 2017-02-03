@@ -34,22 +34,6 @@ NvBootAesDevMgrCallbacks s_AesDevMgrCallbacks[] =
                 .AesGenerateCmacSubkey = NvBootSeAesDevGenCmacSubkey,
                 .AesCmacHash = NvBootSeAesCmacHash,
 		},
-		{
-				// SW engine
-				.InitDevice = NULL,
-				.GetNumKeySlots = NULL,
-				.IsValidKeySlot = NULL,
-				.GetKey = NULL,
-				.SetKey = NULL,
-                .AesEncryptCBC = NULL,
-                .AesDecryptCBC = NULL,
-                .SetOriginalIv = NULL,
-                .SetUpdatedIv = NULL,
-                .ClearOriginalIv = NULL,
-                .ClearUpdatedIv = NULL,
-                .AesGenerateCmacSubkey = NULL,
-                .AesCmacHash = NULL,
-		},
 };
 
 NvBootError NvBootAesDevMgrInit(NvBootAesDevMgr *AesDevMgr, NvBootAesDeviceList AesDevice)

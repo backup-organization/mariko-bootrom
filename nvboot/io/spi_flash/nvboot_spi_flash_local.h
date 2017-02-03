@@ -47,22 +47,16 @@ extern "C"
 /// Transfer mode/Datawidth/clock divisor/ and read command options
 /// will be retrieved from these confgiration only.
 /// Defines Configurations .
-///   = 0 means, DMA X4_51Mhz_QuadRead
-///   = 1 means, PIO_X4_51Mhz_QuadRead
-///   = 2 means, DMA_X1_19.2Mhz_NormalRead
-///   = 3 means, PIO_X1_19.2Mhz_NormalRead
-///   = 4 means, DMA_X4_80Mhz_QuadRead
-///   = 5 means, DMA_X4_81.6Mhz_QuadRead
-///   = /6/7 means reserved.
+///   = 0 means, PIO_X1_20.4Mhz_NormalRead
+///   = 1 means, PIO_X1_19.2Mhz_NormalRead
+///   = 2 means, PIO_X4_51Mhz_QuadRead
+///   = 3/4/5/6/7 means reserved.
 
 typedef enum
 {
-    Spi_Config_0 = 0, // DMA X4_51Mhz_QuadRead, pllp_out0
-    Spi_Config_1 = 1, // PIO_X4_51Mhz_QuadRead, pllp_out0
-    Spi_Config_2 = 2, // DMA_X1_19.2Mhz_NormalRead, clk_m
-    Spi_Config_3 = 3, // PIO_X1_19.2Mhz_NormalRead, clk_m
-    Spi_Config_4 = 4, // DMA_X4_80Mhz_QuadRead, pllc4_muxed
-    Spi_Config_5 = 5, // DMA_X4_81.6Mhz_QuadRead, pllp_out0
+    Spi_Config_0 = 0, // PIO_X1_20.4Mhz_NormalRead, pllp_out0
+    Spi_Config_1 = 1, // PIO_X1_19.2Mhz_NormalRead, clk_m
+    Spi_Config_2 = 2, // PIO_X4_51Mhz_QuadRead, pllp_out0
     Spi_Config_Num,
     Spi_Config_Num_Force32 = 0x7FFFFFFF,
 } Spi_Config;
@@ -189,7 +183,6 @@ typedef enum
 {
     SpiFlashConstantTableIdx_ClockDivisorsTable = 0, 
     SpiFlashConstantTableIdx_TrimmersConfigTable, 
-    SpiFlashConstantTableIdx_DataTransferConfigTable,
     SpiFlashConstantTableIdx_SpiFlashXferTimeoutTable,
     SpiFlashConstantTableIdx_QReadConfigTable,
     SpiFlashConstantTableIdx_Num,

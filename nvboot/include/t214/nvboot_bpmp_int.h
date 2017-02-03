@@ -22,7 +22,7 @@ extern "C"
 /**
  * Setup Context struct of BR.
  */
-NvBootError NvBootMainSecureInit(void);
+void NvBootMainSecureInit(void);
 
 
 /**
@@ -162,6 +162,18 @@ NvBootError NvBootBpmpUnPGL2Rst(void);
  */
 
 void FT_NONSECURE NvBootBpmpCheckSc7WakeStatus(void);
+
+/**
+ *  Minimal secure exit that can be achieved during early boot for errors encountered in non-secure
+ *  region code.
+ */
+void FT_NONSECURE NvBootMinimalAssetLockDownExit(void);
+
+/**
+ * do_exception(void)
+ *
+ */
+void do_exception(void);
 
 #if defined(__cplusplus)
 }

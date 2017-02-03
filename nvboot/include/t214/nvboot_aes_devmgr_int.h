@@ -48,7 +48,8 @@ typedef struct NvBootAesDevMgrCallbacksRec
 typedef enum
 {
 	NvBootAesDevice_SE0,
-	NvBootAesDevice_SW,
+	// Reserved for future usage.
+    // NvBootAesDevice_SW,
 
 	NvBootAesDevice_Num,
 } NvBootAesDeviceList;

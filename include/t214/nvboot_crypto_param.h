@@ -18,7 +18,6 @@
 #include "nvboot_crypto_se_param.h"
 #include "nvboot_crypto_aes_param.h"
 #include "nvboot_crypto_rsa_param.h"
-#include "nvboot_crypto_ecc_param.h"
 #include "nvboot_crypto_sha_param.h"
 #include "nvboot_crypto_signatures.h"
 
@@ -89,7 +88,6 @@ typedef union
 {
     NvBootAesParams AesParams;
     NvBootRsaParams RsaParams;
-    NvBootEccParams EccParams;
 } NvBootCryptoParams;
 
 /**
@@ -110,7 +108,7 @@ typedef union
  */
 typedef struct
 {
-    NvBootCryptoRsaPublicParams RsaPublicParams __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvBootCryptoRsaPublicParams RsaPublicParams; // This should be aligned to 4 bytes.
     /*NvBootEccPublicParams EccPublicParams __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));*/ // No ECDSA for this chip.
 } NvBootPublicCryptoParameters;
 

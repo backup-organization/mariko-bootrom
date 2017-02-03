@@ -44,7 +44,7 @@
   *  Check if an entrypoint fits inside a given payload.
   */
  #define NvBootValidateEntryPoint(ApertureStart, ApertureLen, EntryPoint)    \
-    NvBootValidateAddressGeneric((ApertureStart), (ApertureLen), (EntryPoint), 1)
+    NvBootValidateAddressGeneric((ApertureStart), (ApertureLen), (EntryPoint), sizeof(uint32_t))
  
  /**
   *  @brief Validates a given address range against the static range as determined 

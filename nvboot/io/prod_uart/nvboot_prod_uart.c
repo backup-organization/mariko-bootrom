@@ -69,9 +69,6 @@ NvBootError NvBootProdUartInit(
     NvBootProdUartContext *pProdUartContext)
 {
     size_t nRead, nWritten;
-    size_t RxBufOffset = 0;
-    size_t BytesToBlStart;
-    NvU32 BlocksToBlStart;
     NvU32 i;
 
     uint8_t PromptMsg[sizeof(PromptMsgConst)];
@@ -103,43 +100,10 @@ NvBootError NvBootProdUartInit(
     (void) NvBootUartPollingWrite(PromptMsg, sizeof(PromptMsg),  &nWritten);
 
     NvU8 * RxBuf = (NvU8 *) NV_ADDRESS_MAP_IRAM_C_BASE;
-    // Size of a BCT is block length in bytes
-    size_t blockLength = 1 << s_ProdUartContext->BlockSizeLog2;
-    size_t pageLength = 1 << s_ProdUartContext->PageSizeLog2;
-    size_t paddedBCTLength = blockLength;
-    // receive one BCT, with padding
-    (void) NvBootUartPollingRead(RxBuf, paddedBCTLength, &nRead);
 
-    RxBufOffset += nRead;
-
-    // read rest of data before payload starts
-    // using just the block size here will be ok for images buildimage generates there
-    // may be valid images that don't align like this, but ATE will use buildimage
-    BlocksToBlStart = ((NvBootConfigTable *)RxBuf)->BootLoader[0].StartBlock - 1;
-    BytesToBlStart = BlocksToBlStart * blockLength;
-
+    // receive 64K
     const size_t ramSize = NV_ADDRESS_MAP_DATAMEM_IRAM_C_SIZE;
-
-    // the length checks are a change from t186 to be more similar to t210
-    // if you just check the end of the range, overflow attacks are possible
-    if(BytesToBlStart > ramSize - paddedBCTLength) {
-        return NvBootError_DeviceResponseError;
-    }
-
-    (void) NvBootUartPollingRead(&RxBuf[RxBufOffset], BytesToBlStart, &nRead);
-
-    RxBufOffset += nRead;
-
-    // use page size with length to figure out how much to read
-    size_t payloadLength = ((NvBootConfigTable *)RxBuf)->BootLoader[0].Length;
-    payloadLength = ((payloadLength / pageLength) + 1) * pageLength;
-
-    if(payloadLength > ramSize - paddedBCTLength - BytesToBlStart) {
-        return NvBootError_DeviceResponseError;
-    }
-
-    // actually get the data
-    (void) NvBootUartPollingRead(&RxBuf[RxBufOffset], payloadLength, &nRead);
+    (void) NvBootUartPollingRead(RxBuf, ramSize, &nRead);
 
     return NvBootError_Success;
 }

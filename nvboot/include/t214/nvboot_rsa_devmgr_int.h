@@ -45,7 +45,7 @@ typedef enum
 {
     NvBootRsaDevice_SE0,
     NvBootRsaDevice_PKA1,
-    NvBootRsaDevice_SW,
+    // NvBootRsaDevice_SW,
 
     NvBootRsaDevice_Num,
 } NvBootRsaDeviceList;

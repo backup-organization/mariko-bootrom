@@ -116,7 +116,7 @@ typedef enum
 typedef struct NvBootAesKey128Rec
 {
     /// Specifies the key data.
-    uint8_t Key128[NVBOOT_AES_KEY_128_BYTES];
+    NvU8 Key128[NVBOOT_AES_KEY_128_BYTES];
 } NvBootAesKey128;
 
 /**
@@ -125,7 +125,7 @@ typedef struct NvBootAesKey128Rec
 typedef struct NvBootAesKey192Rec
 {
     /// Specifies the key data.
-    uint8_t Key192[NVBOOT_AES_KEY_192_BYTES];
+    NvU8 Key192[NVBOOT_AES_KEY_192_BYTES];
 } NvBootAesKey192;
 
 /**
@@ -134,7 +134,7 @@ typedef struct NvBootAesKey192Rec
 typedef struct NvBootAesKey256Rec
 {
     /// Specifies the key data.
-    uint8_t Key256[NVBOOT_AES_KEY_256_BYTES];
+    NvU8 Key256[NVBOOT_AES_KEY_256_BYTES];
 } NvBootAesKey256;
 /**
  * Defines an AES Initial Vector (128-bits).
@@ -142,7 +142,7 @@ typedef struct NvBootAesKey256Rec
 typedef struct NvBootAesIvRec
 {
     /// Specifies the initial vector data.
-    uint8_t Iv[NVBOOT_AES_IV_LENGTH_BYTES];
+    NvU32 Iv[NVBOOT_AES_IV_LENGTH_WORDS];
 } NvBootAesIv;
 
 /**
@@ -150,45 +150,46 @@ typedef struct NvBootAesIvRec
  */
 typedef struct NvBootAesKeyScheduleRec
 {
-    uint8_t KeySchedule[NVBOOT_AES_MAX_KEYSCHED_BYTES];
+    NvU32 KeySchedule[NVBOOT_AES_MAX_KEYSCHED_BYTES/4];
 } NvBootAesKeySchedule;
 
 typedef union
 {
-    uint8_t Key128[NVBOOT_AES_KEY_128_BYTES];
-    uint8_t Key192[NVBOOT_AES_KEY_192_BYTES];
-    uint8_t Key256[NVBOOT_AES_KEY_256_BYTES];
-    uint8_t KeyMax[NVBOOT_AES_KEY_MAX_BYTES] __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvU8 Key128[NVBOOT_AES_KEY_128_BYTES];
+    NvU8 Key192[NVBOOT_AES_KEY_192_BYTES];
+    NvU8 Key256[NVBOOT_AES_KEY_256_BYTES];
+    NvU8 KeyMax[NVBOOT_AES_KEY_MAX_BYTES]; // __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvU32 KeyMax32[NVBOOT_AES_KEY_MAX_WORDS]; // Force 32 bit alignment
 } NvBootAesKey;
 
 typedef struct NvBootAesCmacHashParamsRec
 {
-    uint8_t K1[NVBOOT_AES_BLOCK_LENGTH_BYTES] __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
-    uint8_t K2[NVBOOT_AES_BLOCK_LENGTH_BYTES] __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
-} NvBootAesCmacHashParams __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvU32 K1[NVBOOT_AES_BLOCK_LENGTH_WORDS]; //__attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvU32 K2[NVBOOT_AES_BLOCK_LENGTH_WORDS]; //__attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+} NvBootAesCmacHashParams;
 
 typedef struct NvBootAesParamsRec
 {
     //NvBootCryptoMgrAesCryptoStatus Status;
     NvBootAesBlockCipherMode AesBlockMode;
-    NvBootAesKey Key __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvBootAesKey Key;
     NvBootAesKeySize KeySize;
-    NvBootAesIv Iv __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
-    NvBootAesKeySchedule KeySchedule __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvBootAesIv Iv;
+    NvBootAesKeySchedule KeySchedule;
     NvBootAesCmacHashParams AesCmacParams;
     // PayloadSizeBytes must be multiple of an AES block.
     NvU32 PayloadSizeBytes;
-} NvBootAesParams __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+} NvBootAesParams;
 
 #if 0
 typedef struct NvBootAesParamsRec
 {
     //NvBootCryptoMgrAesCryptoStatus Status;
     NvBootAesBlockCipherMode AesBlockMode;
-    NvBootAesKey Key __attribute__((aligned(4)));
+    NvBootAesKey Key;
     NvBootAesKeySize KeySize;
-    NvBootAesIv Iv __attribute__((aligned(4)));
-    NvBootAesKeySchedule KeySchedule __attribute__((aligned(4)));
+    NvBootAesIv Iv;
+    NvBootAesKeySchedule KeySchedule;
     NvBootAesCmacHashParams AesCmacParams;
     // PayloadSizeBytes must be multiple of an AES block.
     NvU32 PayloadSizeBytes;
@@ -200,8 +201,8 @@ typedef struct NvBootAesParamsRec
 typedef struct NvBootAesCmacHashRec
 {
     // Hash is the calculated Message Authentication Code (MAC).
-    uint8_t Hash[NVBOOT_AES_BLOCK_LENGTH_BYTES] __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
-} NvBootAesCmacHash __attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+    NvU32 Hash[NVBOOT_AES_BLOCK_LENGTH_WORDS]; //__attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
+} NvBootAesCmacHash;
 
 typedef struct AesCmacContextRec
 {

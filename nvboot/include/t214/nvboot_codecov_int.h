@@ -11,7 +11,7 @@
 #ifndef INCLUDED_NVBOOT_CODECOV_INT_H
 #define INCLUDED_NVBOOT_CODECOV_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 
 #if defined(__cplusplus)
 extern "C"

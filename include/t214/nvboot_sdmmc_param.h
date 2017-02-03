@@ -65,7 +65,7 @@ typedef struct NvBootSdmmcParamsRec
      * supported within the power class range (0 to Max) if the selected
      * data width cannot be used at the chosen clock frequency.
      */
-    uint8_t MaxPowerClassSupported;
+    NvU8 MaxPowerClassSupported;
 } NvBootSdmmcParams;
 
 #if defined(__cplusplus)

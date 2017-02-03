@@ -310,10 +310,10 @@ typedef enum
 typedef struct NvBootRcmFuseDataRec
 {
     /// Specifies the Secure Boot Key (SBK).
-    uint8_t                 SecureBootKey[NVBOOT_AES_KEY_MAX_BYTES];
+    NvU8                 SecureBootKey[NVBOOT_AES_KEY_MAX_BYTES];
 
     /// Specifies the Device Key (DK).
-    uint8_t                 DeviceKey[NVBOOT_DEVICE_KEY_BYTES];
+    NvU8                 DeviceKey[NVBOOT_DEVICE_KEY_BYTES];
 
     /// Specifies the JTAG Disable fuse falue.
     NvBool               JtagDisableFuse;
@@ -397,7 +397,7 @@ typedef struct NvBootRcmMsgRec
     NvBootCryptoSignatures Signatures;
 
     /// Padding to maintain AES block size alignment.
-    uint8_t            UnsignedPadding[8];
+    NvU8            UnsignedPadding[8];
 
     /// Specifies a block of random data.
     NvBootHash      RandomAesBlock; /* Not validated; helps security */
@@ -477,7 +477,7 @@ typedef struct NvBootRcmMsgRec
     /// Specifies space for padding that pushes the size of the encrypted
     /// and hashed portion of the header to the next multiple of AES block
     /// size.
-    uint8_t            Padding[NVBOOT_RCM_MSG_PADDING_LENGTH];
+    NvU8            Padding[NVBOOT_RCM_MSG_PADDING_LENGTH];
 } NvBootRcmMsg;
 
 #if defined(__cplusplus)

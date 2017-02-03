@@ -21,7 +21,7 @@
 #ifndef INCLUDED_NVBOOT_PADS_INT_H
 #define INCLUDED_NVBOOT_PADS_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "arapbpm.h"
 #include "nvboot_error.h"
 #include "nvboot_fuse.h"

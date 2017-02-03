@@ -89,10 +89,11 @@ typedef struct CryptoMgrContextRec
     NvBootCryptoParams CryptoParams;
     NvBootCryptoNvParams NvCryptoParams;
 
-    NvBootEccPrimeFieldParams EccPrimeFieldParams;
+    /// Not used in t214
+    // NvBootEccPrimeFieldParams EccPrimeFieldParams;
 
-    // NVIDIA ECC public key
-    NvBootEcPoint NvEccPublicKey;
+    // // NVIDIA ECC public key
+    // NvBootEcPoint NvEccPublicKey;
 
     // NVIDIA RSA public key
     NvBootCryptoRsaKey NvRsaPublicKey;
@@ -148,11 +149,10 @@ void NvBootCryptoMgrSenseChipState(void);
  * \brief       Do any required HW initialization sequence for
  *              all crypto engines.
  *
- * \note        Always returns NvBootError_Success because this
- *              function is included in the secure dispatcher table.
+ * \note        Always returns void 
  *
  */
-NvBootError NvBootCryptoMgrHwEngineInit(void);
+void NvBootCryptoMgrHwEngineInit(void);
 
 void NvBootCryptoMgrSetStatus(NvBootCryptoMgrStatus Status);
 
@@ -329,7 +329,7 @@ void NvBootCryptoMgrLoadOemKEK1As256b();
  * \param           Qx x-coordinate of the point.
  * \param           Qy y-coordinate of the point.
  */
-NvBootError NvBootCryptoMgrVerifyEcPoint(NvU32 *Qx, NvU32 *Qy, NvBootEccEllipticCurves EcCurve);
+// NvBootError NvBootCryptoMgrVerifyEcPoint(NvU32 *Qx, NvU32 *Qy, NvBootEccEllipticCurves EcCurve);
 
 
 

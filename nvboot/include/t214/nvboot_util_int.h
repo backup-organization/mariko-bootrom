@@ -122,7 +122,7 @@ NvBootUtilSwapBytesInNvU32( const NvU32 Value );
  *  @return NV_TRUE if the padding is valid else NV_FALSE
  */
 NvBool
-NvBootUtilIsValidPadding(uint8_t *Padding, NvU32 Length);
+NvBootUtilIsValidPadding(NvU8 *Padding, NvU32 Length);
 
 /** NvBootUtilCompareBytes - compares two byte buffers for differences. 
  *
@@ -132,7 +132,7 @@ NvBootUtilIsValidPadding(uint8_t *Padding, NvU32 Length);
  *  @return NV_TRUE if the byte buffers are identical else NV_FALSE
  */
 NvBool
-NvBootUtilCompareBytes(uint8_t *Value1, uint8_t *Value2, NvU32 ValueSizeBytes);
+NvBootUtilCompareBytes(NvU8 *Value1, NvU8 *Value2, NvU32 ValueSizeBytes);
 
 /**
  * NvBootUtilCompareConstTime - compares two buffers for differences,
@@ -195,7 +195,7 @@ NvBootUtilCompareConstTimeFI(const void *Buffer1, const void *Buffer2, size_t le
  *  @return Returns an int8_t value. See above defines.
  */
 int8_t
-NvBootUtilCmpBigUnsignedInt(uint8_t *Value1, uint8_t *Value2, NvU32 ValueSizeBytes);
+NvBootUtilCmpBigUnsignedInt(NvU8 *Value1, NvU8 *Value2, NvU32 ValueSizeBytes);
 
 /** NvBootUtilCmpBigUnsignedIntIsZero - Check if a large unsigned integer is zero.
  *
@@ -204,7 +204,7 @@ NvBootUtilCmpBigUnsignedInt(uint8_t *Value1, uint8_t *Value2, NvU32 ValueSizeByt
  *  @return Returns an int8_t value. See above defines.
  */
 int8_t
-NvBootUtilCmpBigUnsignedIntIsZero(uint8_t *Value1, NvU32 ValueSizeBytes);
+NvBootUtilCmpBigUnsignedIntIsZero(NvU8 *Value1, NvU32 ValueSizeBytes);
 
 /**
  * NvBootUtilReverseNvU8 - Reverse the order of a byte stream
@@ -214,7 +214,7 @@ NvBootUtilCmpBigUnsignedIntIsZero(uint8_t *Value1, NvU32 ValueSizeBytes);
  *
  */
 void
-NvBootUtilReverseNvU8(uint8_t *Value, NvU32 ValueSizeNvU8);
+NvBootUtilReverseNvU8(NvU8 *Value, NvU32 ValueSizeNvU8);
 
 /**
  * NvBootMainSecureExit - Secure exit function
@@ -268,6 +268,14 @@ void NvBootUtilTerminateSim(NvBootUtilSimStatus status, NvU32 arg);
  *  Output: NvBootError_HwTimeOut or NvBootError_Success
  */
 NvBootError NvBootPollField(NvU32 RegAddr, NvU32 Mask, NvU32 ExpectedValue, NvU32 Timeout);
+
+/**
+ *  @brief Delay loop to introduce random delays during BR execution
+ *  @param loops Number of loop cycles
+ *  @return NvBootError
+ */
+
+NvBootError  NvBootUtilInstrWait(const NvU32 loops);
 
 #if NV_DEBUG || NVBOOT_TARGET_FPGA
 #define NVBOOT_UTIL_TERMINATE_SIM(status, arg) \
@@ -411,7 +419,7 @@ NvBootError NvBootPollField(NvU32 RegAddr, NvU32 Mask, NvU32 ExpectedValue, NvU3
  *       will usually need to contain physical, not virtual, addresses.
  */
 #define PTR_TO_ADDR(x) ((NvU32)(x))
-#define ADDR_TO_PTR(x) ((uint8_t*)(x))
+#define ADDR_TO_PTR(x) ((NvU8*)(x))
 
 /**
  *  Align address to required boundary.

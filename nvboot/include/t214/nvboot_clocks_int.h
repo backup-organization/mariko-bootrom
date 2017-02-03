@@ -15,7 +15,7 @@
 #ifndef INCLUDED_NVBOOT_CLOCKS_INT_H
 #define INCLUDED_NVBOOT_CLOCKS_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "arclk_rst.h"
 #include "nvboot_clocks.h"
 #include "nvboot_error.h"

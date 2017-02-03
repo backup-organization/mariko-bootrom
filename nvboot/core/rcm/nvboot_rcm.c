@@ -38,13 +38,12 @@
 #include "nvboot_car_int.h"
 #include "nvboot_address_int.h"
 #include "nvboot_debug_int.h"
-#include "nvboot_usbcharging_int.h"
+#include "nvboot_rng_int.h"
 #include "arapbpm.h"
 
 /* Local state structure */
 typedef struct NvBootRcmStateRec
 {
-    NvBootFuseOperatingMode RcmOpMode;
     NvBootObjectSignature   ComputedSignature;
     NvBool                  IsPublicKeyValidated;
     NvBool                  FactorySecureProvisioningMode;
@@ -67,6 +66,7 @@ uint8_t RcmCryptoBuffer[RCM_CRYPTO_SIZE] __attribute__((aligned(4)));
 /* External data */
 extern NvBootInfoTable BootInfoTable;
 extern NvBootContext     Context;
+extern int32_t FI_counter1;
 
 /*
  * Compile-time assertion that the hashable & decryptable portion of
@@ -252,19 +252,23 @@ Validate(NvBootRcmMsg *pRcmMsg)
 {
     NvU32  PaddingSize;
     uint8_t  *PaddingStart;
-    NvBootError e = NvBootError_Success;
+    volatile NvBootError e = NvBootInitializeNvBootError();
+    // FI counter that is incremented after every critical step in the function.
+    FI_counter1 = 0;
 
     // Set PCP. If CryptoMgr determines we are in RSA or ECC mode, 
     // it will set Public key after verifying against hash in fuses.
     // For other modes, it will return true always.
 
     e = NvBootCryptoMgrSetOemPcp(&pRcmMsg->Pcp);
+    FI_counter1 += COUNTER1;
     if(e != NvBootError_Success && 
        e != NvBootError_CryptoMgr_Pcp_Not_Loaded_Not_PK_Mode)
     {
         HandleError(NvBootRcmResponse_PublicKeyNotValidated);
         return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1;
 
     // Check if this is secure provisioning mode first
     if(s_State.FirstMessageProcessed == NV_FALSE)
@@ -279,10 +283,12 @@ Validate(NvBootRcmMsg *pRcmMsg)
             return e;
         }
     }
+    FI_counter1 += COUNTER1;
 
     if(Context.FactorySecureProvisioningMode == NV_TRUE)
     {
         e = NvBootCryptoMgrAuthRcmPayloadFskp(pRcmMsg);
+        FI_counter1 += COUNTER1;
         if(e != NvBootError_Success)
         {
             HandleError(NvBootRcmResponse_HashOrSignatureCheckFailed);
@@ -305,13 +311,33 @@ Validate(NvBootRcmMsg *pRcmMsg)
     }
     else
     {
-        // AES-CMAC/RSA-PSS authenticate the msg.
-        e = NvBootCryptoMgrOemAuthRcmPayload(pRcmMsg);
+        volatile NvBootError e_auth_result = NvBootInitializeNvBootError();
+        e = NvBootInitializeNvBootError();
 
-        if(e != NvBootError_Success)
+        // AES-CMAC/RSA-PSS authenticate the msg.
+        // If the return value in r0 can be attacked, then the mitigations below may
+        // not be effective. However, the NvBootCryptoRsaSsaPssVerify function
+        // adds a random delay before returning, which should make it harder to attack r0.
+        // 107d46:	f7fb ffd9 	bl	103cfc <NvBootCryptoMgrOemAuthRcmPayload>
+        // 107d4a:	9000      	str	r0, [sp, #0] <-- if you can change r0 somehow
+        //                                           then mitigation is not useful.
+        e_auth_result = NvBootCryptoMgrOemAuthRcmPayload(pRcmMsg);
+        FI_counter1 += COUNTER1;
+        if(e_auth_result != NvBootError_Success)
         {
             HandleError(NvBootRcmResponse_HashOrSignatureCheckFailed);
-            return e;
+            return e_auth_result;
+        }
+
+        // Random delay before re-checking e. Should never return an error. No response sent
+        // if so.
+        NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+        // FI mitigation, double check e_auth_result. It must be success.
+        if(e_auth_result != NvBootError_Success)
+        {
+            HandleError(NvBootRcmResponse_HashOrSignatureCheckFailed);
+            return e_auth_result;
         }
 
         // Decrypt message in encrypted. Cryptomgr will sense this from fuses and
@@ -329,12 +355,14 @@ Validate(NvBootRcmMsg *pRcmMsg)
         HandleError(NvBootRcmResponse_LengthMismatch);
         return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1;
 
     if (pRcmMsg->PayloadLength > (pRcmMsg->LengthSecure - sizeof(NvBootRcmMsg)))
     {
         HandleError(NvBootRcmResponse_PayloadTooLarge);
         return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1;
     
     /* Check Msg padding */
     if (!NvBootUtilIsValidPadding(pRcmMsg->Padding, NVBOOT_RCM_MSG_PADDING_LENGTH))
@@ -342,6 +370,7 @@ Validate(NvBootRcmMsg *pRcmMsg)
         HandleError(NvBootRcmResponse_BadMsgPadding);
         return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1;
 
     /* Check Data padding */
     PaddingStart = ADDR_TO_PTR(NVBOOT_BL_IRAM_START +
@@ -354,6 +383,7 @@ Validate(NvBootRcmMsg *pRcmMsg)
         HandleError(NvBootRcmResponse_BadDataPadding);
         return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1;
 
     /* Command-specific checks */
     switch (pRcmMsg->Opcode)
@@ -395,8 +425,26 @@ Validate(NvBootRcmMsg *pRcmMsg)
             HandleError(NvBootRcmResponse_InvalidOpcode);
             return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1; 
     
     s_State.FirstMessageProcessed = NV_TRUE;
+    FI_counter1 += COUNTER1; 
+
+    // Check if function counter is the expected value. If not, some instruction skipping might
+    // have occurred.
+    if(FI_counter1 != COUNTER1 * RcmValidate_COUNTER_STEPS)
+        return NvBootError_Fault_Injection_Detection;
+
+    // Decrement function counter.
+    FI_counter1 -= COUNTER1 * RcmValidate_COUNTER_STEPS;
+
+    // Add random delay to mitigate against temporal glitching.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    // Re-check counter.
+    if(FI_counter1 != 0)
+        return NvBootError_Fault_Injection_Detection;
+
     return NvBootError_Success;
 }
 
@@ -507,7 +555,7 @@ NvBootError NvBootRCMInit(void)
     BootInfoTable.BootType = NvBootType_Recovery;
 
     // Override this only on successful download_execute/download_execute_mb1 command.
-    Context.BootLoader = (uint8_t*)NvBootMainNonSecureBootLoader;
+    Context.BootLoader = (uint8_t*)do_exception;
 
     // First let's check if this is debug RCM. If so exit immediately.
     // Not sure if Force RCM through PMC has the debug option so checking again
@@ -537,9 +585,6 @@ NvBootError NvBootRCMInit(void)
     e = pRcmPort->Init();
     if(e != NvBootError_Success)
         return e;
-
-    // Enable USB Charger detection.
-    NvBootUsbChargingInit();
 
     e = pRcmPort->Connect(NULL);
     if(e != NvBootError_Success)

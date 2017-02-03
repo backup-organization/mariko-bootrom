@@ -26,18 +26,6 @@ NvBootRsaDevMgrCallbacks s_RsaDevMgrCallbacks[] =
                 .IsDeviceBusy = NvBootSeRsaDevIsEngineBusy,
                 .ShutdownDevice = NULL,
         },
-        {
-                // SW engine
-                .InitDevice = NULL,
-                .GetNumKeySlots = NULL,
-                .IsValidKeySlot = NULL,
-                .IsValidKeySize = NULL,
-                .GetKey = NULL,
-                .SetKey = NULL,
-                .RsaModularExponentiation = NULL,
-                .IsDeviceBusy = NULL,
-                .ShutdownDevice = NULL,
-        },
 };
 
 NvBootError NvBootRsaDevMgrInit(NvBootRsaDevMgr *RsaDevMgr, NvBootRsaDeviceList RsaDevice)

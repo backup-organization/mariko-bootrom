@@ -29,7 +29,10 @@ extern "C"
 /* Export */
 void *GetPtrTasks(NvBootTaskListId TaskListId);
 int GetCntTasks(NvBootTaskListId TaskListId);
-
+/**
+ *  Check if TaskListId for a task table is valid.
+ */
+NvBootError IsValidTaskListId(NvBootTaskListId TaskListId);
 
 #if defined(__cplusplus)
 }

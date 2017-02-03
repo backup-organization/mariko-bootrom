@@ -24,7 +24,7 @@
  *
  */
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 
 /**
  * Check if an AHB master has any outstanding data in its write queue to be

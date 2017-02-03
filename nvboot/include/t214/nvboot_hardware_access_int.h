@@ -11,7 +11,7 @@
 #ifndef INCLUDED_NVBOOT_HARDWARE_ACCESS_INT_H
 #define INCLUDED_NVBOOT_HARDWARE_ACCESS_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 
 #ifdef __cplusplus
 extern "C"

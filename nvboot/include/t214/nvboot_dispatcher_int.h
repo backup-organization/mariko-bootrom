@@ -34,13 +34,12 @@ extern "C"
  * boot flow reference of the functions invoked upto a certain limit. 
  */
 typedef enum {
-    NvBootTaskListId_SecureInit,
+    // NvBootTaskListId_SecureInit, // Tasks moved to Predispatcher init.
     NvBootTaskListId_CryptoInit,
     NvBootTaskListId_ColdBoot,
     NvBootTaskListId_Rcm,
     NvBootTaskListId_SecureExit,
     NvBootTaskListId_WarmBoot,
-    NvBootTaskListId_RamDump,
     NvBootTaskListId_Force32=0x7FFFFFFF
 } NvBootTaskListId;
 

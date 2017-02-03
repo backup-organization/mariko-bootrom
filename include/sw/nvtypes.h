@@ -42,6 +42,7 @@
 
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
+#include <stdbool.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,7 +66,7 @@ typedef uint64_t NVR_U64;
 
 // XXX Deprecated boolean types.  Use C++ "bool" or C stdbool.h in new code.
 enum { NV_FALSE = 0, NV_TRUE = 1 };
-typedef NvU8 NvBool;
+typedef bool NvBool;
 typedef int BOOL;
 
 // Macros to extract the low and high parts of a 64-bit unsigned integer

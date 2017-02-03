@@ -21,7 +21,7 @@
 #ifndef INCLUDED_NVBOOT_AES_INT_H
 #define INCLUDED_NVBOOT_AES_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_aes.h"
 #include "nvboot_error.h"
 #include "nvboot_config.h"

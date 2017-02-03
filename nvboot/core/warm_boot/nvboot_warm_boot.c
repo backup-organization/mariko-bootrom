@@ -44,6 +44,8 @@
 #include "nvboot_warm_boot_0.h"
 #include "nvboot_warm_boot_0_int.h"
 #include "nvboot_platform_int.h"
+#include "nvboot_rng_int.h"
+#include "nvboot_bpmp_int.h"
 #include "nvboot_bct.h"
 #include "project.h"
 
@@ -108,6 +110,8 @@
 
 extern NvBootContext Context;
 
+extern int32_t FI_counter1;
+
 //structure holds data needed for MC/EMC initialization.
 extern NvBootConfigTable BootConfigTable;
 static NvBootSdramParams *s_sdRamParamData = (NvBootSdramParams*)(&(BootConfigTable.SdramParams[0]));
@@ -123,12 +127,17 @@ static NvBootSdramParams *s_sdRamParamData = (NvBootSdramParams*)(&(BootConfigTa
 NvBootError
 NvBootWb0CopyHeaderAndFirmware()
 {
+    // FI counter that is incremented after every critical step in the function.
+    FI_counter1 = 0;
+
     // Read the recovery code header start and the header
     uint32_t Sc7FwSaveAddress = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH119_0);
 
     // Check if the FW header and binary was saved in a valid location.
     NvBootError e_Tzram_Source = NvBootValidateAddress(Sc7FwTzramRange, Sc7FwSaveAddress, 1);
+    FI_counter1 += COUNTER1;
     NvBootError e_Sdram_Source = NvBootValidateAddress(DramRange, Sc7FwSaveAddress, 1);
+    FI_counter1 += COUNTER1;
 
     // If all of the range checks above fail, then return error and don't copy.
     if ((e_Tzram_Source != NvBootError_Success) && (e_Sdram_Source != NvBootError_Success))
@@ -143,6 +152,7 @@ NvBootWb0CopyHeaderAndFirmware()
     NvBootUtilMemcpy((void*) NVBOOT_SC7_FW_START,
                      (void*)(Sc7FwSaveAddress),
                      sizeof(NvBootWb0RecoveryHeader));
+    FI_counter1 += COUNTER1;
 
     // Get length of SC7 firmware binary in header, and sanitize it. The size
     // shouldn't be larger than the size of IRAM-B, C, and D (64KB * 3 = 196KB) minus the
@@ -154,6 +164,7 @@ NvBootWb0CopyHeaderAndFirmware()
     // bytes, sufficient to do an ARM 0xEAFFFFFE branch to self).
     if(pSc7Header->LengthInsecure < (sizeof(NvBootWb0RecoveryHeader) + 4))
         return NvBootError_SC7_FW_Size_Too_Small;
+    FI_counter1 += COUNTER1;
 
     // RecoveryCodeLength is the unpadded size of SC7 firmware. The SC7 firmware needs to be
     // padded to a multiple AES block length to be encrypted, and then it is signed.
@@ -161,13 +172,35 @@ NvBootWb0CopyHeaderAndFirmware()
     // including padding and header.
     uint32_t SizeToCopy = pSc7Header->LengthInsecure - sizeof(NvBootWb0RecoveryHeader);
     NvBootError e_SC7_FW_Target = NvBootValidateAddress(Sc7FwRamRange, (NVBOOT_SC7_FW_START + sizeof(NvBootWb0RecoveryHeader)), SizeToCopy);
+    FI_counter1 += COUNTER1;
+
     if(e_SC7_FW_Target != NvBootError_Success)
         return NvBootError_SC7_FW_Size_Too_Large;
+
+    // Add random delay before copy to mitigate against FI attack against
+    // address/size.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
 
     // Copy SC7 firmware.
     NvBootUtilMemcpy((void*) NVBOOT_SC7_FW_START+sizeof(NvBootWb0RecoveryHeader),
                      (void*)(Sc7FwSaveAddress+sizeof(NvBootWb0RecoveryHeader)),
                      SizeToCopy);
+    FI_counter1 += COUNTER1;
+
+    // Check if function counter is the expected value. If not, some instruction skipping might
+    // have occurred.
+    if(FI_counter1 != COUNTER1 * NvBootWb0CopyHeaderAndFirmware_COUNTER_STEPS)
+        return NvBootError_Fault_Injection_Detection;
+
+    // Decrement function counter.
+    FI_counter1 -= COUNTER1 * NvBootWb0CopyHeaderAndFirmware_COUNTER_STEPS;
+
+    // Add random delay to mitigate against temporal glitching.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    // Re-check counter.
+    if(FI_counter1 != 0)
+        return NvBootError_Fault_Injection_Detection;
 
     return NvBootError_Success;
 }
@@ -364,38 +397,86 @@ NvBootWarmBootSdramInit()
 
 NvBootError NvBootWarmBootOemProcessRecoveryCode()
 {
+    // FI counter that is incremented after every critical step in the function.
+    FI_counter1 = 0;
+
     // Setup a pointer to the OEM header and the Pcp.
     NvBootWb0RecoveryHeader *OemSc7Header = (NvBootWb0RecoveryHeader *) NVBOOT_SC7_FW_START;
     NvBootPublicCryptoParameters *Pcp = &OemSc7Header->Pcp;
 
     // Load OEM Pcp if necessary.
-    NvBootError e;
+    volatile NvBootError e = NvBootInitializeNvBootError();
     e = NvBootCryptoMgrSetOemPcp(Pcp);
+    FI_counter1 += COUNTER1;
+
     if(e != NvBootError_Success &&
        e != NvBootError_CryptoMgr_Pcp_Not_Loaded_Not_PK_Mode)
     {
         return NvBootError_CryptoMgr_Pcp_Hash_Mismatch;
     }
 
-    //NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header)
-    NV_BOOT_CHECK_ERROR(NvBootCryptoMgrOemAuthSc7Fw(OemSc7Header));
+    // Initialize e to non success value.
+    e = NvBootInitializeNvBootError();
+    volatile NvBootError e_auth_result = NvBootInitializeNvBootError();
 
+    // Authenticate SC7 payload.
+    // If the return value in r0 can be attacked, then the mitigations below may
+    // not be effective. However, the NvBootCryptoRsaSsaPssVerify function
+    // adds a random delay before returning, which should make it harder to attack r0.
+    // 108a1c:	f7fb f882 	bl	103b24 <NvBootCryptoMgrOemAuthSc7Fw>
+    // 108a20:	9000      	str	r0, [sp, #0] <-- if you can change r0 somehow
+    //                                           then mitigation is not useful.
+    e_auth_result = NvBootCryptoMgrOemAuthSc7Fw(OemSc7Header);
+    if(e_auth_result != NvBootError_Success)
+        return e_auth_result;
+    FI_counter1 += COUNTER1;
+
+    // Random delay before re-checking e. Should never return an error. No response sent
+    // if so.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    // FI mitigation, double check e_auth_result. It must be success.
+    if(e_auth_result != NvBootError_Success)
+        return e_auth_result;
+    FI_counter1 += COUNTER1;
+
+    // Re-initialize e to a non success value.
+    e = NvBootInitializeNvBootError();
     NV_BOOT_CHECK_ERROR(NvBootCryptoMgrOemDecryptSc7Fw(OemSc7Header));
+    FI_counter1 += COUNTER1;
 
     // Check if Length in the non signed portion equals the signed portion
     if (OemSc7Header->LengthInsecure != OemSc7Header->LengthSecure)
     {
         return NvBootError_SC7_Insecure_To_Secure_Size_Mismatch;
     }
+    FI_counter1 += COUNTER1;
 
     if (OemSc7Header->RecoveryCodeLength >
         (OemSc7Header->LengthSecure - sizeof(NvBootWb0RecoveryHeader)))
     {
         return NvBootError_ValidationFailure;
     }
+    FI_counter1 += COUNTER1;
 
-    // Set entry point
+    // Set entry point to fixed location.
     Context.BootLoader = (uint8_t *) (NVBOOT_SC7_FW_START + sizeof(NvBootWb0RecoveryHeader));
+    FI_counter1 += COUNTER1;
+
+    // Check if function counter is the expected value. If not, some instruction skipping might
+    // have occurred.
+    if(FI_counter1 != COUNTER1 * NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS)
+        return NvBootError_Fault_Injection_Detection;
+
+    // Decrement function counter.
+    FI_counter1 -= COUNTER1 * NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS;
+
+    // Add random delay to mitigate against temporal glitching.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    // Re-check counter.
+    if(FI_counter1 != 0)
+        return NvBootError_Fault_Injection_Detection;
 
     return NvBootError_Success;
 }

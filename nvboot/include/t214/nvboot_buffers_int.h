@@ -16,7 +16,7 @@
 #ifndef INCLUDED_NVBOOT_BUFFERS_INT_H
 #define INCLUDED_NVBOOT_BUFFERS_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_config_int.h"
 
 #if defined(__cplusplus)

@@ -85,9 +85,11 @@ enum {NVBOOT_RSA_PSS_SALT_LENGTH_BYTES = NVBOOT_RSA_PSS_SALT_LENGTH_BITS / 8};
 typedef struct NvBootCryptoRsaKey2048NvU8Rec
 {
     // The modulus size is 2048-bits.
-    uint8_t Modulus[NVBOOT_RSA_2048_MODULUS_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Modulus[NVBOOT_RSA_2048_MODULUS_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                       // NvBootCryptoRsaKeyData is used to access this field
     // The exponent size is 2048-bits.
-    uint8_t Exponent[NVBOOT_RSA_2048_EXPONENT_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Exponent[NVBOOT_RSA_2048_EXPONENT_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                       // NvBootCryptoRsaKeyData is used to access this field
 } NvBootCryptoRsaKey2048NvU8;
 
 /*
@@ -97,9 +99,11 @@ typedef struct NvBootCryptoRsaKey2048NvU8Rec
 typedef struct NvBootCryptoRsaKey2048NvU32Rec
 {
     // The modulus size is 2048-bits.
-    NvU32 Modulus[NVBOOT_RSA_2048_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Modulus[NVBOOT_RSA_2048_MODULUS_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
     // The exponent size is 2048-bits.
-    NvU32 Exponent[NVBOOT_RSA_2048_EXPONENT_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Exponent[NVBOOT_RSA_2048_EXPONENT_SIZE_WORDS];  // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
 } NvBootCryptoRsaKey2048NvU32;
 
 /*
@@ -109,9 +113,11 @@ typedef struct NvBootCryptoRsaKey2048NvU32Rec
 typedef struct NvBootCryptoRsaKey3072NvU8Rec
 {
     // The modulus size is 3072-bits.
-    uint8_t Modulus[NVBOOT_RSA_3072_MODULUS_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Modulus[NVBOOT_RSA_3072_MODULUS_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                       // NvBootCryptoRsaKeyData is used to access this field
     // The exponent size is 3027-bits.
-    uint8_t Exponent[NVBOOT_RSA_3072_EXPONENT_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Exponent[NVBOOT_RSA_3072_EXPONENT_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                         // NvBootCryptoRsaKeyData is used to access this field
 } NvBootCryptoRsaKey3072NvU8;
 
 /*
@@ -121,9 +127,11 @@ typedef struct NvBootCryptoRsaKey3072NvU8Rec
 typedef struct NvBootCryptoRsaKey3072NvU32Rec
 {
     // The modulus size is 3072-bits.
-    NvU32 Modulus[NVBOOT_RSA_3072_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Modulus[NVBOOT_RSA_3072_MODULUS_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
     // The exponent size is 3072-bits.
-    NvU32 Exponent[NVBOOT_RSA_3072_EXPONENT_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Exponent[NVBOOT_RSA_3072_EXPONENT_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
 } NvBootCryptoRsaKey3072NvU32;
 
 /*
@@ -135,9 +143,11 @@ typedef struct NvBootCryptoRsaKey3072NvU32Rec
 typedef struct NvBootCryptoRsaKeyMaxSizeNvU8Rec
 {
     // The max modulus size depends on the chip.
-    uint8_t Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                       // NvBootCryptoRsaKeyData is used to access this field
     // The max exponent size depends on the chip.
-    uint8_t Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                         // NvBootCryptoRsaKeyData is used to access this field
 } NvBootCryptoRsaKeyMaxSizeNvU8;
 
 /*
@@ -149,9 +159,11 @@ typedef struct NvBootCryptoRsaKeyMaxSizeNvU8Rec
 typedef struct NvBootCryptoRsaKeyMaxSizeNvU32Rec
 {
     // The max modulus size depends on the chip.
-    NvU32 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
     // The max exponent size depends on the chip.
-    NvU32 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                       //__attribute__((aligned(4))) not needed;
 } NvBootCryptoRsaKeyMaxSizeNvU32;
 
 /*
@@ -162,9 +174,11 @@ typedef struct NvBootCryptoRsaKeyMaxSizeNvU32Rec
 typedef struct NvBootCryptoRsaKeyMaxSizeSe0NvU32Rec
 {
     // The modulus size is 2048-bits.
-    NvU32 Modulus[NVBOOT_SE_RSA_MAX_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Modulus[NVBOOT_SE_RSA_MAX_MODULUS_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                        //__attribute__((aligned(4))) not needed;
     // The exponent size is 2048-bits.
-    NvU32 Exponent[NVBOOT_SE_RSA_MAX_EXPONENT_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Exponent[NVBOOT_SE_RSA_MAX_EXPONENT_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                          //__attribute__((aligned(4))) not needed;
 } NvBootCryptoRsaKeyMaxSizeSe0NvU32;
 
 /*
@@ -175,9 +189,11 @@ typedef struct NvBootCryptoRsaKeyMaxSizeSe0NvU32Rec
 typedef struct NvBootCryptoRsaKeyMaxSizeSe0NvU8Rec
 {
     // The modulus size is 2048-bits.
-    NvU8 Modulus[NVBOOT_SE_RSA_MAX_MODULUS_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Modulus[NVBOOT_SE_RSA_MAX_MODULUS_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                       // NvBootCryptoRsaKeyData is used to access this field
     // The exponent size is 2048-bits.
-    NvU8 Exponent[NVBOOT_SE_RSA_MAX_EXPONENT_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Exponent[NVBOOT_SE_RSA_MAX_EXPONENT_SIZE_BYTES]; // __attribute__((aligned(4))) not needed if 
+                                                         // NvBootCryptoRsaKeyData is used to access this field
 } NvBootCryptoRsaKeyMaxSizeSe0NvU8;
 
 
@@ -189,9 +205,11 @@ typedef struct NvBootCryptoRsaKeyMaxSizeSe0NvU8Rec
 typedef struct NvBootCryptoRsaKeyMaxSizePka1NvU32Rec
 {
     // The modulus size is 3072-bits.
-    NvU32 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
     // The exponent size is 3072-bits.
-    NvU32 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                       // __attribute__((aligned(4))) not needed;
 } NvBootCryptoRsaKeyMaxSizePka1NvU32;
 
 
@@ -203,9 +221,11 @@ typedef struct NvBootCryptoRsaKeyMaxSizePka1NvU32Rec
 typedef struct NvBootCryptoRsaKeyMaxSizeBRNvU32Rec
 {
     // The modulus size is 3072-bits.
-    NvU32 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Modulus[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                     //__attribute__((aligned(4))) not needed;
     // The exponent size is 3072-bits.
-    NvU32 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 Exponent[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS]; // implicitly 4 byte aligned 
+                                                       //__attribute__((aligned(4))) not needed;
 } NvBootCryptoRsaKeyMaxSizeBRNvU32;
 
 
@@ -216,27 +236,30 @@ typedef union NvBootCryptoRsaKeyDataRec
     NvBootCryptoRsaKeyMaxSizeNvU8 RsaKeyMaxSizeNvU8;
     NvBootCryptoRsaKeyMaxSizeNvU32 RsaKeyMaxSizeNvU32;
     NvBootCryptoRsaKeyMaxSizeSe0NvU8 RsaKeyMaxSizeSe0NvU8; // 2048-bits
-    NvBootCryptoRsaKeyMaxSizeSe0NvU32 RsaKeyMaxSizeSe0NvU32;
+    NvBootCryptoRsaKeyMaxSizeSe0NvU32 RsaKeyMaxSizeSe0NvU32; // NvBootCryptoRsaKeyMaxSizeSe0NvU32 
+                                                             // consists of an NvU32 array for modulus
+                                                             // and exponent. This should force 4 byte alignment.
 } NvBootCryptoRsaKeyData;
 
 typedef struct NvBootCryptoRsaKeyRec
 {
-    NvBootCryptoRsaKeySize KeySize;
+    NvBootCryptoRsaKeySize KeySize; // type int, 32 bit aligned
     // KeySize is 4 bytes, pad this to make the total size of this struct
     // 16 byte aligned.
-    uint32_t Reserved_Padding[3];
-    NvBootCryptoRsaKeyData KeyData;
+    NvU32 Reserved_Padding[3];
+    NvBootCryptoRsaKeyData KeyData; // 4 byte aligned 
 } NvBootCryptoRsaKey;
 
 /**
  *  Defines the storage for a full 2048-bit RSA key pair.
  *  The SE expects Key inputs to be word aligned.
+ *  Not used currently
  */
 typedef struct NvBootCryptoFullRsa2048KeyPairRec
 {
-    uint8_t Modulus[NVBOOT_RSA_2048_MODULUS_SIZE_BYTES] __attribute__((aligned(4)));
-    uint8_t Private_exponent_d[NVBOOT_RSA_2048_EXPONENT_SIZE_BYTES] __attribute__((aligned(4)));
-    uint8_t Public_exponent_e[NVBOOT_RSA_2048_EXPONENT_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 Modulus[NVBOOT_RSA_2048_MODULUS_SIZE_BYTES] ; //__attribute__((aligned(4)));
+    NvU8 Private_exponent_d[NVBOOT_RSA_2048_EXPONENT_SIZE_BYTES]; //__attribute__((aligned(4)));
+    NvU8 Public_exponent_e[NVBOOT_RSA_2048_EXPONENT_SIZE_BYTES]; // __attribute__((aligned(4)));
 } NvBootCryptoFullRsa2048KeyPair;
 
 /**
@@ -245,7 +268,7 @@ typedef struct NvBootCryptoFullRsa2048KeyPairRec
 typedef struct NvBootCryptoRsaPublicParamsRec
 {
     // RSA Public Key Modulus and Exponent
-    NvBootCryptoRsaKey RsaPublicKey;
+    NvBootCryptoRsaKey RsaPublicKey; // 4 byte aligned struct
 } NvBootCryptoRsaPublicParams;
 
 typedef struct NvBootRsaParams
@@ -258,14 +281,14 @@ typedef struct NvBootCryptoRsaSsaPssSigNvU8Rec
 {
     // The length of the signature is the same as the length of the key used
     // in bytes.
-    uint8_t RsaSsaPssSig[NVBOOT_RSA_MAX_MODULUS_SIZE_BYTES] __attribute__((aligned(4)));
+    NvU8 RsaSsaPssSig[NVBOOT_RSA_MAX_MODULUS_SIZE_BYTES];
 } NvBootCryptoRsaSsaPssSigNvU8;
 
 typedef struct NvBootCryptoRsaSsaPssSigNvU32Rec
 {
     // The length of the signature is the same as the length of the key used
     // in bytes.
-    NvU32 RsaSsaPssSig[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS] __attribute__((aligned(4)));
+    NvU32 RsaSsaPssSig[NVBOOT_RSA_MAX_MODULUS_SIZE_WORDS];
 } NvBootCryptoRsaSsaPssSigNvU32;
 
 typedef union NvBootCryptoRsaSsaPssSig

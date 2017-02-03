@@ -24,7 +24,7 @@
 #ifndef INCLUDED_NVBOOT_MAIN_INT_H
 #define INCLUDED_NVBOOT_MAIN_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_error.h"
 
 #if defined(__cplusplus)

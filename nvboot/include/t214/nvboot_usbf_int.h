@@ -23,7 +23,7 @@
 #define INCLUDED_NVBOOT_USBF_INT_H
 
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_error.h"
 
 #if defined(__cplusplus)

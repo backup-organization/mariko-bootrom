@@ -199,41 +199,6 @@ NvBootFuseIsSbkSet(void)
 /*
  * externally-visible API's
  */
-
-void
-NvBootFuseGetOperatingMode(NvBootFuseOperatingMode *pMode)
-{
-
-    if (NvBootFuseIsFailureAnalysisMode())
-    {
-        *pMode = NvBootFuseOperatingMode_FailureAnalysis;
-    }
-    else if (NvBootFuseIsOdmProductionModeFuseSet())
-    {
-        if(NvBootFuseIsPkcBootMode())
-        {
-            *pMode = NvBootFuseOperatingMode_OdmProductionSecurePKC;
-        }
-        else if (NvBootFuseIsSbkSet())
-        {
-            *pMode = NvBootFuseOperatingMode_OdmProductionSecureSBK;
-        }
-        else
-        {
-            *pMode = NvBootFuseOperatingMode_OdmProductionNonSecure;
-        }
-    }
-    else if (NvBootFuseIsNvProductionModeFuseSet())
-    {
-        *pMode = NvBootFuseOperatingMode_NvProduction;
-    }
-    else
-    {
-        *pMode = NvBootFuseOperatingMode_Preproduction;
-    }
-
-}
-
 NvBool FT_NONSECURE
 NvBootFuseIsFailureAnalysisMode(void)
 {
@@ -942,6 +907,24 @@ NvBootFuseIsOemFuseEncryptionEnabled(void)
     }
 }
 
+NvBool
+NvBootFuseIsSeContextAtomicSaveEnabled(void)
+{
+    NvU32 SeContextAtomicSaveEnabled;
+
+    SeContextAtomicSaveEnabled = NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_BOOT_SECURITY_INFO_0);
+    SeContextAtomicSaveEnabled = NV_DRF_VAL(FUSE, BOOT_SECURITY_INFO, SE_ATOMIC_CONTEXT_SAVE_ENABLE, SeContextAtomicSaveEnabled);
+
+    if( SeContextAtomicSaveEnabled == FUSE_BOOT_SECURITY_INFO_0_SE_ATOMIC_CONTEXT_SAVE_ENABLE_ENABLE )
+    {
+        return NV_TRUE;
+    }
+    else
+    {
+        return NV_FALSE;
+    }
+}
+
 NvU32
 NvBootFuseGetOemFekBankSelect()
 {
@@ -957,3 +940,26 @@ NvU32 NvBootFuseGetFuseDecryptionKeySelection()
     return NV_DRF_VAL(FUSE, BOOT_SECURITY_INFO, OEM_FUSE_ENCRYPTION_SELECT, RegData);
 }
 
+/**
+ *  Check FUSE_JTAG_SECUREID_VALID_0. This is a dependency for SE RNG.
+ */
+NvBool FT_NONSECURE __attribute__((optimize("O0")))
+NvBootFuseIsJtagSecureIdFuseSet(void)
+{
+    uint32_t Fuse;
+    uint32_t FuseInverse;
+
+    Fuse = NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_JTAG_SECUREID_VALID_0);
+    
+    FuseInverse = ~(NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_JTAG_SECUREID_VALID_0));
+
+    // Double check sensitive conditions. Glitching is bad
+    // since an attacker can skip RNG delay.
+    if(Fuse == 0)
+    {
+        if(FuseInverse == 0xFFFFFFFF)
+            return NV_FALSE;
+    }
+    return NV_TRUE;
+
+}

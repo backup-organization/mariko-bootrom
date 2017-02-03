@@ -543,7 +543,7 @@ NvBootError NvBootXusbDeviceSetConfiguration(uint8_t* pSetupData)
         pEpContext = &EpContext[EP1_OUT];
         pEpContext->EpState = EP_DISABLED;
         
-        NvBootXusbDeviceReloadContext(EP1_OUT);
+        e = NvBootXusbDeviceReloadContext(EP1_OUT);
         if(e != NvBootError_Success)
             return e;
 

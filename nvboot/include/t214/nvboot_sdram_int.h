@@ -26,7 +26,7 @@
 #ifndef INCLUDED_NVBOOT_SDRAM_INT_H
 #define INCLUDED_NVBOOT_SDRAM_INT_H
 
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvboot_error.h"
 #include "nvboot_sdram_param.h"
 

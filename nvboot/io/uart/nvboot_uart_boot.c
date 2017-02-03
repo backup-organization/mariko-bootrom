@@ -169,7 +169,12 @@ void FT_NONSECURE NvBootUartDownload_internal (NvBootClocksOscFreq OscFreq)
     BootInfoTable.SdramInitialized = NV_FALSE;
     BootInfoTable.BctValid         = NV_FALSE;
     BootInfoTable.SafeStartAddr    = (uintptr_t) &BootConfigTable;
- 
+#ifdef DO_COVERAGE
+#if DO_COVERAGE
+        void codecov_dump(void);
+        codecov_dump();
+#endif
+#endif
     // need same trick as for boot mainline code, need to encapsulate in line assembler function
     NvBootUartJump((uintptr_t) &BootConfigTable);
 }

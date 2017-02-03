@@ -93,18 +93,14 @@ NvU32 NvBootGetSwCYA(void);
 // This may be necessary for GEN3 drives to be detected as GEN2
 #define NVBOOT_SW_CYA_SATA_WAR_BUG748271_EN (1 << 11)
 
-// Bug 819194 : Bootrom skips loading last page of the bootloader/bct when number of bytes 
-//              to be loaded is exact multiple of a page size.
-// NVBOOT_SW_CYA_BUGFIX_819194_DISABLE = 0, enable bug fix
-// NVBOOT_SW_CYA_BUGFIX_819194_DISABLE = 1, ignore bug fix. This also requires change in set.c file under buildimage in git repository
+// Setting this bit forces atomic SE context save to always enabled.
+#define  NVBOOT_SW_CYA_ATOMIC_SE_CONTEXT_SAVE_ENABLE (1 << 12)
 
-#define  NVBOOT_SW_CYA_BUGFIX_819194_DISABLE (1 << 12)
+// XUSB Deserializer selection algorithm. Burn to use T210 algo.
+#define NVBOOT_SW_CYA_DEVICE_DESERIALIZER_ENABLE (1<<13)
 
-// Unused bit.
-#define NVBOOT_SW_CYA_13_UNUSED (1<<13)
-
-// Unused bit.
-#define NVBOOT_SW_CYA_14_UNUSED (1<<14)
+// Disable RNG.
+#define NVBOOT_SW_CYA_RNG_DISABLE (1<<14)
 
 // NVBOOT_SW_CYA_WDT_RST_DISABLE = 1 , do not issue second reset
 // NVBOOT_SW_CYA_WDT_RST_DISABLE = 0 , issue second reset

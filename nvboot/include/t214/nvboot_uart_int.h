@@ -25,7 +25,7 @@
 #include "stdint.h"
 #include "stddef.h"
 #include "stdbool.h"
-#include "nvcommon.h"
+#include "nvtypes.h"
 #include "nvrm_drf.h"
 
 #include "nvboot_clocks_int.h"

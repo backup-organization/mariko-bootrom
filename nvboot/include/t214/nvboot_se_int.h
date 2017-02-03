@@ -83,6 +83,13 @@ NvBool NvBootSeInstanceIsEngineBusy(NvBootSeInstance Instance);
 
 void NvBootSeInitializeSE(void);
 
+/**
+ * Enable Atomic SE context save feature.
+ * Program and locks address of the SE context blobs into secure scratch.
+ *
+ */
+NvBootError NvBootSeEnableAtomicSeContextSave(void);
+
 void NvBootSeClearTzram(void);
 
 /**

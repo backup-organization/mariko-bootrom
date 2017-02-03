@@ -19,6 +19,7 @@
 #include "nvboot_hacks_int.h"
 #include "nvboot_hardware_access_int.h"
 #include "nvboot_util_int.h"
+#include "nvboot_bpmp_int.h"
 #include "project.h"
 
 #define HAVE_FCODE_H	0
@@ -328,6 +329,12 @@ static void FT_NONSECURE NvBootIromPatchParseUpdateCAM(NvU32 * PatchBuff, NvU32 
         i++;
     }
 
+    // FI check
+    if(i!=C)
+    {
+        do_exception();
+    }
+
     //no valid CAM entries
     if(!CamValid)
         return;
@@ -338,7 +345,7 @@ static void FT_NONSECURE NvBootIromPatchParseUpdateCAM(NvU32 * PatchBuff, NvU32 
         C = CamValid;
     }
 
-    // No Preious Valid Ipatch cam entries detected.
+    // No Previous Valid Ipatch cam entries detected.
     if(!IPatchValid){
         //Program CAM registers
         CamEntriesPresent = 0;
@@ -348,6 +355,12 @@ static void FT_NONSECURE NvBootIromPatchParseUpdateCAM(NvU32 * PatchBuff, NvU32 
             CamValid |= (1 << CamEntriesPresent);
             CamEntriesPresent++;
         }
+        // FI Check
+        if(i!=C)
+        {
+            do_exception();
+        }
+
     }
     else
     {
@@ -356,6 +369,11 @@ static void FT_NONSECURE NvBootIromPatchParseUpdateCAM(NvU32 * PatchBuff, NvU32 
             CamEntriesPresent++;
             IPatchValid >>= 1;
         }
+        // FI Check. Ipatch should be 0 by now.
+        if(IPatchValid)
+        {
+            do_exception();
+        }
         // cam entries present
         CamValidIndex = CamEntriesPresent;
         
@@ -363,12 +381,18 @@ static void FT_NONSECURE NvBootIromPatchParseUpdateCAM(NvU32 * PatchBuff, NvU32 
             ReplaceCamEntry = 0;
             for (j = 0; j < CamEntriesPresent; j++){
                 //check for matching cam entry (for subtractive/nullify entry)
+                // All Matching entries are replaced.
                 IPatchValid = NV_READ32(CAMEntries(j));
                 if((IPatchValid & IROM_CAM_ADDR_MASK) == (ValidCamEntries[i] & IROM_CAM_ADDR_MASK)){
                     NV_WRITE32(CAMEntries(j), ValidCamEntries[i]);
                     //donot update CamValid entry since this is replacement only
                     ReplaceCamEntry++;
                 }
+            }
+            // FI Check.
+            if(j!=CamEntriesPresent)
+            {
+                do_exception();
             }
             // update new entry @ the end in the list.
             if(!ReplaceCamEntry){
@@ -384,6 +408,11 @@ static void FT_NONSECURE NvBootIromPatchParseUpdateCAM(NvU32 * PatchBuff, NvU32 
                     break;
         	}
        	}
+        // FI check
+        if(i!=C)
+        {
+            do_exception();
+        }
     }
     //Set IPATCH_ROM_OVERRIDE_VALID_0 to enable CAM
     NV_WRITE32(NV_ADDRESS_MAP_IPATCH_BASE + IPATCH_ROM_OVERRIDE_VALID_0, CamValid);
@@ -400,6 +429,23 @@ void FT_NONSECURE NvBootApplyIRomPatch(void) {
     BootInfoTable.IRomPatchStatus = 0;
     NumOfPatchWords = NvBootGetIRomPatchSize();
     NV_ASSERT(NumOfPatchWords < MAX_PAYLOAD);
+
+    /**
+     *  Make sure RAM Buffer is cleared of instructions possibly leftover from previous cycle.
+     */
+    NvU32 *IRamPatchPtr32 = (NvU32 *)&IRamExcpHandler[0];
+    NvU32 RamBufferSize = sizeof(IRamExcpHandler)/sizeof(NvU32);
+    for(i=0;i<RamBufferSize;i++)
+    {
+        IRamPatchPtr32[i]=0xffffffff; // An exception will be triggered if a glitch triggers a jump
+                                      // into the buffer.
+    }
+    
+    // FI check
+    if(i!=RamBufferSize)
+    {
+        do_exception();
+    }
 
 #if USE_FUSES
     // first patch record, read fuse from end of 6k
@@ -428,6 +474,10 @@ void FT_NONSECURE NvBootApplyIRomPatch(void) {
         // read bootrom patch from fuse into buffer
         for (i = 0; i < NumOfPatchWords; i++)
             PatchBuff[i] = ReadFuseWord(StartPatch--);
+        
+        // FI protection.
+        if(i!=NumOfPatchWords)
+            do_exception();
         
         SetFuseRegVisibility(0);
 #else
@@ -502,6 +552,7 @@ void FT_NONSECURE NvBootApplyIRomPatch(void) {
         else{
             // error in decoding.
             // break the loop and exit with status update.
+            // NO FI here. This could be a genuine ECC failure in ROM.
             return;
         }
     }
@@ -515,7 +566,8 @@ void FT_NONSECURE NvBootIRomPatchCleanup(void) {
     //Restore SWI vector
     NV_WRITE32(NV_ADDRESS_MAP_VECTOR_BASE + EVP_COP_SWI_VECTOR_0, 
 	    NV_RESETVAL(EVP, COP_SWI_VECTOR));
-    //Clean up CAM registers
+    //Clean up CAM registers. Don't think we need FI here as this is done before secure exit path.
+    // Not much we can do if we detect a glitch.
     for (c = 0; c < MAX_CAM; c++)
 	    NV_WRITE32(CAMEntries(c), NV_RESETVAL(IPATCH, ROM_OVERRIDE_CAM));
 }
