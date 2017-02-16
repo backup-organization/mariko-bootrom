@@ -380,6 +380,53 @@ NvBootUartPollingRead(uint8_t *pDest, size_t BytesRequested, size_t *BytesRead)
     return NvBootError_Success;
 }
 
+/**
+ *  \brief Uart polling read that reads bytes till timeout
+ *  \param pDest Buffer
+ *  \param BytesRead Bytes received
+ *  \param timeout between consecutive byte reads
+ */
+NvBootError FT_NONSECURE
+NvBootUartPollingRead2(uint8_t *pDest, size_t *BytesRead, uint32_t timeout)
+{
+    uint8_t Status;
+    NvBootError Err;
+    size_t BytesReadTemp=0;
+    uint32_t t0, t1;
+    
+    t0 = t1 = NvBootUtilGetTimeUS();
+
+    while(!BytesReadTemp || (t1 - t0) <= timeout)
+    {
+        Err = NvBootError_Success;
+        Status = NV_READ8(NV_UARTA_LSR);
+        if (Status & (UART_LSR_0_BRK_FIELD  | UART_LSR_0_FERR_FIELD |
+                      UART_LSR_0_PERR_FIELD | UART_LSR_0_OVRF_FIELD))
+        {
+            Err = NvBootError_ValidationFailure;  // error code not really important, placeholder
+            break;
+        }
+        if (NV_DRF_VAL(UART,LSR,RDR,Status) == UART_LSR_0_RDR_DATA_IN_FIFO)
+        {
+                
+                *pDest++ = NV_READ8(NV_UARTA_RBR);
+                BytesReadTemp++;
+                t0 = NvBootUtilGetTimeUS();
+        }
+        t1 = NvBootUtilGetTimeUS();
+    }
+    
+    if (Err == NvBootError_ValidationFailure)
+    {
+        // careful if modifying the error code
+        // We used to only flush RX here, but the new flush function
+        // will do both. That is OK.
+        NvBootUartFifoFlush();
+    }
+    *BytesRead = BytesReadTemp;
+    return Err;    
+}
+
 void FT_NONSECURE
 NvBootUartFifoFlush()
 {

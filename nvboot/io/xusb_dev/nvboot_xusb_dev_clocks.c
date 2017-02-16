@@ -214,7 +214,9 @@ const ClockInst s_XUSBDeviceFpgaClkTable[] =
  * osc_clk frequency is between 30 to 40 MHz, the clock divisor should be set to 0x6;
  */
     // Osc 12
-ClockInst s_XUSBTrackingClockFrequency_12[] =  
+    // Only 38.4M needed.
+/*
+const ClockInst s_XUSBTrackingClockFrequency_12[] =  
 {
     // ----------------------------------------  M     N    P  Misc1 Misc2
     Instc(Pll_Start, NvBootClocksPllId_PllU,    0x01, 0x28, 1, 0, 0),
@@ -222,8 +224,9 @@ ClockInst s_XUSBTrackingClockFrequency_12[] =
     Instc(Pll_Start, NvBootClocksPllId_UtmiPll, 0x01, 0x50, 0, Misc1_Utmi(0x76, 0x00), Misc2_Utmi(0x2f, 0x08)),
     Instc(Clk_Rmw_Num,  CLK_SOURCE_USB2_HSIC_TRK, USB2_HSIC_TRK_CLK_DIVISOR, 2),
 };
+*/
     // Osc 38_4
-ClockInst s_XUSBTrackingClockFrequency_38_4[] =
+const ClockInst s_XUSBTrackingClockFrequency_38_4[] =
 {
     // ----------------------------------------  M     N    P  Misc1 Misc2
     Instc(Pll_Start, NvBootClocksPllId_PllU,    0x02, 0x19, 1, 0, 0),
@@ -233,11 +236,10 @@ ClockInst s_XUSBTrackingClockFrequency_38_4[] =
     {0} // Zero array Terminated.
 };
 
-
 /**
  *  Collection of all tables required for xusb device.
  */
-ClockTable XusbClockTables[] = 
+const ClockTable XusbClockTables[] = 
 {
     // Oscillator freq dependent table, default to Osc 38_4
     s_XUSBTrackingClockFrequency_38_4,// DO NOT move this entry. Change OSC_TABLE macro defined in

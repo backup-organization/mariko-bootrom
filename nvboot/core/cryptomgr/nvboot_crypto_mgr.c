@@ -558,7 +558,7 @@ NvBootError NvBootCryptoMgrDecKeys()
     e = NvBootCryptoMgrReadyEncKey();
     DecrementReadyEncKeyCounter();
     if(FI_counter1 != 0)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
     if(e != NvBootError_Success)
         return e;
 
@@ -566,7 +566,7 @@ NvBootError NvBootCryptoMgrDecKeys()
     e = NvBootCryptoMgrLoadOemAesKeys();
     DecrementLoadOemAesKeysCounter();
     if(FI_counter1 != 0)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
     if(e != NvBootError_Success)
         return e;
 #if 0
@@ -869,7 +869,7 @@ NvBootError NvBootCryptoMgrAuthBct(const NvBootConfigTable *Bct)
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
@@ -936,7 +936,7 @@ NvBootError NvBootCryptoMgrDecryptBct(NvBootConfigTable *Bct)
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC(start_decrypt_address,
                                                 decrypt_output_address,
@@ -951,7 +951,7 @@ NvBootError NvBootCryptoMgrAuthOemBootBinaryHeader(const NvBootOemBootBinaryHead
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
@@ -1112,7 +1112,7 @@ NvBootError NvBootCryptoMgrDecryptBlPackage(const NvBootOemBootBinaryHeader *Oem
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC(start_decrypt_address,
                                                 decrypt_output_address,
@@ -1127,7 +1127,7 @@ NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     // Sanitize address and size, if it can fit into NVBOOT_SC7_FW_START to NVBOOT_SC7_FW_END + 1.
     uint32_t AuthAddrStart = (uint32_t) Sc7Header +  OFFSET_SC7_SIGNED_SECT(Sc7Header);
@@ -1141,7 +1141,7 @@ NvBootError NvBootCryptoMgrOemAuthSc7Fw(const NvBootWb0RecoveryHeader *Sc7Header
     // Re-init default error code to a fail value.
     e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
@@ -1198,7 +1198,7 @@ NvBootError NvBootCryptoMgrOemDecryptSc7Fw(const NvBootWb0RecoveryHeader *Sc7Hea
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     if (s_CryptoMgrContext.EncryptionScheme != CryptoAlgo_AES)
     {
@@ -1218,7 +1218,7 @@ NvBootError NvBootCryptoMgrOemDecryptSc7Fw(const NvBootWb0RecoveryHeader *Sc7Hea
     // Re-init error to fail before decryption.
     e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC((uint8_t *) start_decrypt_address,
                                                 (uint8_t *) start_decrypt_address,
@@ -1233,7 +1233,7 @@ NvBootError NvBootCryptoMgrOemAuthRcmPayload(const NvBootRcmMsg *RcmMsg)
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     uint32_t AuthSize = 0;
     // Calculate the length to authenticate
@@ -1245,7 +1245,7 @@ NvBootError NvBootCryptoMgrOemAuthRcmPayload(const NvBootRcmMsg *RcmMsg)
     // Re-init error to fail before authentication.
     e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     if(s_CryptoMgrContext.AuthenticationScheme == CryptoAlgo_RSA_RSASSA_PSS)
     {
@@ -1302,7 +1302,7 @@ NvBootError NvBootCryptoMgrOemDecryptRcmPayload(const NvBootRcmMsg *RcmMsg)
     // Default to "fail", subsequent functions can set to pass.
     NvBootError e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     if (s_CryptoMgrContext.EncryptionScheme != CryptoAlgo_AES)
     {
@@ -1319,7 +1319,7 @@ NvBootError NvBootCryptoMgrOemDecryptRcmPayload(const NvBootRcmMsg *RcmMsg)
     // Re-init error to fail before authentication.
     e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC((uint8_t *) start_decrypt_address,
                                                 (uint8_t *) start_decrypt_address,

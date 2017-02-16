@@ -54,7 +54,7 @@ static NvBootError InitDevice(NvBootDevMgr *DevMgr, NvU32 ParamIndex);
  */
 NvBootDevContext s_DeviceContext;
 
-NvBootDevMgrCallbacks s_DeviceCallbacks[] = 
+const NvBootDevMgrCallbacks s_DeviceCallbacks[] = 
 {   
     //device type is as per the definition in t35/bootrom/include/t35/nvboot_bct.h
 

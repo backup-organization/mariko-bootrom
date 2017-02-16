@@ -73,12 +73,13 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH13_0_EMC_CMD_MAPPING_CMD0_0_0_CMD0_DQ3_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH13_0_MC_VIDEO_PROTECT_BOM_ADR_HI_0_VIDEO_PROTECT_BOM_ADR_HI_RANGE\
-                                                                            29:28
-#define APBDEV_PMC_SECURE_SCRATCH13_0_MC_VIDEO_PROTECT_REG_CTRL_0_VIDEO_PROTECT_WRITE_ACCESS_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH13_0_MC_UNTRANSLATED_REGION_CHECK_0_UNTRANSLATED_REGION_CHECK_ACCESS_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SECURE_SCRATCH13_0_MC_UNTRANSLATED_REGION_CHECK_0_REQUIRE_UNTRANSLATED_CLIENTS_HIT_CARVEOUT_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SECURE_SCRATCH13_0_MC_UNTRANSLATED_REGION_CHECK_0_REQUIRE_UNTRANSLATED_GPU_HIT_CARVEOUT_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SECURE_SCRATCH13_0_MC_VIDEO_PROTECT_REG_CTRL_0_VIDEO_PROTECT_ALLOW_TZ_WRITE_ACCESS_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SECURE_SCRATCH13_0_EMC_ADR_CFG_0_EMEM_NUMDEV_RANGE       31:31
 #define APBDEV_PMC_SECURE_SCRATCH14_0_EMC_CMD_MAPPING_CMD0_1_0_CMD0_DQ4_MAP_RANGE\
                                                                              6: 0
 #define APBDEV_PMC_SECURE_SCRATCH14_0_EMC_CMD_MAPPING_CMD0_1_0_CMD0_DQ5_MAP_RANGE\
@@ -87,10 +88,12 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH14_0_EMC_CMD_MAPPING_CMD0_1_0_CMD0_DQ7_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH14_0_MC_SEC_CARVEOUT_ADR_HI_0_SEC_CARVEOUT_BOM_HI_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH14_0_MC_VIDEO_PROTECT_BOM_ADR_HI_0_VIDEO_PROTECT_BOM_ADR_HI_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SECURE_SCRATCH14_0_MC_MTS_CARVEOUT_ADR_HI_0_MTS_CARVEOUT_BOM_HI_RANGE\
-                                                                            31:30
+#define APBDEV_PMC_SECURE_SCRATCH14_0_MC_VIDEO_PROTECT_REG_CTRL_0_VIDEO_PROTECT_WRITE_ACCESS_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH14_0_MC_VIDEO_PROTECT_REG_CTRL_0_VIDEO_PROTECT_ALLOW_TZ_WRITE_ACCESS_RANGE\
+                                                                            31:31
 #define APBDEV_PMC_SECURE_SCRATCH15_0_EMC_CMD_MAPPING_CMD1_0_0_CMD1_DQ0_MAP_RANGE\
                                                                              6: 0
 #define APBDEV_PMC_SECURE_SCRATCH15_0_EMC_CMD_MAPPING_CMD1_0_0_CMD1_DQ1_MAP_RANGE\
@@ -99,9 +102,9 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH15_0_EMC_CMD_MAPPING_CMD1_0_0_CMD1_DQ3_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH15_0_MC_SECURITY_CARVEOUT5_BOM_HI_0_MC_SECURITY_CARVEOUT5_BOM_HI_RANGE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH15_0_MC_SEC_CARVEOUT_ADR_HI_0_SEC_CARVEOUT_BOM_HI_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SECURE_SCRATCH15_0_MC_SECURITY_CARVEOUT3_BOM_HI_0_MC_SECURITY_CARVEOUT3_BOM_HI_RANGE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH15_0_MC_MTS_CARVEOUT_ADR_HI_0_MTS_CARVEOUT_BOM_HI_RANGE\
                                                                             31:30
 #define APBDEV_PMC_SECURE_SCRATCH16_0_EMC_CMD_MAPPING_CMD1_1_0_CMD1_DQ4_MAP_RANGE\
                                                                              6: 0
@@ -111,9 +114,9 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH16_0_EMC_CMD_MAPPING_CMD1_1_0_CMD1_DQ7_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH16_0_MC_SECURITY_CARVEOUT2_BOM_HI_0_MC_SECURITY_CARVEOUT2_BOM_HI_RANGE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH16_0_MC_SECURITY_CARVEOUT5_BOM_HI_0_MC_SECURITY_CARVEOUT5_BOM_HI_RANGE_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SECURE_SCRATCH16_0_MC_SECURITY_CARVEOUT4_BOM_HI_0_MC_SECURITY_CARVEOUT4_BOM_HI_RANGE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH16_0_MC_SECURITY_CARVEOUT3_BOM_HI_0_MC_SECURITY_CARVEOUT3_BOM_HI_RANGE_RANGE\
                                                                             31:30
 #define APBDEV_PMC_SECURE_SCRATCH17_0_EMC_CMD_MAPPING_CMD2_0_0_CMD2_DQ0_MAP_RANGE\
                                                                              6: 0
@@ -123,10 +126,10 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH17_0_EMC_CMD_MAPPING_CMD2_0_0_CMD2_DQ3_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH17_0_MC_SECURITY_CARVEOUT1_BOM_HI_0_MC_SECURITY_CARVEOUT1_BOM_HI_RANGE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH17_0_MC_SECURITY_CARVEOUT2_BOM_HI_0_MC_SECURITY_CARVEOUT2_BOM_HI_RANGE_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SECURE_SCRATCH17_0_EMC_ADR_CFG_0_EMEM_NUMDEV_RANGE       30:30
-#define APBDEV_PMC_SECURE_SCRATCH17_0_EMC_FBIO_SPARE_0_CFG_ADR_EN_RANGE     31:31
+#define APBDEV_PMC_SECURE_SCRATCH17_0_MC_SECURITY_CARVEOUT4_BOM_HI_0_MC_SECURITY_CARVEOUT4_BOM_HI_RANGE_RANGE\
+                                                                            31:30
 #define APBDEV_PMC_SECURE_SCRATCH18_0_EMC_CMD_MAPPING_CMD2_1_0_CMD2_DQ4_MAP_RANGE\
                                                                              6: 0
 #define APBDEV_PMC_SECURE_SCRATCH18_0_EMC_CMD_MAPPING_CMD2_1_0_CMD2_DQ5_MAP_RANGE\
@@ -135,12 +138,10 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH18_0_EMC_CMD_MAPPING_CMD2_1_0_CMD2_DQ7_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH18_0_EMC_FBIO_CFG8_0_RANK_SWIZZLE_RANGE    28:28
-#define APBDEV_PMC_SECURE_SCRATCH18_0_MC_EMEM_ADR_CFG_0_EMEM_NUMDEV_RANGE   29:29
-#define APBDEV_PMC_SECURE_SCRATCH18_0_MC_SEC_CARVEOUT_REG_CTRL_0_SEC_CARVEOUT_WRITE_ACCESS_RANGE\
-                                                                            30:30
-#define APBDEV_PMC_SECURE_SCRATCH18_0_MC_MTS_CARVEOUT_REG_CTRL_0_MTS_CARVEOUT_WRITE_ACCESS_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SECURE_SCRATCH18_0_MC_SECURITY_CARVEOUT1_BOM_HI_0_MC_SECURITY_CARVEOUT1_BOM_HI_RANGE_RANGE\
+                                                                            29:28
+#define APBDEV_PMC_SECURE_SCRATCH18_0_EMC_FBIO_SPARE_0_CFG_ADR_EN_RANGE     30:30
+#define APBDEV_PMC_SECURE_SCRATCH18_0_EMC_FBIO_CFG8_0_RANK_SWIZZLE_RANGE    31:31
 #define APBDEV_PMC_SECURE_SCRATCH19_0_EMC_CMD_MAPPING_CMD3_0_0_CMD3_DQ0_MAP_RANGE\
                                                                              6: 0
 #define APBDEV_PMC_SECURE_SCRATCH19_0_EMC_CMD_MAPPING_CMD3_0_0_CMD3_DQ1_MAP_RANGE\
@@ -149,8 +150,13 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH19_0_EMC_CMD_MAPPING_CMD3_0_0_CMD3_DQ3_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH19_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_READ_ACCESS_LEVEL_RANGE\
-                                                                            31:28
+#define APBDEV_PMC_SECURE_SCRATCH19_0_MC_EMEM_ADR_CFG_0_EMEM_NUMDEV_RANGE   28:28
+#define APBDEV_PMC_SECURE_SCRATCH19_0_MC_SEC_CARVEOUT_REG_CTRL_0_SEC_CARVEOUT_WRITE_ACCESS_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SECURE_SCRATCH19_0_MC_MTS_CARVEOUT_REG_CTRL_0_MTS_CARVEOUT_WRITE_ACCESS_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH19_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_AFI_VPR_OVERRIDE_RANGE\
+                                                                            31:31
 #define APBDEV_PMC_SECURE_SCRATCH20_0_EMC_CMD_MAPPING_CMD3_1_0_CMD3_DQ4_MAP_RANGE\
                                                                              6: 0
 #define APBDEV_PMC_SECURE_SCRATCH20_0_EMC_CMD_MAPPING_CMD3_1_0_CMD3_DQ5_MAP_RANGE\
@@ -159,7 +165,7 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH20_0_EMC_CMD_MAPPING_CMD3_1_0_CMD3_DQ7_MAP_RANGE\
                                                                             27:21
-#define APBDEV_PMC_SECURE_SCRATCH20_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_WRITE_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH20_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_READ_ACCESS_LEVEL_RANGE\
                                                                             31:28
 #define APBDEV_PMC_SECURE_SCRATCH39_0_MC_SECURITY_CARVEOUT4_CFG0_0_MC_SECURITY_CARVEOUT4_PROTECT_MODE_RANGE\
                                                                              0: 0
@@ -187,9 +193,9 @@
                                                                             25:25
 #define APBDEV_PMC_SECURE_SCRATCH39_0_MC_SECURITY_CARVEOUT4_CFG0_0_MC_SECURITY_CARVEOUT4_FORCE_APERTURE_ID_MATCH_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH39_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_DISABLE_READ_CHECK_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH39_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_WRITE_ACCESS_LEVEL_RANGE\
                                                                             30:27
-#define APBDEV_PMC_SECURE_SCRATCH39_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_AFI_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH39_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_AVPC_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH40_0_MC_SECURITY_CARVEOUT5_CFG0_0_MC_SECURITY_CARVEOUT5_PROTECT_MODE_RANGE\
                                                                              0: 0
@@ -217,9 +223,9 @@
                                                                             25:25
 #define APBDEV_PMC_SECURE_SCRATCH40_0_MC_SECURITY_CARVEOUT5_CFG0_0_MC_SECURITY_CARVEOUT5_FORCE_APERTURE_ID_MATCH_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH40_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_DISABLE_WRITE_CHECK_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH40_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_DISABLE_READ_CHECK_ACCESS_LEVEL_RANGE\
                                                                             30:27
-#define APBDEV_PMC_SECURE_SCRATCH40_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_AVPC_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH40_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_DC_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH41_0_EMC_CMD_MAPPING_CMD0_2_0_CMD0_DQ8_MAP_RANGE\
                                                                              6: 0
@@ -229,7 +235,7 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH41_0_EMC_CMD_MAPPING_CMD0_2_0_CMD0_DQ_CMD_MAP_RANGE\
                                                                             24:21
-#define APBDEV_PMC_SECURE_SCRATCH41_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_READ_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH41_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_DISABLE_WRITE_CHECK_ACCESS_LEVEL_RANGE\
                                                                             28:25
 #define APBDEV_PMC_SECURE_SCRATCH41_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_APERTURE_ID_RANGE\
                                                                             31:29
@@ -241,7 +247,7 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH42_0_EMC_CMD_MAPPING_CMD1_2_0_CMD1_DQ_CMD_MAP_RANGE\
                                                                             24:21
-#define APBDEV_PMC_SECURE_SCRATCH42_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_WRITE_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH42_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_READ_ACCESS_LEVEL_RANGE\
                                                                             28:25
 #define APBDEV_PMC_SECURE_SCRATCH42_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_APERTURE_ID_RANGE\
                                                                             31:29
@@ -253,7 +259,7 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH43_0_EMC_CMD_MAPPING_CMD2_2_0_CMD2_DQ_CMD_MAP_RANGE\
                                                                             24:21
-#define APBDEV_PMC_SECURE_SCRATCH43_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_DISABLE_READ_CHECK_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH43_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_WRITE_ACCESS_LEVEL_RANGE\
                                                                             28:25
 #define APBDEV_PMC_SECURE_SCRATCH43_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_APERTURE_ID_RANGE\
                                                                             31:29
@@ -265,13 +271,13 @@
                                                                             20:14
 #define APBDEV_PMC_SECURE_SCRATCH44_0_EMC_CMD_MAPPING_CMD3_2_0_CMD3_DQ_CMD_MAP_RANGE\
                                                                             24:21
-#define APBDEV_PMC_SECURE_SCRATCH44_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_DISABLE_WRITE_CHECK_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH44_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_DISABLE_READ_CHECK_ACCESS_LEVEL_RANGE\
                                                                             28:25
-#define APBDEV_PMC_SECURE_SCRATCH44_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_DC_VPR_OVERRIDE_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SECURE_SCRATCH44_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_DCB_VPR_OVERRIDE_RANGE\
-                                                                            30:30
+                                                                            29:29
 #define APBDEV_PMC_SECURE_SCRATCH44_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_HC_VPR_OVERRIDE_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH44_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_HDA_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH45_0_MC_EMEM_ADR_CFG_CHANNEL_MASK_0_EMEM_CHANNEL_MASK_RANGE\
                                                                             22: 0
@@ -289,170 +295,170 @@
                                                                             26:25
 #define APBDEV_PMC_SECURE_SCRATCH46_0_MC_EMEM_ADR_CFG_DEV1_0_EMEM_DEV1_DEVSIZE_RANGE\
                                                                             30:27
-#define APBDEV_PMC_SECURE_SCRATCH46_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_HDA_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH46_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_ISP2_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH47_0_MC_EMEM_ADR_CFG_BANK_MASK_1_0_EMEM_BANK_MASK_1_RANGE\
                                                                             21: 0
-#define APBDEV_PMC_SECURE_SCRATCH47_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_READ_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH47_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_DISABLE_WRITE_CHECK_ACCESS_LEVEL_RANGE\
                                                                             25:22
-#define APBDEV_PMC_SECURE_SCRATCH47_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_WRITE_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH47_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_READ_ACCESS_LEVEL_RANGE\
                                                                             29:26
-#define APBDEV_PMC_SECURE_SCRATCH47_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_ISP2_VPR_OVERRIDE_RANGE\
-                                                                            30:30
 #define APBDEV_PMC_SECURE_SCRATCH47_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_MPCORE_VPR_OVERRIDE_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH47_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_NVENC_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH48_0_MC_EMEM_ADR_CFG_BANK_MASK_2_0_EMEM_BANK_MASK_2_RANGE\
                                                                             21: 0
-#define APBDEV_PMC_SECURE_SCRATCH48_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_DISABLE_READ_CHECK_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH48_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_WRITE_ACCESS_LEVEL_RANGE\
                                                                             25:22
-#define APBDEV_PMC_SECURE_SCRATCH48_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_DISABLE_WRITE_CHECK_ACCESS_LEVEL_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH48_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_DISABLE_READ_CHECK_ACCESS_LEVEL_RANGE\
                                                                             29:26
-#define APBDEV_PMC_SECURE_SCRATCH48_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_NVENC_VPR_OVERRIDE_RANGE\
-                                                                            30:30
 #define APBDEV_PMC_SECURE_SCRATCH48_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_PPCS_VPR_OVERRIDE_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH48_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SATA_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH49_0_MC_VIDEO_PROTECT_GPU_OVERRIDE_1_0_VIDEO_PROTECT_GPU_OVERRIDE_1_RANGE\
                                                                             15: 0
 #define APBDEV_PMC_SECURE_SCRATCH49_0_MC_EMEM_CFG_0_EMEM_SIZE_MB_RANGE      29:16
 #define APBDEV_PMC_SECURE_SCRATCH49_0_MC_EMEM_CFG_0_EMEM_BOM_RANGE          30:30
-#define APBDEV_PMC_SECURE_SCRATCH49_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SATA_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH49_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_VI_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH50_0_MC_SECURITY_CARVEOUT3_BOM_0_MC_SECURITY_CARVEOUT3_BOM_RANGE_RANGE\
                                                                             14: 0
 #define APBDEV_PMC_SECURE_SCRATCH50_0_MC_SECURITY_CARVEOUT1_BOM_0_MC_SECURITY_CARVEOUT1_BOM_RANGE_RANGE\
                                                                             29:15
-#define APBDEV_PMC_SECURE_SCRATCH50_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_VI_VPR_OVERRIDE_RANGE\
-                                                                            30:30
 #define APBDEV_PMC_SECURE_SCRATCH50_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_VIC_VPR_OVERRIDE_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH50_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_XUSB_HOST_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH51_0_MC_SECURITY_CARVEOUT4_BOM_0_MC_SECURITY_CARVEOUT4_BOM_RANGE_RANGE\
                                                                             14: 0
 #define APBDEV_PMC_SECURE_SCRATCH51_0_MC_SECURITY_CARVEOUT2_BOM_0_MC_SECURITY_CARVEOUT2_BOM_RANGE_RANGE\
                                                                             29:15
-#define APBDEV_PMC_SECURE_SCRATCH51_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_XUSB_HOST_VPR_OVERRIDE_RANGE\
-                                                                            30:30
 #define APBDEV_PMC_SECURE_SCRATCH51_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_XUSB_DEV_VPR_OVERRIDE_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SECURE_SCRATCH51_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_A9AVP_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH52_0_MC_SECURITY_CARVEOUT5_BOM_0_MC_SECURITY_CARVEOUT5_BOM_RANGE_RANGE\
                                                                             14: 0
 #define APBDEV_PMC_SECURE_SCRATCH52_0_MC_VIDEO_PROTECT_BOM_0_VIDEO_PROTECT_BOM_RANGE\
                                                                             26:15
-#define APBDEV_PMC_SECURE_SCRATCH52_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_A9AVP_VPR_OVERRIDE_RANGE\
-                                                                            27:27
+#define APBDEV_PMC_SECURE_SCRATCH52_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_DISABLE_WRITE_CHECK_ACCESS_LEVEL_RANGE\
+                                                                            30:27
 #define APBDEV_PMC_SECURE_SCRATCH52_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_TSEC_VPR_OVERRIDE_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SECURE_SCRATCH52_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_PPCS1_VPR_OVERRIDE_RANGE\
-                                                                            29:29
-#define APBDEV_PMC_SECURE_SCRATCH52_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_DC1_VPR_OVERRIDE_RANGE\
-                                                                            30:30
-#define APBDEV_PMC_SECURE_SCRATCH52_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SDMMC1A_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_SIZE_MB_0_VIDEO_PROTECT_SIZE_MB_RANGE\
                                                                             11: 0
 #define APBDEV_PMC_SECURE_SCRATCH53_0_MC_SEC_CARVEOUT_BOM_0_SEC_CARVEOUT_BOM_RANGE\
                                                                             23:12
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SDMMC2A_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_PPCS1_VPR_OVERRIDE_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SDMMC3A_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_DC1_VPR_OVERRIDE_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_SDMMC4A_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SDMMC1A_VPR_OVERRIDE_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ISP2B_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SDMMC2A_VPR_OVERRIDE_RANGE\
                                                                             27:27
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_PPCS2_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE_0_SDMMC3A_VPR_OVERRIDE_RANGE\
                                                                             28:28
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_NVDEC_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_SDMMC4A_VPR_OVERRIDE_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_APE_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ISP2B_VPR_OVERRIDE_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_SE_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH53_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_PPCS2_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH54_0_MC_SEC_CARVEOUT_SIZE_MB_0_SEC_CARVEOUT_SIZE_MB_RANGE\
                                                                             11: 0
 #define APBDEV_PMC_SECURE_SCRATCH54_0_MC_MTS_CARVEOUT_BOM_0_MTS_CARVEOUT_BOM_RANGE\
                                                                             23:12
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_NVJPG_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_NVDEC_VPR_OVERRIDE_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_HC1_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_APE_VPR_OVERRIDE_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_SE1_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_SE_VPR_OVERRIDE_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_AXIAP_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_NVJPG_VPR_OVERRIDE_RANGE\
                                                                             27:27
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ETR_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_HC1_VPR_OVERRIDE_RANGE\
                                                                             28:28
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_TSECB_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_SE1_VPR_OVERRIDE_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_TSEC1_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_AXIAP_VPR_OVERRIDE_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_TSECB1_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH54_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ETR_VPR_OVERRIDE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH55_0_MC_MTS_CARVEOUT_SIZE_MB_0_MTS_CARVEOUT_SIZE_MB_RANGE\
                                                                             11: 0
 #define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT4_SIZE_128KB_0_MC_SECURITY_CARVEOUT4_SIZE_RANGE_128KB_RANGE\
                                                                             23:12
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_NVDEC1_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_TSECB_VPR_OVERRIDE_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ISP21_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_TSEC1_VPR_OVERRIDE_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ISP2B1_VPR_OVERRIDE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_TSECB1_VPR_OVERRIDE_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_PROTECT_MODE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_NVDEC1_VPR_OVERRIDE_RANGE\
                                                                             27:27
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_LOCK_MODE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ISP21_VPR_OVERRIDE_RANGE\
                                                                             28:28
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_ADDRESS_TYPE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_VIDEO_PROTECT_VPR_OVERRIDE1_0_ISP2B1_VPR_OVERRIDE_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_SEND_CFG_TO_GPU_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_PROTECT_MODE_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_TZ_GLOBAL_WR_EN_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH55_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_LOCK_MODE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT3_SIZE_128KB_0_MC_SECURITY_CARVEOUT3_SIZE_RANGE_128KB_RANGE\
                                                                             11: 0
 #define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_SIZE_128KB_0_MC_SECURITY_CARVEOUT2_SIZE_RANGE_128KB_RANGE\
                                                                             23:12
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_TZ_GLOBAL_RD_EN_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_ADDRESS_TYPE_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_ALLOW_APERTURE_ID_MISMATCH_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_SEND_CFG_TO_GPU_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_FORCE_APERTURE_ID_MATCH_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_TZ_GLOBAL_WR_EN_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_PROTECT_MODE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_TZ_GLOBAL_RD_EN_RANGE\
                                                                             27:27
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_LOCK_MODE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_ALLOW_APERTURE_ID_MISMATCH_RANGE\
                                                                             28:28
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_ADDRESS_TYPE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT2_CFG0_0_MC_SECURITY_CARVEOUT2_FORCE_APERTURE_ID_MATCH_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_SEND_CFG_TO_GPU_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_PROTECT_MODE_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_TZ_GLOBAL_WR_EN_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH56_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_LOCK_MODE_RANGE\
                                                                             31:31
 #define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_SIZE_128KB_0_MC_SECURITY_CARVEOUT1_SIZE_RANGE_128KB_RANGE\
                                                                             11: 0
 #define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT5_SIZE_128KB_0_MC_SECURITY_CARVEOUT5_SIZE_RANGE_128KB_RANGE\
                                                                             23:12
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_TZ_GLOBAL_RD_EN_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_ADDRESS_TYPE_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_ALLOW_APERTURE_ID_MISMATCH_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_SEND_CFG_TO_GPU_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_FORCE_APERTURE_ID_MATCH_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_TZ_GLOBAL_WR_EN_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_PROTECT_MODE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_TZ_GLOBAL_RD_EN_RANGE\
                                                                             27:27
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_LOCK_MODE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_ALLOW_APERTURE_ID_MISMATCH_RANGE\
                                                                             28:28
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_ADDRESS_TYPE_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT1_CFG0_0_MC_SECURITY_CARVEOUT1_FORCE_APERTURE_ID_MATCH_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_SEND_CFG_TO_GPU_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_PROTECT_MODE_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_TZ_GLOBAL_WR_EN_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH57_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_LOCK_MODE_RANGE\
                                                                             31:31
-#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_TZ_GLOBAL_RD_EN_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_ADDRESS_TYPE_RANGE\
                                                                              0: 0
-#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_ALLOW_APERTURE_ID_MISMATCH_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_SEND_CFG_TO_GPU_RANGE\
                                                                              1: 1
-#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_FORCE_APERTURE_ID_MATCH_RANGE\
+#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_TZ_GLOBAL_WR_EN_RANGE\
                                                                              2: 2
+#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_TZ_GLOBAL_RD_EN_RANGE\
+                                                                             3: 3
+#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_ALLOW_APERTURE_ID_MISMATCH_RANGE\
+                                                                             4: 4
+#define APBDEV_PMC_SECURE_SCRATCH58_0_MC_SECURITY_CARVEOUT3_CFG0_0_MC_SECURITY_CARVEOUT3_FORCE_APERTURE_ID_MATCH_RANGE\
+                                                                             5: 5
 
 
 
@@ -497,52 +503,55 @@
     _(13, EMC, CMD_MAPPING_CMD0_0, CMD0_DQ1_MAP, EmcCmdMappingCmd0_0) \
     _(13, EMC, CMD_MAPPING_CMD0_0, CMD0_DQ2_MAP, EmcCmdMappingCmd0_0) \
     _(13, EMC, CMD_MAPPING_CMD0_0, CMD0_DQ3_MAP, EmcCmdMappingCmd0_0) \
-    _(13, MC, VIDEO_PROTECT_BOM_ADR_HI, VIDEO_PROTECT_BOM_ADR_HI, McVideoProtectBomAdrHi) \
-    _(13, MC, VIDEO_PROTECT_REG_CTRL, VIDEO_PROTECT_WRITE_ACCESS, McVideoProtectWriteAccess) \
-    _(13, MC, VIDEO_PROTECT_REG_CTRL, VIDEO_PROTECT_ALLOW_TZ_WRITE_ACCESS, McVideoProtectWriteAccess) \
+    _(13, MC, UNTRANSLATED_REGION_CHECK, UNTRANSLATED_REGION_CHECK_ACCESS, McUntranslatedRegionCheck) \
+    _(13, MC, UNTRANSLATED_REGION_CHECK, REQUIRE_UNTRANSLATED_CLIENTS_HIT_CARVEOUT, McUntranslatedRegionCheck) \
+    _(13, MC, UNTRANSLATED_REGION_CHECK, REQUIRE_UNTRANSLATED_GPU_HIT_CARVEOUT, McUntranslatedRegionCheck) \
+    _(13, EMC, ADR_CFG, EMEM_NUMDEV, EmcAdrCfg) \
     _(14, EMC, CMD_MAPPING_CMD0_1, CMD0_DQ4_MAP, EmcCmdMappingCmd0_1) \
     _(14, EMC, CMD_MAPPING_CMD0_1, CMD0_DQ5_MAP, EmcCmdMappingCmd0_1) \
     _(14, EMC, CMD_MAPPING_CMD0_1, CMD0_DQ6_MAP, EmcCmdMappingCmd0_1) \
     _(14, EMC, CMD_MAPPING_CMD0_1, CMD0_DQ7_MAP, EmcCmdMappingCmd0_1) \
-    _(14, MC, SEC_CARVEOUT_ADR_HI, SEC_CARVEOUT_BOM_HI, McSecCarveoutAdrHi) \
-    _(14, MC, MTS_CARVEOUT_ADR_HI, MTS_CARVEOUT_BOM_HI, McMtsCarveoutAdrHi) \
+    _(14, MC, VIDEO_PROTECT_BOM_ADR_HI, VIDEO_PROTECT_BOM_ADR_HI, McVideoProtectBomAdrHi) \
+    _(14, MC, VIDEO_PROTECT_REG_CTRL, VIDEO_PROTECT_WRITE_ACCESS, McVideoProtectWriteAccess) \
+    _(14, MC, VIDEO_PROTECT_REG_CTRL, VIDEO_PROTECT_ALLOW_TZ_WRITE_ACCESS, McVideoProtectWriteAccess) \
     _(15, EMC, CMD_MAPPING_CMD1_0, CMD1_DQ0_MAP, EmcCmdMappingCmd1_0) \
     _(15, EMC, CMD_MAPPING_CMD1_0, CMD1_DQ1_MAP, EmcCmdMappingCmd1_0) \
     _(15, EMC, CMD_MAPPING_CMD1_0, CMD1_DQ2_MAP, EmcCmdMappingCmd1_0) \
     _(15, EMC, CMD_MAPPING_CMD1_0, CMD1_DQ3_MAP, EmcCmdMappingCmd1_0) \
-    _(15, MC, SECURITY_CARVEOUT5_BOM_HI, MC_SECURITY_CARVEOUT5_BOM_HI_RANGE, McGeneralizedCarveout5BomHi) \
-    _(15, MC, SECURITY_CARVEOUT3_BOM_HI, MC_SECURITY_CARVEOUT3_BOM_HI_RANGE, McGeneralizedCarveout3BomHi) \
+    _(15, MC, SEC_CARVEOUT_ADR_HI, SEC_CARVEOUT_BOM_HI, McSecCarveoutAdrHi) \
+    _(15, MC, MTS_CARVEOUT_ADR_HI, MTS_CARVEOUT_BOM_HI, McMtsCarveoutAdrHi) \
     _(16, EMC, CMD_MAPPING_CMD1_1, CMD1_DQ4_MAP, EmcCmdMappingCmd1_1) \
     _(16, EMC, CMD_MAPPING_CMD1_1, CMD1_DQ5_MAP, EmcCmdMappingCmd1_1) \
     _(16, EMC, CMD_MAPPING_CMD1_1, CMD1_DQ6_MAP, EmcCmdMappingCmd1_1) \
     _(16, EMC, CMD_MAPPING_CMD1_1, CMD1_DQ7_MAP, EmcCmdMappingCmd1_1) \
-    _(16, MC, SECURITY_CARVEOUT2_BOM_HI, MC_SECURITY_CARVEOUT2_BOM_HI_RANGE, McGeneralizedCarveout2BomHi) \
-    _(16, MC, SECURITY_CARVEOUT4_BOM_HI, MC_SECURITY_CARVEOUT4_BOM_HI_RANGE, McGeneralizedCarveout4BomHi) \
+    _(16, MC, SECURITY_CARVEOUT5_BOM_HI, MC_SECURITY_CARVEOUT5_BOM_HI_RANGE, McGeneralizedCarveout5BomHi) \
+    _(16, MC, SECURITY_CARVEOUT3_BOM_HI, MC_SECURITY_CARVEOUT3_BOM_HI_RANGE, McGeneralizedCarveout3BomHi) \
     _(17, EMC, CMD_MAPPING_CMD2_0, CMD2_DQ0_MAP, EmcCmdMappingCmd2_0) \
     _(17, EMC, CMD_MAPPING_CMD2_0, CMD2_DQ1_MAP, EmcCmdMappingCmd2_0) \
     _(17, EMC, CMD_MAPPING_CMD2_0, CMD2_DQ2_MAP, EmcCmdMappingCmd2_0) \
     _(17, EMC, CMD_MAPPING_CMD2_0, CMD2_DQ3_MAP, EmcCmdMappingCmd2_0) \
-    _(17, MC, SECURITY_CARVEOUT1_BOM_HI, MC_SECURITY_CARVEOUT1_BOM_HI_RANGE, McGeneralizedCarveout1BomHi) \
-    _(17, EMC, ADR_CFG, EMEM_NUMDEV, EmcAdrCfg) \
-    _(17, EMC, FBIO_SPARE, CFG_ADR_EN, EmcFbioSpare) \
+    _(17, MC, SECURITY_CARVEOUT2_BOM_HI, MC_SECURITY_CARVEOUT2_BOM_HI_RANGE, McGeneralizedCarveout2BomHi) \
+    _(17, MC, SECURITY_CARVEOUT4_BOM_HI, MC_SECURITY_CARVEOUT4_BOM_HI_RANGE, McGeneralizedCarveout4BomHi) \
     _(18, EMC, CMD_MAPPING_CMD2_1, CMD2_DQ4_MAP, EmcCmdMappingCmd2_1) \
     _(18, EMC, CMD_MAPPING_CMD2_1, CMD2_DQ5_MAP, EmcCmdMappingCmd2_1) \
     _(18, EMC, CMD_MAPPING_CMD2_1, CMD2_DQ6_MAP, EmcCmdMappingCmd2_1) \
     _(18, EMC, CMD_MAPPING_CMD2_1, CMD2_DQ7_MAP, EmcCmdMappingCmd2_1) \
+    _(18, MC, SECURITY_CARVEOUT1_BOM_HI, MC_SECURITY_CARVEOUT1_BOM_HI_RANGE, McGeneralizedCarveout1BomHi) \
+    _(18, EMC, FBIO_SPARE, CFG_ADR_EN, EmcFbioSpare) \
     _(18, EMC, FBIO_CFG8, RANK_SWIZZLE, EmcFbioCfg8) \
-    _(18, MC, EMEM_ADR_CFG, EMEM_NUMDEV, McEmemAdrCfg) \
-    _(18, MC, SEC_CARVEOUT_REG_CTRL, SEC_CARVEOUT_WRITE_ACCESS, McSecCarveoutProtectWriteAccess) \
-    _(18, MC, MTS_CARVEOUT_REG_CTRL, MTS_CARVEOUT_WRITE_ACCESS, McMtsCarveoutRegCtrl) \
     _(19, EMC, CMD_MAPPING_CMD3_0, CMD3_DQ0_MAP, EmcCmdMappingCmd3_0) \
     _(19, EMC, CMD_MAPPING_CMD3_0, CMD3_DQ1_MAP, EmcCmdMappingCmd3_0) \
     _(19, EMC, CMD_MAPPING_CMD3_0, CMD3_DQ2_MAP, EmcCmdMappingCmd3_0) \
     _(19, EMC, CMD_MAPPING_CMD3_0, CMD3_DQ3_MAP, EmcCmdMappingCmd3_0) \
-    _(19, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_READ_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
+    _(19, MC, EMEM_ADR_CFG, EMEM_NUMDEV, McEmemAdrCfg) \
+    _(19, MC, SEC_CARVEOUT_REG_CTRL, SEC_CARVEOUT_WRITE_ACCESS, McSecCarveoutProtectWriteAccess) \
+    _(19, MC, MTS_CARVEOUT_REG_CTRL, MTS_CARVEOUT_WRITE_ACCESS, McMtsCarveoutRegCtrl) \
+    _(19, MC, VIDEO_PROTECT_VPR_OVERRIDE, AFI_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(20, EMC, CMD_MAPPING_CMD3_1, CMD3_DQ4_MAP, EmcCmdMappingCmd3_1) \
     _(20, EMC, CMD_MAPPING_CMD3_1, CMD3_DQ5_MAP, EmcCmdMappingCmd3_1) \
     _(20, EMC, CMD_MAPPING_CMD3_1, CMD3_DQ6_MAP, EmcCmdMappingCmd3_1) \
     _(20, EMC, CMD_MAPPING_CMD3_1, CMD3_DQ7_MAP, EmcCmdMappingCmd3_1) \
-    _(20, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_WRITE_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
+    _(20, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_READ_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
     _(39, MC, SECURITY_CARVEOUT4_CFG0, MC_SECURITY_CARVEOUT4_PROTECT_MODE, McGeneralizedCarveout4Cfg0) \
     _(39, MC, SECURITY_CARVEOUT4_CFG0, MC_SECURITY_CARVEOUT4_LOCK_MODE, McGeneralizedCarveout4Cfg0) \
     _(39, MC, SECURITY_CARVEOUT4_CFG0, MC_SECURITY_CARVEOUT4_ADDRESS_TYPE, McGeneralizedCarveout4Cfg0) \
@@ -556,8 +565,8 @@
     _(39, MC, SECURITY_CARVEOUT4_CFG0, MC_SECURITY_CARVEOUT4_TZ_GLOBAL_RD_EN, McGeneralizedCarveout4Cfg0) \
     _(39, MC, SECURITY_CARVEOUT4_CFG0, MC_SECURITY_CARVEOUT4_ALLOW_APERTURE_ID_MISMATCH, McGeneralizedCarveout4Cfg0) \
     _(39, MC, SECURITY_CARVEOUT4_CFG0, MC_SECURITY_CARVEOUT4_FORCE_APERTURE_ID_MATCH, McGeneralizedCarveout4Cfg0) \
-    _(39, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_DISABLE_READ_CHECK_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
-    _(39, MC, VIDEO_PROTECT_VPR_OVERRIDE, AFI_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(39, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_WRITE_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
+    _(39, MC, VIDEO_PROTECT_VPR_OVERRIDE, AVPC_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(40, MC, SECURITY_CARVEOUT5_CFG0, MC_SECURITY_CARVEOUT5_PROTECT_MODE, McGeneralizedCarveout5Cfg0) \
     _(40, MC, SECURITY_CARVEOUT5_CFG0, MC_SECURITY_CARVEOUT5_LOCK_MODE, McGeneralizedCarveout5Cfg0) \
     _(40, MC, SECURITY_CARVEOUT5_CFG0, MC_SECURITY_CARVEOUT5_ADDRESS_TYPE, McGeneralizedCarveout5Cfg0) \
@@ -571,34 +580,34 @@
     _(40, MC, SECURITY_CARVEOUT5_CFG0, MC_SECURITY_CARVEOUT5_TZ_GLOBAL_RD_EN, McGeneralizedCarveout5Cfg0) \
     _(40, MC, SECURITY_CARVEOUT5_CFG0, MC_SECURITY_CARVEOUT5_ALLOW_APERTURE_ID_MISMATCH, McGeneralizedCarveout5Cfg0) \
     _(40, MC, SECURITY_CARVEOUT5_CFG0, MC_SECURITY_CARVEOUT5_FORCE_APERTURE_ID_MATCH, McGeneralizedCarveout5Cfg0) \
-    _(40, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_DISABLE_WRITE_CHECK_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
-    _(40, MC, VIDEO_PROTECT_VPR_OVERRIDE, AVPC_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(40, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_DISABLE_READ_CHECK_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
+    _(40, MC, VIDEO_PROTECT_VPR_OVERRIDE, DC_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(41, EMC, CMD_MAPPING_CMD0_2, CMD0_DQ8_MAP, EmcCmdMappingCmd0_2) \
     _(41, EMC, CMD_MAPPING_CMD0_2, CMD0_DQSP_MAP, EmcCmdMappingCmd0_2) \
     _(41, EMC, CMD_MAPPING_CMD0_2, CMD0_DQSN_MAP, EmcCmdMappingCmd0_2) \
     _(41, EMC, CMD_MAPPING_CMD0_2, CMD0_DQ_CMD_MAP, EmcCmdMappingCmd0_2) \
-    _(41, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_READ_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
+    _(41, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_DISABLE_WRITE_CHECK_ACCESS_LEVEL, McGeneralizedCarveout2Cfg0) \
     _(41, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_APERTURE_ID, McGeneralizedCarveout2Cfg0) \
     _(42, EMC, CMD_MAPPING_CMD1_2, CMD1_DQ8_MAP, EmcCmdMappingCmd1_2) \
     _(42, EMC, CMD_MAPPING_CMD1_2, CMD1_DQSP_MAP, EmcCmdMappingCmd1_2) \
     _(42, EMC, CMD_MAPPING_CMD1_2, CMD1_DQSN_MAP, EmcCmdMappingCmd1_2) \
     _(42, EMC, CMD_MAPPING_CMD1_2, CMD1_DQ_CMD_MAP, EmcCmdMappingCmd1_2) \
-    _(42, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_WRITE_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
+    _(42, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_READ_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
     _(42, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_APERTURE_ID, McGeneralizedCarveout1Cfg0) \
     _(43, EMC, CMD_MAPPING_CMD2_2, CMD2_DQ8_MAP, EmcCmdMappingCmd2_2) \
     _(43, EMC, CMD_MAPPING_CMD2_2, CMD2_DQSP_MAP, EmcCmdMappingCmd2_2) \
     _(43, EMC, CMD_MAPPING_CMD2_2, CMD2_DQSN_MAP, EmcCmdMappingCmd2_2) \
     _(43, EMC, CMD_MAPPING_CMD2_2, CMD2_DQ_CMD_MAP, EmcCmdMappingCmd2_2) \
-    _(43, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_DISABLE_READ_CHECK_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
+    _(43, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_WRITE_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
     _(43, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_APERTURE_ID, McGeneralizedCarveout3Cfg0) \
     _(44, EMC, CMD_MAPPING_CMD3_2, CMD3_DQ8_MAP, EmcCmdMappingCmd3_2) \
     _(44, EMC, CMD_MAPPING_CMD3_2, CMD3_DQSP_MAP, EmcCmdMappingCmd3_2) \
     _(44, EMC, CMD_MAPPING_CMD3_2, CMD3_DQSN_MAP, EmcCmdMappingCmd3_2) \
     _(44, EMC, CMD_MAPPING_CMD3_2, CMD3_DQ_CMD_MAP, EmcCmdMappingCmd3_2) \
-    _(44, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_DISABLE_WRITE_CHECK_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
-    _(44, MC, VIDEO_PROTECT_VPR_OVERRIDE, DC_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(44, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_DISABLE_READ_CHECK_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
     _(44, MC, VIDEO_PROTECT_VPR_OVERRIDE, DCB_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(44, MC, VIDEO_PROTECT_VPR_OVERRIDE, HC_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(44, MC, VIDEO_PROTECT_VPR_OVERRIDE, HDA_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(45, MC, EMEM_ADR_CFG_CHANNEL_MASK, EMEM_CHANNEL_MASK, McEmemAdrCfgChannelMask) \
     _(45, MC, EMEM_ADR_CFG_DEV0, EMEM_DEV0_COLWIDTH, McEmemAdrCfgDev0) \
     _(45, MC, EMEM_ADR_CFG_DEV0, EMEM_DEV0_BANKWIDTH, McEmemAdrCfgDev0) \
@@ -607,86 +616,86 @@
     _(46, MC, EMEM_ADR_CFG_DEV1, EMEM_DEV1_COLWIDTH, McEmemAdrCfgDev1) \
     _(46, MC, EMEM_ADR_CFG_DEV1, EMEM_DEV1_BANKWIDTH, McEmemAdrCfgDev1) \
     _(46, MC, EMEM_ADR_CFG_DEV1, EMEM_DEV1_DEVSIZE, McEmemAdrCfgDev1) \
-    _(46, MC, VIDEO_PROTECT_VPR_OVERRIDE, HDA_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(46, MC, VIDEO_PROTECT_VPR_OVERRIDE, ISP2_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(47, MC, EMEM_ADR_CFG_BANK_MASK_1, EMEM_BANK_MASK_1, McEmemAdrCfgBankMask1) \
+    _(47, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_DISABLE_WRITE_CHECK_ACCESS_LEVEL, McGeneralizedCarveout1Cfg0) \
     _(47, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_READ_ACCESS_LEVEL, McGeneralizedCarveout3Cfg0) \
-    _(47, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_WRITE_ACCESS_LEVEL, McGeneralizedCarveout3Cfg0) \
-    _(47, MC, VIDEO_PROTECT_VPR_OVERRIDE, ISP2_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(47, MC, VIDEO_PROTECT_VPR_OVERRIDE, MPCORE_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(47, MC, VIDEO_PROTECT_VPR_OVERRIDE, NVENC_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(48, MC, EMEM_ADR_CFG_BANK_MASK_2, EMEM_BANK_MASK_2, McEmemAdrCfgBankMask2) \
+    _(48, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_WRITE_ACCESS_LEVEL, McGeneralizedCarveout3Cfg0) \
     _(48, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_DISABLE_READ_CHECK_ACCESS_LEVEL, McGeneralizedCarveout3Cfg0) \
-    _(48, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_DISABLE_WRITE_CHECK_ACCESS_LEVEL, McGeneralizedCarveout3Cfg0) \
-    _(48, MC, VIDEO_PROTECT_VPR_OVERRIDE, NVENC_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(48, MC, VIDEO_PROTECT_VPR_OVERRIDE, PPCS_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(48, MC, VIDEO_PROTECT_VPR_OVERRIDE, SATA_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(49, MC, VIDEO_PROTECT_GPU_OVERRIDE_1, VIDEO_PROTECT_GPU_OVERRIDE_1, McVideoProtectGpuOverride1) \
     _(49, MC, EMEM_CFG, EMEM_SIZE_MB, McEmemCfg) \
     _(49, MC, EMEM_CFG, EMEM_BOM, McEmemCfg) \
-    _(49, MC, VIDEO_PROTECT_VPR_OVERRIDE, SATA_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(49, MC, VIDEO_PROTECT_VPR_OVERRIDE, VI_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(50, MC, SECURITY_CARVEOUT3_BOM, MC_SECURITY_CARVEOUT3_BOM_RANGE, McGeneralizedCarveout3Bom) \
     _(50, MC, SECURITY_CARVEOUT1_BOM, MC_SECURITY_CARVEOUT1_BOM_RANGE, McGeneralizedCarveout1Bom) \
-    _(50, MC, VIDEO_PROTECT_VPR_OVERRIDE, VI_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(50, MC, VIDEO_PROTECT_VPR_OVERRIDE, VIC_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(50, MC, VIDEO_PROTECT_VPR_OVERRIDE, XUSB_HOST_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(51, MC, SECURITY_CARVEOUT4_BOM, MC_SECURITY_CARVEOUT4_BOM_RANGE, McGeneralizedCarveout4Bom) \
     _(51, MC, SECURITY_CARVEOUT2_BOM, MC_SECURITY_CARVEOUT2_BOM_RANGE, McGeneralizedCarveout2Bom) \
-    _(51, MC, VIDEO_PROTECT_VPR_OVERRIDE, XUSB_HOST_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(51, MC, VIDEO_PROTECT_VPR_OVERRIDE, XUSB_DEV_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(51, MC, VIDEO_PROTECT_VPR_OVERRIDE, A9AVP_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(52, MC, SECURITY_CARVEOUT5_BOM, MC_SECURITY_CARVEOUT5_BOM_RANGE, McGeneralizedCarveout5Bom) \
     _(52, MC, VIDEO_PROTECT_BOM, VIDEO_PROTECT_BOM, McVideoProtectBom) \
-    _(52, MC, VIDEO_PROTECT_VPR_OVERRIDE, A9AVP_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(52, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_DISABLE_WRITE_CHECK_ACCESS_LEVEL, McGeneralizedCarveout3Cfg0) \
     _(52, MC, VIDEO_PROTECT_VPR_OVERRIDE, TSEC_VPR_OVERRIDE, McVideoProtectVprOverride) \
-    _(52, MC, VIDEO_PROTECT_VPR_OVERRIDE, PPCS1_VPR_OVERRIDE, McVideoProtectVprOverride) \
-    _(52, MC, VIDEO_PROTECT_VPR_OVERRIDE, DC1_VPR_OVERRIDE, McVideoProtectVprOverride) \
-    _(52, MC, VIDEO_PROTECT_VPR_OVERRIDE, SDMMC1A_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(53, MC, VIDEO_PROTECT_SIZE_MB, VIDEO_PROTECT_SIZE_MB, McVideoProtectSizeMb) \
     _(53, MC, SEC_CARVEOUT_BOM, SEC_CARVEOUT_BOM, McSecCarveoutBom) \
+    _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE, PPCS1_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE, DC1_VPR_OVERRIDE, McVideoProtectVprOverride) \
+    _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE, SDMMC1A_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE, SDMMC2A_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE, SDMMC3A_VPR_OVERRIDE, McVideoProtectVprOverride) \
     _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE1, SDMMC4A_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE1, ISP2B_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE1, PPCS2_VPR_OVERRIDE, McVideoProtectVprOverride1) \
-    _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE1, NVDEC_VPR_OVERRIDE, McVideoProtectVprOverride1) \
-    _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE1, APE_VPR_OVERRIDE, McVideoProtectVprOverride1) \
-    _(53, MC, VIDEO_PROTECT_VPR_OVERRIDE1, SE_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(54, MC, SEC_CARVEOUT_SIZE_MB, SEC_CARVEOUT_SIZE_MB, McSecCarveoutSizeMb) \
     _(54, MC, MTS_CARVEOUT_BOM, MTS_CARVEOUT_BOM, McMtsCarveoutBom) \
+    _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, NVDEC_VPR_OVERRIDE, McVideoProtectVprOverride1) \
+    _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, APE_VPR_OVERRIDE, McVideoProtectVprOverride1) \
+    _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, SE_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, NVJPG_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, HC1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, SE1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, AXIAP_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, ETR_VPR_OVERRIDE, McVideoProtectVprOverride1) \
-    _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, TSECB_VPR_OVERRIDE, McVideoProtectVprOverride1) \
-    _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, TSEC1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
-    _(54, MC, VIDEO_PROTECT_VPR_OVERRIDE1, TSECB1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(55, MC, MTS_CARVEOUT_SIZE_MB, MTS_CARVEOUT_SIZE_MB, McMtsCarveoutSizeMb) \
     _(55, MC, SECURITY_CARVEOUT4_SIZE_128KB, MC_SECURITY_CARVEOUT4_SIZE_RANGE_128KB, McGeneralizedCarveout4Size128kb) \
+    _(55, MC, VIDEO_PROTECT_VPR_OVERRIDE1, TSECB_VPR_OVERRIDE, McVideoProtectVprOverride1) \
+    _(55, MC, VIDEO_PROTECT_VPR_OVERRIDE1, TSEC1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
+    _(55, MC, VIDEO_PROTECT_VPR_OVERRIDE1, TSECB1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(55, MC, VIDEO_PROTECT_VPR_OVERRIDE1, NVDEC1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(55, MC, VIDEO_PROTECT_VPR_OVERRIDE1, ISP21_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(55, MC, VIDEO_PROTECT_VPR_OVERRIDE1, ISP2B1_VPR_OVERRIDE, McVideoProtectVprOverride1) \
     _(55, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_PROTECT_MODE, McGeneralizedCarveout2Cfg0) \
     _(55, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_LOCK_MODE, McGeneralizedCarveout2Cfg0) \
-    _(55, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_ADDRESS_TYPE, McGeneralizedCarveout2Cfg0) \
-    _(55, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_SEND_CFG_TO_GPU, McGeneralizedCarveout2Cfg0) \
-    _(55, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_TZ_GLOBAL_WR_EN, McGeneralizedCarveout2Cfg0) \
     _(56, MC, SECURITY_CARVEOUT3_SIZE_128KB, MC_SECURITY_CARVEOUT3_SIZE_RANGE_128KB, McGeneralizedCarveout3Size128kb) \
     _(56, MC, SECURITY_CARVEOUT2_SIZE_128KB, MC_SECURITY_CARVEOUT2_SIZE_RANGE_128KB, McGeneralizedCarveout2Size128kb) \
+    _(56, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_ADDRESS_TYPE, McGeneralizedCarveout2Cfg0) \
+    _(56, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_SEND_CFG_TO_GPU, McGeneralizedCarveout2Cfg0) \
+    _(56, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_TZ_GLOBAL_WR_EN, McGeneralizedCarveout2Cfg0) \
     _(56, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_TZ_GLOBAL_RD_EN, McGeneralizedCarveout2Cfg0) \
     _(56, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_ALLOW_APERTURE_ID_MISMATCH, McGeneralizedCarveout2Cfg0) \
     _(56, MC, SECURITY_CARVEOUT2_CFG0, MC_SECURITY_CARVEOUT2_FORCE_APERTURE_ID_MATCH, McGeneralizedCarveout2Cfg0) \
     _(56, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_PROTECT_MODE, McGeneralizedCarveout1Cfg0) \
     _(56, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_LOCK_MODE, McGeneralizedCarveout1Cfg0) \
-    _(56, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_ADDRESS_TYPE, McGeneralizedCarveout1Cfg0) \
-    _(56, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_SEND_CFG_TO_GPU, McGeneralizedCarveout1Cfg0) \
-    _(56, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_TZ_GLOBAL_WR_EN, McGeneralizedCarveout1Cfg0) \
     _(57, MC, SECURITY_CARVEOUT1_SIZE_128KB, MC_SECURITY_CARVEOUT1_SIZE_RANGE_128KB, McGeneralizedCarveout1Size128kb) \
     _(57, MC, SECURITY_CARVEOUT5_SIZE_128KB, MC_SECURITY_CARVEOUT5_SIZE_RANGE_128KB, McGeneralizedCarveout5Size128kb) \
+    _(57, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_ADDRESS_TYPE, McGeneralizedCarveout1Cfg0) \
+    _(57, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_SEND_CFG_TO_GPU, McGeneralizedCarveout1Cfg0) \
+    _(57, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_TZ_GLOBAL_WR_EN, McGeneralizedCarveout1Cfg0) \
     _(57, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_TZ_GLOBAL_RD_EN, McGeneralizedCarveout1Cfg0) \
     _(57, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_ALLOW_APERTURE_ID_MISMATCH, McGeneralizedCarveout1Cfg0) \
     _(57, MC, SECURITY_CARVEOUT1_CFG0, MC_SECURITY_CARVEOUT1_FORCE_APERTURE_ID_MATCH, McGeneralizedCarveout1Cfg0) \
     _(57, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_PROTECT_MODE, McGeneralizedCarveout3Cfg0) \
     _(57, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_LOCK_MODE, McGeneralizedCarveout3Cfg0) \
-    _(57, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_ADDRESS_TYPE, McGeneralizedCarveout3Cfg0) \
-    _(57, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_SEND_CFG_TO_GPU, McGeneralizedCarveout3Cfg0) \
-    _(57, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_TZ_GLOBAL_WR_EN, McGeneralizedCarveout3Cfg0) \
+    _(58, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_ADDRESS_TYPE, McGeneralizedCarveout3Cfg0) \
+    _(58, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_SEND_CFG_TO_GPU, McGeneralizedCarveout3Cfg0) \
+    _(58, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_TZ_GLOBAL_WR_EN, McGeneralizedCarveout3Cfg0) \
     _(58, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_TZ_GLOBAL_RD_EN, McGeneralizedCarveout3Cfg0) \
     _(58, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_ALLOW_APERTURE_ID_MISMATCH, McGeneralizedCarveout3Cfg0) \
     _(58, MC, SECURITY_CARVEOUT3_CFG0, MC_SECURITY_CARVEOUT3_FORCE_APERTURE_ID_MATCH, McGeneralizedCarveout3Cfg0) \

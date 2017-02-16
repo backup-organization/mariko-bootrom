@@ -76,6 +76,8 @@ extern "C"
 #define NVBOOT_DEFAULT_ENABLE_CHARGER_DETECT_FUSE NV_FALSE
 #define NVBOOT_DEFAULT_2_BUTTON_RCM_FUSE        0
 #define NVBOOT_DEFAULT_SKU_FUSES                NvBootSku_IdeOn_PcieOn
+#define NVBOOT_DEFAULT_SKIP_DELAY_SEQUENCE_FUSE 0    
+
 
 #define NVBOOT_DEFAULT_SATA_CALIB_FUSE    0
 // BootRom uses bit 0 (sata_rx_oob_boot_calibration_disable) of fuse reserved_production for enabling RX_CAL

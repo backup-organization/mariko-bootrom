@@ -769,7 +769,7 @@ NvBootError NvBootBpmpSecureExitStart()
     FI_counter1 -= SE_HOUSEKEEPING_STEPS*COUNTER1;
     // If the increment count is not what we expect, some instruction skipping
     // might have happened. Reset the chip.
-    if(FI_counter1 != 0) NvBootResetFullChip();
+    if(FI_counter1 != 0) do_exception();
 
     // flush all secure information in preparation for exiting Secure Section
     // of boot ROM --

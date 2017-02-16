@@ -151,13 +151,13 @@ void SdmmcConfig(NvBootSdmmcContext *pSdmmcContext)
 
     switch(pSdmmcContext->ConfigOption)
     {
-        case Sdmmc_Config_0: // SDR_25.5Mhz_ReadMultipage
+        case Sdmmc_Config_0: // SDR_25.5Mhz_ReadSinglepage
+            pSdmmcContext->MultiPageSupported = Sdmmc_ReadMode_SinglePage; // SinglePage Read support
             break;
         case Sdmmc_Config_1: // SDR_51Mhz_ReadMultipage
             pSdmmcContext->CardClockDivisor = SDMMC_IO_CLOCK_DIVISOR_NONE; 
             break;
-        case Sdmmc_Config_2: // SDR_25.5Mhz_ReadSinglepage
-            pSdmmcContext->MultiPageSupported = Sdmmc_ReadMode_SinglePage; // SinglePage Read support
+        case Sdmmc_Config_2: // SDR_25.5Mhz_ReadMultipage
             break;
         case Sdmmc_Config_3: // DDR_51Mhz_ReadMultipage
             pSdmmcContext->ClockDivisor = SDMMC_CNTL_CLOCK_DIVISOR_102MHZ;//DDR 
@@ -459,54 +459,6 @@ NvBootSdmmcWritePage(
     if (Len - (PagesToWrite * (1 << s_SdmmcContext->PageSizeLog2)) != 0)
     PagesToWrite++;
     
-    // Check if MultiPageRead is supported
-    if (s_SdmmcContext->MultiPageSupported)
-    {
-        
-        // If data line ready times out, try to recover from errors.
-        if (HwSdmmcWaitForDataLineReady())
-        {
-            NV_BOOT_CHECK_ERROR(HwSdmmcRecoverControllerFromErrors(NV_TRUE));
-        }
-        NV_BOOT_CHECK_ERROR(SdmmcSelectAccessRegion(&Block2Access));
-        // TBD: Check for DMA limitation here
-        
-        
-        // Find out the Block to write to on eMMC.
-        ActualBlockToWrite = (Block2Access << s_SdmmcContext->PagesPerBlockLog2) +
-            Page2Access;
-        HwSdmmcSetNumOfBlocks(PageSize, PagesToWrite);
-        
-        // Set up command arg.
-        if (s_SdmmcContext->IsHighCapacityCard)
-        CommandArg = ActualBlockToWrite;
-        else
-        CommandArg = (ActualBlockToWrite << s_SdmmcContext->PageSizeLog2);
-        
-        // Store address of pBuffer in sdmmc context
-        s_SdmmcContext->CurrentReadBufferAddress = Dest;
-        
-        // Setup Dma.
-        HwSdmmcSetupDma(Dest);
-        
-        // settingthe block count command
-        NV_BOOT_CHECK_ERROR(HwSdmmcSendCommand(SdmmcCommand_SetBlockCount,
-        (PagesToWrite), SdmmcResponseType_R1, NV_FALSE));
-        
-        // Send command to card.
-        NV_BOOT_CHECK_ERROR(HwSdmmcSendCommand(SdmmcCommand_WriteMulti,
-        CommandArg, SdmmcResponseType_R1, NV_TRUE));
-        if (HwSdmmcWaitForDataLineReady() != NvBootError_Success)
-        {
-            WriteXferStatus = NvBootSdmmcQueryStatus();
-            if (WriteXferStatus == NvBootDeviceStatus_Idle)
-                e= NvBootError_Success;
-            else
-               e = NvBootError_TxferFailed;
-        }
-    }
-    else
-    {
         do
         {
             // If data line ready times out, try to recover from errors.
@@ -560,7 +512,6 @@ NvBootSdmmcWritePage(
             Dest += PageSize;
             PagesToWrite--;
         }while(PagesToWrite);
-    }
 
  fail:
     return e;

@@ -19,7 +19,7 @@
   *  Static table of apertures handled by BootROM. 
   *  It is important to make sure that Aperture+Length will not cause an overflow.
   */
- NvBootAddrRange BootAddressTable[] = 
+const NvBootAddrRange BootAddressTable[] = 
  {
      /** ID *******Start Address ********* Length ***********/
      {BlRamRange, NVBOOT_BL_IRAM_START, (NVBOOT_BL_IRAM_END-NVBOOT_BL_IRAM_START+1)},

@@ -948,7 +948,14 @@ NvBootSeSHAHash(NvU32 *pInputMessage, NvU32 InputMessageSizeBytes, NvU32 *pInput
 {
     NvU32   SeConfigReg = 0;
     NvU32   SeOutLL[SeLLSize];
-    NvU64   InputMessageSizeBitsLeft = InputMessageSizeBytes * 8;
+    /*
+     * [Coverity] overflow_before_widen: Potentially overflowing expression
+     * "InputMessageBytesLeft * 8UL" with type "unsigned long" (32 bits, unsigned)is
+     * evaluated using 32-bit arithmetic, and then used in a context that expects
+     * an expression of type "NvU64" (64 bits, unsigned).
+     * remediation: To avoid overflow, cast either "InputMessageBytesLeft" or "8UL" to type "NvU64".
+     */
+    NvU64   InputMessageSizeBitsLeft = (NvU64) InputMessageSizeBytes * 8;
     NvU32   * const pInputMessageSizeBitsLeft0 = (NvU32 *) &InputMessageSizeBitsLeft;
     NvU32   * const pInputMessageSizeBitsLeft1 = pInputMessageSizeBitsLeft0 + 1;
     NvU32   ChunksRemainingForHash = NV_ICEIL(InputMessageSizeBytes, NVBOOT_SE_LL_MAX_SIZE_BYTES);
@@ -1040,7 +1047,14 @@ NvBootSeSHAHash(NvU32 *pInputMessage, NvU32 InputMessageSizeBytes, NvU32 *pInput
 
         // Calculate input message size left in bits. InputMessageSizeBitsLeft
         // is a NvU64. 
-        InputMessageSizeBitsLeft = InputMessageBytesLeft * 8;
+        /*
+         * [Coverity] overflow_before_widen: Potentially overflowing expression
+         * "InputMessageBytesLeft * 8UL" with type "unsigned long" (32 bits, unsigned)is
+         * evaluated using 32-bit arithmetic, and then used in a context that expects
+         * an expression of type "NvU64" (64 bits, unsigned).
+         * remediation: To avoid overflow, cast either "InputMessageBytesLeft" or "8UL" to type "NvU64".
+         */
+        InputMessageSizeBitsLeft = (NvU64) InputMessageBytesLeft * 8;
 
         NvBootSetSeReg(SE_SHA_MSG_LEFT_0, *pInputMessageSizeBitsLeft0);
         NvBootSetSeReg(SE_SHA_MSG_LEFT_1, *pInputMessageSizeBitsLeft1);

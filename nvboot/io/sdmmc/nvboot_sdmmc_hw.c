@@ -23,6 +23,7 @@
 #include "nvboot_util_int.h"
 #include "nvboot_car_int.h"
 #include "nvboot_dispatcher_int.h"
+#include "nvboot_fuse_int.h"
 
 //t214 specific
 #include "project.h"
@@ -758,19 +759,16 @@ void HwSdmmcAbortDataRead(void)
     // Reload reg value after clock is stable.
     NV_SDMMC_READ(SW_RESET_TIMEOUT_CTRL_CLOCK_CONTROL, StcReg);
 
-    // Find out what volatage is supported.
+    // Find out what voltage is supported.
     NV_SDMMC_READ(CAPABILITIES, CapabilityReg);
     PowerControlHostReg = 0;
 
-    // voltage setting logic changed 'TO' Required voltage "FROM" supported voltage !!!
-    // Default is Queryvoltage.
-    //if(s_FuseInfo.VoltageRange == NvBootSdmmcVoltageRange_QueryVoltage)
-    {
+    // voltage setting from low to high
         if (NV_DRF_VAL(SDMMC, CAPABILITIES,\
-            VOLTAGE_SUPPORT_3_3_V, CapabilityReg))
+        VOLTAGE_SUPPORT_1_8_V, CapabilityReg))
         {
             PowerControlHostReg |= NV_DRF_DEF(SDMMC, POWER_CONTROL_HOST,
-                                    SD_BUS_VOLTAGE_SELECT, V3_3);
+                                SD_BUS_VOLTAGE_SELECT, V1_8);
         }
         else if (NV_DRF_VAL(SDMMC, CAPABILITIES,\
             VOLTAGE_SUPPORT_3_0_V, CapabilityReg))
@@ -781,8 +779,7 @@ void HwSdmmcAbortDataRead(void)
         else
         {
             PowerControlHostReg |= NV_DRF_DEF(SDMMC, POWER_CONTROL_HOST,
-                                    SD_BUS_VOLTAGE_SELECT, V1_8);
-        }
+                                SD_BUS_VOLTAGE_SELECT, V3_3);
     }
     
     // Enable bus power.
@@ -1639,7 +1636,7 @@ NvBootError EmmcGetOpConditions(void)
     uint32_t OCRRegister = 0;
     uint32_t ElapsedTime = 0;
     uint32_t* pSdmmcResponse = &s_SdmmcContext->SdmmcResponse[0];
-    uint32_t Cmd1Arg = EmmcOcrVoltageRange_QueryVoltage;//s_OcrVoltageRange[s_FuseInfo.VoltageRange];
+    uint32_t Cmd1Arg = EmmcOcrVoltageRange_QueryVoltage;
 
     StartTime = NvBootUtilGetTimeUS();
     // Send SEND_OP_COND(CMD1) Command.
@@ -1655,14 +1652,7 @@ NvBootError EmmcGetOpConditions(void)
             break;
         if (Cmd1Arg == EmmcOcrVoltageRange_QueryVoltage)
         {
-            if (OCRRegister & EmmcOcrVoltageRange_HighVoltage)
-            {
-                Cmd1Arg = EmmcOcrVoltageRange_HighVoltage;
-                s_SdmmcContext->IsHighVoltageRange = NV_TRUE;
-                s_SdmmcBitInfo->DiscoveredVoltageRange =
-                    EmmcOcrVoltageRange_HighVoltage;
-            }
-            else if (OCRRegister & EmmcOcrVoltageRange_LowVoltage)
+            if (OCRRegister & EmmcOcrVoltageRange_LowVoltage)
             {
                 Cmd1Arg = EmmcOcrVoltageRange_LowVoltage;
                 s_SdmmcContext->IsHighVoltageRange = NV_FALSE;
@@ -1787,9 +1777,18 @@ NvBootError EmmcIdentifyCard(void)
     SdmmcAccessRegion NvBootPartitionEn = SdmmcAccessRegion_UserArea;
     uint8_t CardSpeed = 0;
     unsigned long funcStartTick;
+    uint32_t SkipDelay = 0;
 
     // Set Clock rate to 375KHz for identification of card.
     HwSdmmcSetCardClock(NvBootSdmmcCardClock_Identification);
+
+    NvBootFuseSkipDelaySeq(&SkipDelay);
+    if(!SkipDelay)
+    {
+        NvBootUtilWaitUS(1000); // send clocks for max (1ms)
+        NvBootUtilWaitUS(3);    // send clocks for 74 clocks @ 375Khz
+    }
+
     // Send GO_IDLE_STATE(CMD0) Command.
     NV_BOOT_CHECK_ERROR(HwSdmmcSendCommand(SdmmcCommand_GoIdleState,
         0, SdmmcResponseType_NoResponse, NV_FALSE));

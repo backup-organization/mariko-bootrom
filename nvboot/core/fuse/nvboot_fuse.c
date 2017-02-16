@@ -695,6 +695,23 @@ NvBootFuseGetSkuRaw(NvU32 *pSku)
 }
 
 void
+NvBootFuseSkipDelaySeq(NvU32 *pSkipSequence)
+{
+    NvU32 RegData;
+
+    NV_ASSERT(pSkipSequence != NULL);
+
+#if USE_FUSES
+    RegData = NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_RESERVED_SW_0);
+    RegData = NV_DRF_VAL(FUSE, RESERVED_SW, SKIP_DELAY_SEQUENCE, RegData);
+#else
+    RegData = NVBOOT_DEFAULT_SKIP_DELAY_SEQUENCE_FUSE;
+#endif
+
+    *pSkipSequence = RegData;
+}
+
+void
 NvBootFuseGetSataCalib(NvU32 *pSataCalib)
 {
     TODO

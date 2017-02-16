@@ -93,7 +93,7 @@ typedef struct NvBootDevMgrRec
     /* Device Info */
     NvU32                   BlockSizeLog2;
     NvU32                   PageSizeLog2;
-    NvBootDevMgrCallbacks  *Callbacks;    /* Callbacks to the chosen driver. */
+    const NvBootDevMgrCallbacks  *Callbacks;    /* Callbacks to the chosen driver. */
 } NvBootDevMgr;
 
 

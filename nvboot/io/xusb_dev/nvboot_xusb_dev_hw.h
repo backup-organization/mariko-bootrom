@@ -13,13 +13,13 @@
 #include "nvboot_error.h"
 #include "nvboot_car_int.h"
 // extern clock tables here
-extern ClockInst s_XUSBDeviceClkTable[];
-extern ClockTable XusbClockTables[];
-extern ClockTable XusbFpgaClockTables[];
+extern const ClockInst s_XUSBDeviceClkTable[];
+extern const ClockTable XusbClockTables[];
+// extern const ClockTable XusbFpgaClockTables[];
 // Index of secondary table
 #define OSC_TABLE 0
-extern ClockInst s_XUSBTrackingClockFrequency_38_4[];
-extern ClockInst s_XUSBTrackingClockFrequency_12[];
+extern const ClockInst s_XUSBTrackingClockFrequency_38_4[];
+// extern ClockInst s_XUSBTrackingClockFrequency_12[];
 
 /*************** h/w helper routines too small to be functions in their own right ******************/
 

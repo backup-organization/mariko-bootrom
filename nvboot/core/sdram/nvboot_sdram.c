@@ -23,6 +23,73 @@
 #include "nvboot_util_int.h"
 #include "project.h"
 
+#define EMC_SPARE_BLACKLIST(_) \
+          _(EMC_CCFIFO_ADDR_0) \
+          _(EMC_CMD_MAPPING_CMD0_0_0) \
+          _(EMC_CMD_MAPPING_CMD0_1_0) \
+          _(EMC_CMD_MAPPING_CMD0_2_0) \
+          _(EMC_CMD_MAPPING_CMD1_0_0) \
+          _(EMC_CMD_MAPPING_CMD1_1_0) \
+          _(EMC_CMD_MAPPING_CMD1_2_0) \
+          _(EMC_CMD_MAPPING_CMD2_0_0) \
+          _(EMC_CMD_MAPPING_CMD2_1_0) \
+          _(EMC_CMD_MAPPING_CMD2_2_0) \
+          _(EMC_CMD_MAPPING_CMD3_0_0) \
+          _(EMC_CMD_MAPPING_CMD3_1_0) \
+          _(EMC_CMD_MAPPING_CMD3_2_0) \
+          _(EMC_CMD_MAPPING_BYTE_0) \
+          _(EMC_PMACRO_BRICK_MAPPING_0_0) \
+          _(EMC_PMACRO_BRICK_MAPPING_1_0) \
+          _(EMC_PMACRO_BRICK_MAPPING_2_0)
+    
+#define MC_SPARE_BLACKLIST(_) \
+      _(MC_EMEM_CFG_0) \
+      _(MC_EMEM_CFG_ACCESS_CTRL_0) \
+      _(MC_EMEM_ADR_CFG_0) \
+      _(MC_EMEM_ADR_CFG_DEV0_0) \
+      _(MC_EMEM_ADR_CFG_DEV1_0) \
+      _(MC_EMEM_ADR_CFG_CHANNEL_MASK_0) \
+      _(MC_EMEM_ADR_CFG_BANK_MASK_0_0) \
+      _(MC_EMEM_ADR_CFG_BANK_MASK_1_0) \
+      _(MC_EMEM_ADR_CFG_BANK_MASK_2_0) \
+      _(MC_VIDEO_PROTECT_BOM_0) \
+      _(MC_VIDEO_PROTECT_BOM_ADR_HI_0) \
+      _(MC_VIDEO_PROTECT_SIZE_MB_0) \
+      _(MC_VIDEO_PROTECT_GPU_OVERRIDE_0_0) \
+      _(MC_VIDEO_PROTECT_GPU_OVERRIDE_1_0) \
+      _(MC_MTS_CARVEOUT_BOM_0) \
+      _(MC_MTS_CARVEOUT_ADR_HI_0) \
+      _(MC_SECURITY_CARVEOUT1_CFG0_0) \
+      _(MC_SECURITY_CARVEOUT2_CFG0_0) \
+      _(MC_SECURITY_CARVEOUT3_CFG0_0) \
+      _(MC_SECURITY_CARVEOUT4_CFG0_0) \
+      _(MC_SECURITY_CARVEOUT5_CFG0_0) \
+      _(MC_UNTRANSLATED_REGION_CHECK_0)
+
+#define CAR_SPARE_WHITELIST(_) \
+      _(CLK_RST_CONTROLLER_RST_DEV_H_SET_0) \
+      _(CLK_RST_CONTROLLER_RST_DEV_H_CLR_0) \
+      _(CLK_RST_CONTROLLER_PLLM_BASE_0) \
+      _(CLK_RST_CONTROLLER_PLLM_MISC1_0) \
+      _(CLK_RST_CONTROLLER_PLLM_MISC2_0) \
+      _(CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0) \
+      _(CLK_RST_CONTROLLER_CLK_SOURCE_EMC_DLL_0) \
+      _(CLK_RST_CONTROLLER_CLK_ENB_W_CLR_0) \
+      _(CLK_RST_CONTROLLER_CLK_ENB_X_SET_0) 
+
+#define PMC_SPARE_WHITELIST(_) \
+        _(APBDEV_PMC_VDDP_SEL_0) \
+        _(APBDEV_PMC_DDR_CFG_0) \
+        _(APBDEV_PMC_IO_DPD3_REQ_0) \
+        _(APBDEV_PMC_IO_DPD4_REQ_0) \
+        _(APBDEV_PMC_NO_IOPOWER_0) \
+        _(APBDEV_PMC_WEAK_BIAS_0) \
+        _(APBDEV_PMC_DDR_CNTRL_0) \
+        _(APBDEV_PMC_REG_SHORT_0) 
+
+
+#define MSS_LIST_CASE(r)  case( r ):
+
 // Wrapper Macros for writting/reading into/from MC and EMC registers
 
 /** 
@@ -84,6 +151,62 @@ do {                                                                          \
             NV_DRF_NUM(EMC, PRE, PRE_DEV_SELECTN, pData->EmcDevSelect));      \
 } while(0)
 
+void NvBootMssSpareWrite(NvU32 addr, NvU32 data)
+{
+    NvU32 base;
+    NvU32 offset;
+    if (!(addr))
+       return;
+    if ((addr >= NV_ADDRESS_MAP_EMC_BASE) && (addr <= NV_ADDRESS_MAP_EMC_LIMIT)) {
+       base = NV_ADDRESS_MAP_EMC_BASE;
+       offset = addr - base;
+       switch (offset) {
+          EMC_SPARE_BLACKLIST(MSS_LIST_CASE)
+            return;
+            break;
+          default:
+            NV_WRITE32(addr, data);
+            break;
+       }
+    }
+    if ((addr >= NV_ADDRESS_MAP_MC_BASE) && (addr <= NV_ADDRESS_MAP_MC_LIMIT)) {
+       base = NV_ADDRESS_MAP_MC_BASE;
+       offset = addr - base;
+       switch (offset) {
+          MC_SPARE_BLACKLIST(MSS_LIST_CASE)
+            return;
+            break;
+          default:
+            NV_WRITE32(addr, data);
+            break;
+       }
+    }
+    if ((addr >= NV_ADDRESS_MAP_APB_PMC_BASE)  && (addr <= NV_ADDRESS_MAP_APB_PMC_LIMIT)) {
+       base = NV_ADDRESS_MAP_APB_PMC_BASE;
+       offset = addr - base;
+       switch (offset) {
+          PMC_SPARE_WHITELIST(MSS_LIST_CASE)
+            NV_WRITE32(addr, data);
+            break;
+          default:
+            return;
+            break;
+       }
+    }
+    if ((addr >= NV_ADDRESS_MAP_CLK_RST_BASE)  && (addr <= NV_ADDRESS_MAP_CLK_RST_LIMIT)) {
+       base = NV_ADDRESS_MAP_APB_PMC_BASE;
+       offset = addr - base;
+       switch (offset) {
+          CAR_SPARE_WHITELIST(MSS_LIST_CASE)
+            NV_WRITE32(addr, data);
+            break;
+          default:
+            return;
+            break;
+       }
+    }
+}
+
 #ifdef DONT_INTEGRATE_LEGACY_DRAM_TYPES
 static void InitDdr(const NvBootSdramParams *pData, NvU32 EmcBase)
 {
@@ -110,7 +233,7 @@ static void InitDdr(const NvBootSdramParams *pData, NvU32 EmcBase)
     HW_REGW(EmcBase, EMC, MRS, pData->EmcMrs);
     // Patch 6 using BCT Spare Variables
     if(pData->EmcBctSpare10)
-       NV_WRITE32(pData->EmcBctSpare10, pData->EmcBctSpare11); 
+       NvBootMssSpareWrite(pData->EmcBctSpare10, pData->EmcBctSpare11); 
 }
 
 static void InitLpDdr(const NvBootSdramParams *pData, NvU32 EmcBase)
@@ -126,7 +249,7 @@ static void InitLpDdr(const NvBootSdramParams *pData, NvU32 EmcBase)
     HW_REGW(EmcBase, EMC, EMRS, pData->EmcEmrs);
     // Patch 6 using BCT Spare Variables
     if(pData->EmcBctSpare10)
-       NV_WRITE32(pData->EmcBctSpare10, pData->EmcBctSpare11); 
+       NvBootMssSpareWrite(pData->EmcBctSpare10, pData->EmcBctSpare11); 
 }
 #endif // DONT_INTEGRATE_LEGACY_DRAM_TYPES
 
@@ -161,7 +284,7 @@ static void InitLpDdr2(const NvBootSdramParams *pData, NvU32 EmcBase)
     HW_REGW(EmcBase, EMC, MRW4, pData->EmcMrw4);
     // Patch 6 using BCT Spare Variables
     if(pData->EmcBctSpare10)
-       NV_WRITE32(pData->EmcBctSpare10, pData->EmcBctSpare11); 
+       NvBootMssSpareWrite(pData->EmcBctSpare10, pData->EmcBctSpare11); 
 
     if (pData->EmcExtraModeRegWriteEnable)
     {
@@ -207,7 +330,7 @@ static void InitDdr2(const NvBootSdramParams *pData, NvU32 EmcBase)
     HW_REGW(EmcBase, EMC, EMRS, pData->EmcEmrs);
     // Patch 6 using BCT Spare Variables
     if(pData->EmcBctSpare10)
-       NV_WRITE32(pData->EmcBctSpare10, pData->EmcBctSpare11); 
+       NvBootMssSpareWrite(pData->EmcBctSpare10, pData->EmcBctSpare11); 
 }
 #endif // DONT_INTEGRATE_LEGACY_DRAM_TYPES
 
@@ -220,7 +343,7 @@ static void InitDdr3(const NvBootSdramParams *pData, NvU32 EmcBase)
 
     // Patch 6 using BCT Spare Variables
     if(pData->EmcBctSpare10)
-       NV_WRITE32(pData->EmcBctSpare10, pData->EmcBctSpare11); 
+       NvBootMssSpareWrite(pData->EmcBctSpare10, pData->EmcBctSpare11); 
 
     if (pData->EmcExtraModeRegWriteEnable)
     {
@@ -247,7 +370,7 @@ static void InitLpDdr4(const NvBootSdramParams *pData, NvU32 EmcBase)
 {
     // Patch 6 using BCT Spare Variables
     if(pData->EmcBctSpare10)
-       NV_WRITE32(pData->EmcBctSpare10, pData->EmcBctSpare11); 
+       NvBootMssSpareWrite(pData->EmcBctSpare10, pData->EmcBctSpare11); 
     HW_REGW(EmcBase, EMC, MRW2, pData->EmcMrw2);
     HW_REGW(EmcBase, EMC, MRW, pData->EmcMrw1);
     HW_REGW(EmcBase, EMC, MRW3, pData->EmcMrw3);
@@ -374,7 +497,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     NvU32 dpd4_val;
     NvU32 dpd3_val;
     NvU32 dpd3_val_sel_dpd;
-    NvU32 addr;
+    //NvU32 addr;
     const NvU32 EmcBase =
         NV_ADDRESS_MAP_EMC_BASE;
 
@@ -435,7 +558,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     
     // Patch 1 using BCT Spare Variables
     if(pData->EmcBctSpare0)
-      NV_WRITE32(pData->EmcBctSpare0 , pData->EmcBctSpare1);
+      NvBootMssSpareWrite(pData->EmcBctSpare0 , pData->EmcBctSpare1);
 
     // use this to enable the E_WB on powered down BRICKS based of the sel_dpd config
     wb_enables = ((pData->EmcPmcScratch1 ^ 0x00000FFF) & 0x00000FFF) << 18 ; // setting WB only for bricks
@@ -551,11 +674,11 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(EmcBase, EMC, PMACRO_BG_BIAS_CTRL_0, pData->EmcPmacroBgBiasCtrl0);
 
     if(pData->EmcBctSpareSecure0)
-      NV_WRITE32(pData->EmcBctSpareSecure0, pData->EmcBctSpareSecure1);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure0, pData->EmcBctSpareSecure1);
     if(pData->EmcBctSpareSecure2)
-      NV_WRITE32(pData->EmcBctSpareSecure2, pData->EmcBctSpareSecure3);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure2, pData->EmcBctSpareSecure3);
     if(pData->EmcBctSpareSecure4)
-      NV_WRITE32(pData->EmcBctSpareSecure4, pData->EmcBctSpareSecure5);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure4, pData->EmcBctSpareSecure5);
 
     HW_REGW(EmcBase, EMC, TIMING_CONTROL, 1); // Trigger timing update so above take effect
     NvBootUtilWaitUS(10); // add a wait to make sure we give enough time for regulators to settle
@@ -568,7 +691,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // Patch 2 using BCT Spare Variables
     if(pData->EmcBctSpare2)
-      NV_WRITE32(pData->EmcBctSpare2, pData->EmcBctSpare3);
+      NvBootMssSpareWrite(pData->EmcBctSpare2, pData->EmcBctSpare3);
 
     // This is required to do any reads from the pad macros
     HW_REGW(EmcBase, EMC, CONFIG_SAMPLE_DELAY,    pData->EmcConfigSampleDelay);
@@ -600,7 +723,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // Patch 4 using BCT Spare Variables
     if(pData->EmcBctSpare6)
-      NV_WRITE32(pData->EmcBctSpare6, pData->EmcBctSpare7);
+      NvBootMssSpareWrite(pData->EmcBctSpare6, pData->EmcBctSpare7);
     
     // Program the pad controls
     HW_REGW(EmcBase, EMC, XM2COMPPADCTRL, pData->EmcXm2CompPadCtrl);
@@ -761,13 +884,13 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // Patch 3 using BCT Spare Variables
     if(pData->EmcBctSpare4)
-      NV_WRITE32(pData->EmcBctSpare4, pData->EmcBctSpare5);
+      NvBootMssSpareWrite(pData->EmcBctSpare4, pData->EmcBctSpare5);
     if(pData->EmcBctSpareSecure6)
-      NV_WRITE32(pData->EmcBctSpareSecure6, pData->EmcBctSpareSecure7);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure6, pData->EmcBctSpareSecure7);
     if(pData->EmcBctSpareSecure8)
-      NV_WRITE32(pData->EmcBctSpareSecure8, pData->EmcBctSpareSecure9);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure8, pData->EmcBctSpareSecure9);
     if(pData->EmcBctSpareSecure10)
-      NV_WRITE32(pData->EmcBctSpareSecure10, pData->EmcBctSpareSecure11);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure10, pData->EmcBctSpareSecure11);
 
     HW_REGW(EmcBase, EMC, TIMING_CONTROL, 1); // Trigger timing update after padctrl. Otherwise shadowed values will not be enabled until AFTER the first AUTO_CAL run, mis-calibrating the pads based on their reset defaults.
 
@@ -851,7 +974,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // Patch 5 using BCT Spare Variables
     if(pData->EmcBctSpare8)
-      NV_WRITE32(pData->EmcBctSpare8, pData->EmcBctSpare9);
+      NvBootMssSpareWrite(pData->EmcBctSpare8, pData->EmcBctSpare9);
 
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_CONFIG9, pData->EmcAutoCalConfig9);
     HW_REGW(EmcBase, EMC, CFG_2, pData->EmcCfg2);
@@ -970,18 +1093,17 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // the following allows a patch of a single register that we may have forgotten
     // the address range supported is 0x7000_0000 to 0x7001_FFFF
-    if (NV_DRF_VAL(BOOT_ROM, PATCH, ENABLE, pData->BootRomPatchControl)) {
-        addr = BOOT_ROM_PATCH_BASE_ADDR + (NV_DRF_VAL(BOOT_ROM, PATCH, OFFSET, pData->BootRomPatchControl) << 2);
-        NV_WRITE32(addr, pData->BootRomPatchData);
+    if (pData->BootRomPatchControl) {
+      NvBootMssSpareWrite(pData->BootRomPatchControl, pData->BootRomPatchData);
         HW_REGW(McBase, MC, TIMING_CONTROL, 1);  // trigger MC just in case the patch needs it
     }
 
     if(pData->EmcBctSpareSecure12)
-      NV_WRITE32(pData->EmcBctSpareSecure12, pData->EmcBctSpareSecure13);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure12, pData->EmcBctSpareSecure13);
     if(pData->EmcBctSpareSecure14)
-      NV_WRITE32(pData->EmcBctSpareSecure14, pData->EmcBctSpareSecure15);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure14, pData->EmcBctSpareSecure15);
     if(pData->EmcBctSpareSecure16)
-      NV_WRITE32(pData->EmcBctSpareSecure16, pData->EmcBctSpareSecure17);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure16, pData->EmcBctSpareSecure17);
 
     // Release SEL_DPD_CMD
 	
@@ -1307,11 +1429,11 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     }
 
     if(pData->EmcBctSpareSecure18)
-      NV_WRITE32(pData->EmcBctSpareSecure18, pData->EmcBctSpareSecure19);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure18, pData->EmcBctSpareSecure19);
     if(pData->EmcBctSpareSecure20)
-      NV_WRITE32(pData->EmcBctSpareSecure20, pData->EmcBctSpareSecure21);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure20, pData->EmcBctSpareSecure21);
     if(pData->EmcBctSpareSecure22)
-      NV_WRITE32(pData->EmcBctSpareSecure22, pData->EmcBctSpareSecure23);
+      NvBootMssSpareWrite(pData->EmcBctSpareSecure22, pData->EmcBctSpareSecure23);
 
     if( !IsWarmboot ) {
       // Set package and DPD pad control
@@ -1332,7 +1454,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // Patch 7 using BCT Spare Variables
     if(pData->EmcBctSpare12)
-      NV_WRITE32(pData->EmcBctSpare12, pData->EmcBctSpare13); 
+      NvBootMssSpareWrite(pData->EmcBctSpare12, pData->EmcBctSpare13); 
 
     // Re-trigger the Timing value after writing ZCAL*
     HW_REGW(EmcBase, EMC, TIMING_CONTROL, 1); // Trigger - just needs non-zero arg
@@ -1393,6 +1515,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // Write out all access ctrl lock bits at the end of the sequence
 
+    HW_REGW(McBase, MC, UNTRANSLATED_REGION_CHECK, pData->McUntranslatedRegionCheck);
     HW_REGW(McBase, MC, VIDEO_PROTECT_REG_CTRL    ,pData->McVideoProtectWriteAccess);
     HW_REGW(McBase, MC, SEC_CARVEOUT_REG_CTRL      ,pData->McSecCarveoutProtectWriteAccess); 
     HW_REGW(McBase, MC, MTS_CARVEOUT_REG_CTRL      ,pData->McMtsCarveoutRegCtrl); 
@@ -1504,7 +1627,7 @@ void NvBootSdramInit(const NvBootSdramParams *pData)
     
     // Patch 1 using BCT Spare Variables
     //if(pData->EmcBctSpare0)
-    //  NV_WRITE32(pData->EmcBctSpare0 , pData->EmcBctSpare1);
+    //  NvBootMssSpareWrite(pData->EmcBctSpare0 , pData->EmcBctSpare1);
 
     // SDRAM initialization
     DoSdramInit(pData, NV_FALSE);
@@ -1598,3 +1721,9 @@ NvU64 NvBootSdramQueryTotalSize(NvBool skip_rw_test)
     // return Memorysize in bytes
     return (NvU64)MemorySizeInKB << 10;
 }
+
+#undef MSS_LIST_CASE
+#undef EMC_SPARE_BLACKLIST
+#undef MC_SPARE_BLACKLIST
+#undef PMC_SPARE_WHITELIST
+#undef CAR_SPARE_WHITELIST

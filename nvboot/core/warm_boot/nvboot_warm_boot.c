@@ -190,7 +190,7 @@ NvBootWb0CopyHeaderAndFirmware()
     // Check if function counter is the expected value. If not, some instruction skipping might
     // have occurred.
     if(FI_counter1 != COUNTER1 * NvBootWb0CopyHeaderAndFirmware_COUNTER_STEPS)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     // Decrement function counter.
     FI_counter1 -= COUNTER1 * NvBootWb0CopyHeaderAndFirmware_COUNTER_STEPS;
@@ -200,7 +200,7 @@ NvBootWb0CopyHeaderAndFirmware()
 
     // Re-check counter.
     if(FI_counter1 != 0)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     return NvBootError_Success;
 }
@@ -466,7 +466,7 @@ NvBootError NvBootWarmBootOemProcessRecoveryCode()
     // Check if function counter is the expected value. If not, some instruction skipping might
     // have occurred.
     if(FI_counter1 != COUNTER1 * NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     // Decrement function counter.
     FI_counter1 -= COUNTER1 * NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS;
@@ -476,7 +476,7 @@ NvBootError NvBootWarmBootOemProcessRecoveryCode()
 
     // Re-check counter.
     if(FI_counter1 != 0)
-        return NvBootError_Fault_Injection_Detection;
+        do_exception();
 
     return NvBootError_Success;
 }

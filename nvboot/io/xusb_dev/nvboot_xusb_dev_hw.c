@@ -267,7 +267,9 @@ NvBootError NvBootXusbDeviceEPGetStatus(uint16_t EpIndex, uint16_t* txLength, ui
     else
         EndpointStatus[0] = 0;
 
-    *txLength = sizeof(EndpointStatus);
+    // Don't force EndpointStatus size (2) bytes on host. 
+    // If a malformed host packet requests 0 bytes, send 0 bytes.
+    *txLength = NV_MIN(*txLength, sizeof(EndpointStatus));
     memcpy((void*)setupDataBuffer, (void*)&EndpointStatus[0], sizeof(EndpointStatus));
     return e;
 }

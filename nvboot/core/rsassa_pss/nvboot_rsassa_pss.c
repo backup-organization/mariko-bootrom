@@ -15,6 +15,7 @@
 #include "nvboot_util_int.h"
 #include "nvboot_rng_int.h"
 //NV debug #include "nvboot_printf_int.h"
+#include "nvboot_bpmp_int.h"
 
 static void ReverseList(uint8_t *original, uint32_t listSize)
 {
@@ -95,7 +96,10 @@ NvBootError NvBootCryptoRsaSsaPssMGF(uint8_t *mgfSeed, uint32_t maskLen, uint8_t
     //NV debug NvBootPrintf("NvBootCryptoRsaSsaPssMGF(). hLen: %d. loop iterations: %d. maskLen: %d\r\n", hLen, loops+1, maskLen);
     // hashInputBuffer is the buffer for (mgfSeed || C), C accounts for the +1.
     uint32_t hashInputBuffer[RsaSsaPssHashFunctionSizeWords + 1];
-    NvBootError e = NvBootError_Initial_Value;
+    // Initialze e to a non-success value. Double check that it is not success before proceeding.
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        do_exception();
 
     // MGF1 says "For counter from 0 to Ceil(maskLen/hLen)-1"
     // i.e.  loop from 0 to Ceil(223/32)-1 inclusive
@@ -106,7 +110,10 @@ NvBootError NvBootCryptoRsaSsaPssMGF(uint8_t *mgfSeed, uint32_t maskLen, uint8_t
         NvBootUtilMemcpy((uint32_t *) &hashInputBuffer, mgfSeed, hLen);
         hashInputBuffer[(hLen / 4) + 1 - 1] = NvBootUtilSwapBytesInNvU32(counter);
 
-        e = NvBootError_Initial_Value;
+        e = NvBootInitializeNvBootError();
+        if(e == NvBootError_Success)
+            do_exception();
+
         e = ShaDevMgr->ShaDevMgrCallbacks->ShaHash((uint32_t *) &hashInputBuffer,
                                                 hLen + 4,
                                                 (uint32_t *) &T_Buf[counter*hLen],
@@ -200,7 +207,9 @@ NvBootError NvBootCryptoRsaSsaPssVerify(NvBootCryptoRsaSsaPssContext *RsaSsaPssC
     if(RsaDevMgr->RsaDevMgrCallbacks->IsValidKeySize(RsaSsaPssContext->RsaKey->KeySize) == false)
         return NvBootError_Unsupported_RSA_Key_Size;
 
-    NvBootError e = NvBootError_Initial_Value;
+    NvBootError e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        do_exception();
 
     // emLen = \ceil ((modBits - 1)/8) octets, where modBits
     // is the length in bits of the RSA modulus n.
@@ -263,7 +272,10 @@ NvBootError NvBootCryptoRsaSsaPssVerify(NvBootCryptoRsaSsaPssContext *RsaSsaPssC
 
     // Modular exponentiation step, using s as the input. Public key is loaded
     // into key slot already.
-    e = NvBootError_Initial_Value; // Default to fail.
+    e = NvBootInitializeNvBootError(); // reset e to non-success.
+    if(e == NvBootError_Success)
+        do_exception();
+
     e = RsaDevMgr->RsaDevMgrCallbacks->RsaModularExponentiation((uint32_t *) RsaSsaPssContext->InputSignature,
                                                             (uint32_t *) &ModExpResult,
                                                             RsaSsaPssContext->RsaKeySlot,
@@ -434,7 +446,10 @@ NvBootError NvBootCryptoRsaSsaPssVerify(NvBootCryptoRsaSsaPssContext *RsaSsaPssC
     // maskedDBLen is also maskLen = emLen - hLen - 1.
     // dbMaskBuffer = maskLen
     //uint8_t dbMask[maskedDBLen] __attribute__((aligned(4)));
-    e = NvBootError_Initial_Value;
+    e = NvBootInitializeNvBootError(); // default to non-success.
+    if(e == NvBootError_Success)
+        do_exception();
+
     // Zero out the whole dbMask buffer, not just maskedDBLen.
     NvBootUtilMemset(dbMask, 0, sizeof(dbMask));
     e = NvBootCryptoRsaSsaPssMGF(H, maskedDBLen, (uint8_t *) &dbMask, ShaDevMgr);
@@ -493,7 +508,10 @@ NvBootError NvBootCryptoRsaSsaPssVerify(NvBootCryptoRsaSsaPssContext *RsaSsaPssC
 
     // Step 13. Let H' = Hash(M')
     uint8_t H_Prime[RsaSsaPssHashFunctionSizeBytes] __attribute__((aligned(4)));
-    e = NvBootError_Initial_Value; // Default to fail.
+    e = NvBootInitializeNvBootError(); // default to non-success.
+    if(e == NvBootError_Success)
+        do_exception();
+
     e = ShaDevMgr->ShaDevMgrCallbacks->ShaHash((uint32_t *) &M_Prime,
                                                 8 + hLen + sLen,
                                                 (uint32_t *) &H_Prime,

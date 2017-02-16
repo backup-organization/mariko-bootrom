@@ -58,18 +58,18 @@ typedef struct
 /// Datawidth/clock divisor/mode (SDR/DDR) and multi/single page options
 /// will be retrieved from these confgiration only.
 /// Defines Configurations .
-///   = 0 means, SDR_51Mhz_ReadMultipage
-///   = 1 means, SDR_25.5Mhz_ReadMultipage
-///   = 2 means, SDR_25.5Mhz_ReadSinglepage
+///   = 0 means, SDR_25.5Mhz_ReadSinglepage
+///   = 1 means, SDR_51Mhz_ReadMultipage
+///   = 2 means, SDR_25.5Mhz_ReadMultipage
 ///   = 3 means, DDR_51Mhz_ReadMultipage
 ///   = 4 means, DDR_25.5Mhz_ReadMultipage
 ///   = 5/6/7 means reserved.
 
 typedef enum
 {
-    Sdmmc_Config_0 = 0, // SDR_25.5Mhz_ReadMultipage
+    Sdmmc_Config_0 = 0, // SDR_25.5Mhz_ReadSinglepage
     Sdmmc_Config_1 = 1, // SDR_51Mhz_ReadMultipage
-    Sdmmc_Config_2 = 2, // SDR_25.5Mhz_ReadSinglepage
+    Sdmmc_Config_2 = 2, // SDR_25.5Mhz_ReadMultipage
     Sdmmc_Config_3 = 3, // DDR_51Mhz_ReadMultipage
     Sdmmc_Config_4 = 4, // DDR_25.5Mhz_ReadMultipage
     Sdmmc_Config_Num,

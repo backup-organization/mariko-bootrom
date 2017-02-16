@@ -79,7 +79,7 @@ extern "C"
 /**
  * Defines the number of bytes in the Reserved area of the BCT.
  */
-#define NVBOOT_BCT_RESERVED_SIZE 404
+#define NVBOOT_BCT_RESERVED_SIZE 388
 
 /**
  * Defines the number of 32-bit words provided in each set of SDRAM parameters

@@ -34,7 +34,7 @@
 // Hardcode index into PeomptMsg where BootROM version will be updated.
 #define MSG_VERSION_INDEX	0x14
 static const uint8_t PromptMsgConst[31] = 
-    "\n\rNV Prod Boot T194 WXYZ.HIJK\n\r";
+    "\n\rNV Prod Boot T214 WXYZ.HIJK\n\r";
 
 static NvBootProdUartContext *s_ProdUartContext = NULL;
 static NvBootProdUartParams s_ProdUartDefaultParams;

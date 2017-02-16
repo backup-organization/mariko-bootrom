@@ -204,10 +204,6 @@ typedef struct NvBootAesCmacHashRec
     NvU32 Hash[NVBOOT_AES_BLOCK_LENGTH_WORDS]; //__attribute__((aligned(NVBOOT_CRYPTO_BUFFER_ALIGNMENT)));
 } NvBootAesCmacHash;
 
-typedef struct AesCmacContextRec
-{
-} AesCmacContext;
-
 
 /**
  * Define a macro to check if the MSB of the input is set.

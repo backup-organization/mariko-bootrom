@@ -339,6 +339,12 @@ void
 NvBootFuseGetSkuRaw(NvU32 *pSku); 
 
 /**
+ * Get skip Delay sequence info from fuse
+ */
+void
+NvBootFuseSkipDelaySeq(NvU32 *pSkipSequence);
+
+/**
  * Get SATA calibration field from fuses
  *
  * @return void ((assume trusted caller, no parameter validation) 

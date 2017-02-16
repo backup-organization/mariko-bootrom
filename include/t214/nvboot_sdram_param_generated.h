@@ -1111,6 +1111,8 @@ typedef struct NvBootSdramParamsRec
     NvU32 McMtsCarveoutSizeMb;
     /// Specifies the value for MC_MTS_CARVEOUT_REG_CTRL
     NvU32 McMtsCarveoutRegCtrl;
+    /// Specifies the value for MC_UNTRANSLATED_REGION_CHECK
+    NvU32 McUntranslatedRegionCheck;
     /// just a place holder for special usage when there is no BCT for certain registers
     NvU32 BCT_NA;
 

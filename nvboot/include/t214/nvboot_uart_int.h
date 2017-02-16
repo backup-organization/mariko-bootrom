@@ -108,6 +108,15 @@ NvBootUartPollingWrite(const uint8_t *pSrc, size_t BytesRequested,
     size_t *BytesWritten);
 
 /**
+ *  \brief Uart polling read that reads bytes till timeout
+ *  \param pDest Buffer
+ *  \param BytesRead Bytes received
+ *  \param timeout between consecutive byte reads
+ */
+NvBootError FT_NONSECURE
+NvBootUartPollingRead2(uint8_t *pDest, size_t *BytesRead, uint32_t timeout);
+
+/**
  * NvBootIsFAPreProductionUart : implements the decision process to 
  * to go to preproduction uart and handling failure during download over uart.
  * This function is implemented in main flow path and its header is made

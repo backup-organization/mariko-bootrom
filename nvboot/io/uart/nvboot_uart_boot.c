@@ -27,6 +27,7 @@
 #include "nvboot_reset_int.h"
 //FIXME #include "nvboot_bpmp_int.h"
 #include "nvboot_strap_int.h"
+#include "nvboot_bpmp_int.h"
 
 /*
  * nvboot_uart.c: Implementation of the API for UART download
@@ -155,6 +156,10 @@ void FT_NONSECURE NvBootUartDownload_internal (NvBootClocksOscFreq OscFreq)
             (void) NvBootUartPollingWrite (FailMsg, sizeof(FailMsg)-1, &nWritten);
         }
     };
+    // FI mitigation; recheck state of chip before jumping to UART payload.
+    if ( NvBootFuseIsFailureAnalysisMode() || NvBootFuseIsPreproductionMode() )
+    {
+
     // send success message, update bit and jump to target address
     (void) NvBootUartPollingWrite (SuccessMsg, sizeof(SuccessMsg)-1, &nWritten);
   
@@ -177,6 +182,13 @@ void FT_NONSECURE NvBootUartDownload_internal (NvBootClocksOscFreq OscFreq)
 #endif
     // need same trick as for boot mainline code, need to encapsulate in line assembler function
     NvBootUartJump((uintptr_t) &BootConfigTable);
+        // should never get here.
+        do_exception();
+    }
+    else
+    {
+        do_exception();
+    }
 }
 
 void FT_NONSECURE NvBootUartDownload(NvBootClocksOscFreq OscFreq)

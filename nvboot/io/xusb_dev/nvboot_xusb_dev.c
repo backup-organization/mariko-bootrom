@@ -345,7 +345,7 @@ __attribute__((aligned(4))) static uint8_t s_OtherSpeedConfigDesc[32]= {
 
 
 // Stores the Manufactures ID sting descriptor data
-__attribute__((aligned(4))) static uint8_t s_UsbManufacturerID[USB_MANF_STRING_LENGTH] = 
+__attribute__((aligned(4))) static const uint8_t s_UsbManufacturerID[USB_MANF_STRING_LENGTH] =
 {
     USB_MANF_STRING_LENGTH,  // Length of descriptor
     0x03,                    // STRING descriptor type.
@@ -365,7 +365,7 @@ __attribute__((aligned(4))) static uint8_t s_UsbManufacturerID[USB_MANF_STRING_L
 };
 
 // Stores the Product ID string descriptor data
-__attribute__((aligned(4))) static uint8_t s_UsbProductID[USB_PRODUCT_STRING_LENGTH] = 
+__attribute__((aligned(4))) static const uint8_t s_UsbProductID[USB_PRODUCT_STRING_LENGTH] =
 {
     USB_PRODUCT_STRING_LENGTH, // Length of descriptor
     0x03,                      // STRING descriptor type.
@@ -375,7 +375,7 @@ __attribute__((aligned(4))) static uint8_t s_UsbProductID[USB_PRODUCT_STRING_LEN
 };
 
 // Stores the Serial Number String descriptor data (Not used for AP15 Bootrom)
-__attribute__((aligned(4))) static uint8_t s_UsbSerialNumber[USB_SERIAL_NUM_LENGTH] =  
+__attribute__((aligned(4))) static const uint8_t s_UsbSerialNumber[USB_SERIAL_NUM_LENGTH] =
 {
     USB_SERIAL_NUM_LENGTH, // Length of descriptor
     0x03,                  // STRING descriptor type.
@@ -387,7 +387,7 @@ __attribute__((aligned(4))) static uint8_t s_UsbSerialNumber[USB_SERIAL_NUM_LENG
 };
 
 // Stores the Language ID Descriptor data
-__attribute__((aligned(4))) static uint8_t s_UsbLanguageID[USB_LANGUAGE_ID_LENGTH] =
+__attribute__((aligned(4))) static const uint8_t s_UsbLanguageID[USB_LANGUAGE_ID_LENGTH] =
 {
     /* Language Id string descriptor */
     USB_LANGUAGE_ID_LENGTH,  // Length of descriptor
@@ -396,7 +396,7 @@ __attribute__((aligned(4))) static uint8_t s_UsbLanguageID[USB_LANGUAGE_ID_LENGT
 };
 
 // Stores the Device Qualifier Desriptor data
-__attribute__((aligned(4))) static uint8_t s_UsbDeviceQualifier[USB_DEV_QUALIFIER_LENGTH] = 
+__attribute__((aligned(4))) static const uint8_t s_UsbDeviceQualifier[USB_DEV_QUALIFIER_LENGTH] =
 {
     /* Device Qualifier descriptor */
     USB_DEV_QUALIFIER_LENGTH,   // Size of the descriptor
@@ -413,7 +413,7 @@ __attribute__((aligned(4))) static uint8_t s_UsbDeviceQualifier[USB_DEV_QUALIFIE
 
 
 // Stores the Device Status descriptor data
-__attribute__((aligned(4))) static uint8_t s_UsbDeviceStatus[USB_DEV_STATUS_LENGTH] = 
+__attribute__((aligned(4))) static const uint8_t s_UsbDeviceStatus[USB_DEV_STATUS_LENGTH] =
 {
     USB_DEVICE_SELF_POWERED,
     0,
@@ -951,6 +951,8 @@ NvBootError NvBootXusbDeviceHandleSetupPacket(uint8_t* pSetupData)
 
                     EpIndex = 2*(pSetupData[USB_SETUP_INDEX]&0xF);
                     EpIndex += (pSetupData[USB_SETUP_INDEX]&0x80)?1:0; 
+            // uint8_t EndpointStatus[2] = {0, 0};
+            txLength = NV_MIN(wLength, 2);
                     e = NvBootXusbDeviceEPGetStatus(EpIndex,
                                                     &txLength,
                                                     SetupDataBuffer);
@@ -1579,8 +1581,11 @@ NvBootError NvBootXusbDeviceReceive(uint8_t* Buffer, NvU32 Bytes,  NvU32 *pBytes
     pXUSBDeviceContext->BytesTxfred = Bytes;
     pXUSBDeviceContext->TxCount = 0;
     Direction = DIR_OUT;
-    // Handle difference in sysram view between host and device.
-    NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
+    
+    e = NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
+    if(e != NvBootError_Success)
+        return e;
+
     pXUSBDeviceContext->TxCount++;
     while(pXUSBDeviceContext->TxCount)
     {
@@ -1601,20 +1606,12 @@ NvBootError NvBootXusbDeviceTransmit(uint8_t* Buffer, NvU32 Bytes, NvU32 *pBytes
     pXUSBDeviceContext->BytesTxfred = Bytes;
     pXUSBDeviceContext->TxCount = 0;
     Direction = DIR_IN;
-    // Handle difference in sysram view between host and device.
-    NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
-    pXUSBDeviceContext->TxCount++;
 
-    // Need to transmit zero byte packet if transfer size is equal to packet size
-    if((pXUSBDeviceContext->PortSpeed == XUSB_FULL_SPEED && Bytes == 64)
-       || (pXUSBDeviceContext->PortSpeed == XUSB_HIGH_SPEED && Bytes == 512)
-       || (pXUSBDeviceContext->PortSpeed == XUSB_SUPER_SPEED && Bytes == 1024))
-    {
-        // Buffer should n't matter. It is ZBP.
-        // Handle difference in sysram view between host and device.
-        NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, 0, Direction);
+    e = NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
+    if(e != NvBootError_Success)
+        return e;
         pXUSBDeviceContext->TxCount++; 
-    }
+
     while(pXUSBDeviceContext->TxCount)
     {
          e = NvBootXusbDevicePollForEvent(0xFFFFFFFF);
@@ -1634,8 +1631,10 @@ NvBootError NvBootXusbDeviceReceiveStart(uint8_t* Buffer, NvU32 Bytes)
     pXUSBDeviceContext->BytesTxfred = Bytes;
     pXUSBDeviceContext->TxCount = 0;
     Direction = DIR_OUT;
-    // Handle difference in sysram view between host and device.
+
     e = NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
+    if(e != NvBootError_Success)
+        return e;
     pXUSBDeviceContext->TxCount++;
     return e;
 }
@@ -1667,18 +1666,10 @@ NvBootError NvBootXusbDeviceTransmitStart(uint8_t* Buffer, NvU32 Bytes)
     pXUSBDeviceContext->TxCount = 0;
     Direction = DIR_IN;
     // Handle difference in sysram view between host and device.
-    NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
-    pXUSBDeviceContext->TxCount++; 
-    // Need to transmit zero byte packet if transfer size is equal to packet size
-    if((pXUSBDeviceContext->PortSpeed == XUSB_FULL_SPEED && Bytes == 64)
-       || (pXUSBDeviceContext->PortSpeed == XUSB_HIGH_SPEED && Bytes == 512)
-       || (pXUSBDeviceContext->PortSpeed == XUSB_SUPER_SPEED && Bytes == 1024))
-    {
-        // Buffer should n't matter. It is ZBP.
-        // Handle difference in sysram view between host and device.
-        NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, 0, Direction);
+    e = NvBootXusbDeviceIssueNormalTRB((NvU32)Buffer, Bytes, Direction);
+    if(e != NvBootError_Success)
+        return e;
         pXUSBDeviceContext->TxCount++; 
-    }
     
     return e;
 }
@@ -1719,6 +1710,8 @@ NvBootError NvBootXusbDeviceTransmitPoll(NvU32 *pBytesTransferred, NvU32 Timeout
 
 void NvBootXusbDeviceGetClockTable(void **XusbClockTable, ClockTableType *Id)
 {
+    // Only 38.4M OscFreq
+    /*
     // First modify tracking clock as per oscillator
     NvBootClocksOscFreq OscFreq;
     OscFreq = NvBootClocksGetOscFreq();
@@ -1732,6 +1725,7 @@ void NvBootXusbDeviceGetClockTable(void **XusbClockTable, ClockTableType *Id)
         default:
             XusbClockTables[OSC_TABLE] = s_XUSBTrackingClockFrequency_38_4;
     }
+    */
     // Passing in list of tables.
     // Don't need fpga specific tables anymore. Use for reference for future if needed.
     // if(NvBootIsPlatformFpga())
@@ -1742,7 +1736,7 @@ void NvBootXusbDeviceGetClockTable(void **XusbClockTable, ClockTableType *Id)
     // {
         // *XusbClockTable= XusbClockTables;
     // }
-        *XusbClockTable= XusbClockTables;
+    *XusbClockTable= (void*)XusbClockTables;
     // Indicate to clocks engine multi-tables.
     *Id = TYPE_MULTI_TABLE;
 }

@@ -618,6 +618,7 @@ static const NvBootSdramParams initParams =
     SW_DEFAULT(MC, MTS_CARVEOUT_ADR_HI),      // McMtsCarveoutAdrHi
     SW_DEFAULT(MC, MTS_CARVEOUT_SIZE_MB),     // McMtsCarveoutSizeMb
     SW_DEFAULT(MC, MTS_CARVEOUT_REG_CTRL),    // McMtsCarveoutRegCtrl
+    SW_DEFAULT(MC, UNTRANSLATED_REGION_CHECK), // McUntranslatedRegionCheck
     0                                         // BCT_NA (*)
 };
 

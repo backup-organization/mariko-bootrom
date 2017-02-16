@@ -2,7 +2,11 @@ MEMORY
 {
     ROM (rx):  org = 0x00100000, len = 0x17000
     IRAM (rw): org = 0x40000000, len = 0x4000
-    RAM (rw):  org = 0x40004000, len = 0xC000
+    /* RCM header (0x3E0) bytes encroaches into part of IRAM_A to 
+     * allow for RCM binary beginning/entry-point to be exactly
+     * IRAM_B i.e. 0x4002_0000. Make sure stack cannot wander into this buffer
+     */
+    RAM (rw):  org = 0x40004000, len = (0xC000-0x400)
 }
 
 SECTIONS

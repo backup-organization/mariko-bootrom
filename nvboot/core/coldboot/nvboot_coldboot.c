@@ -56,7 +56,7 @@ static NvBootError SetupSdram(NvBootContext *Context);
  *                                  |__MapFuseDevToBitDevType[NvBootFuseBootDevice_Sdmmc]= NvBootDevType_Sdmmc
  *
  */
-static NvBootFuseBootDevice StrapDevSelMap[] =
+static const NvBootFuseBootDevice StrapDevSelMap[] =
 {
     NvBootFuseBootDevice_Sdmmc,         // NvBootStrapDevSel_Emmc_x8_BootModeOff
     NvBootFuseBootDevice_SpiFlash,      // NvBootStrapDevSel_SpiFlash
@@ -85,7 +85,7 @@ NV_CT_ASSERT((sizeof(StrapDevSelMap)/sizeof(NvBootFuseBootDevice)) ==
     ((VBUS_number << 8) | (OCPin << 5) | ((PortNumber) << 0))
 
 
-static NvU32 StrapDevConfigMap[] =
+static const NvU32 StrapDevConfigMap[] =
 {
     SDMMC_CONFIG(0),           // NvBootStrapDevSel_Emmc_BMOff_x8
     SPI_CONFIG(0),              // NvBootStrapDevSel_SpiFlash : Page size 2K
@@ -103,18 +103,18 @@ static NvU32 StrapDevConfigMap[] =
 NV_CT_ASSERT((sizeof(StrapDevConfigMap)/sizeof(NvU32)) ==
              NvBootStrapDevSel_Num);
 
-static NvBootDevType MapFuseDevToBitDevType[] = 
+static const NvBootDevType MapFuseDevToBitDevType[] = 
 {
     // Fuse to device type as specified in t35/bootrom/include/t35/nvboot_bct.h
     NvBootDevType_Sdmmc,        // NvBootFuseBootDevice_Sdmmc
     NvBootDevType_Spi,          // NvBootFuseBootDevice_SpiFlash
-    NvBootDevType_Sata,         // Reserved
+    NvBootDevType_None,         // Reserved
 #if NVENABLE_FOOS_SUPPORT
     NvBootDevType_Foos,         // Reserved
 #else
     NvBootDevType_None,         // Reserved
 #endif
-    NvBootDevType_Usb3,         // NvBootFuseBootDevice_Usb3
+    NvBootDevType_None,         // Reserved
     NvBootDevType_ProdUart,
 };
 
