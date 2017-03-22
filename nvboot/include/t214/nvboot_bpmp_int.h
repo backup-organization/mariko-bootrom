@@ -50,13 +50,16 @@ void NvBootMainAsmSecureExit(int BootloaderEntryAddress,
                             int SecureRegisterValue);
 
 /**
- * NvBootBpmpSubSystemInit provides information regarding the functions in 
- * Bpmp SubSystem 
- * in non secure/secure mode of operation.
+ * NvBootBpmpSubSystemInit.
+ *
+ * For T214, this function should be called to initialize MC clocks and ensure
+ * proper operation of the IO brick. http://nvbugs/1877027.
+ *
+ * This function should only be called for non-SC7 paths.
+ * SC7 paths should call NvBootEnableMemClk after unpacking the SDRAM parameters.
+ *
  */
-
 NvBootError NvBootBpmpSubSystemInit(void);
-
 
 /**
  * NvBootBpmpFabricInit provides information regarding the sequence to  
@@ -75,6 +78,12 @@ void FT_NONSECURE NvBootBpmpFabricInit(void);
  * - Program any PLL auto start sequences.
  */
 void FT_NONSECURE NvBootBpmpNonsecureRomEnter(void);
+
+/**
+ *  t210 bug fix http://nvbugs/1867566
+ *  Tegra should not re-sample strapping option on PMC.MAIN_RST and Tegra WDT reset
+ */
+void FT_NONSECURE NvBootOverrideNonPORStraps(void);
 
 /**
  * Initial clock setup needed by all paths in the Boot ROM.

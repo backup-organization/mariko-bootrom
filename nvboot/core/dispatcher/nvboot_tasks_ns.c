@@ -31,19 +31,20 @@ static const NvBootTask VT_NONSECURE TasksNS[] = {
     { (NvBootError(*)())&NvBootClocksEnablePmcClock, 0x01 },
     { (NvBootError(*)())&NvBootBpmpSetupOscClk, 0x2 },
     { (NvBootError(*)())&NvBootPadsExitDeepPowerDown, 0x3},
+    { (NvBootError(*)())&NvBootOverrideNonPORStraps, 0x4},
     // Note: NvBootBpmpNonsecureRomEnter may branch to UART boot here
     // if the UART boot conditions are satisfied.
-    { (NvBootError(*)())&NvBootBpmpNonsecureRomEnter, 0x4 },
+    { (NvBootError(*)())&NvBootBpmpNonsecureRomEnter, 0x5 },
     // This must precede External PMIC code
-    { (NvBootError(*)())&NvBootBpmpEnableWdt, 0x5 },
+    { (NvBootError(*)())&NvBootBpmpEnableWdt, 0x6 },
     // This must precede Enabling PllP
-    { (NvBootError(*)())&NvBootResetRailsAndResetHandler, 0x6 },
+    { (NvBootError(*)())&NvBootResetRailsAndResetHandler, 0x7 },
     // All code before this point must be in the non-secure
     // section (everything to get to UART boot for FA mode).
     // Move Pllp start and clock source switch of AVP to PLLP here,
     // which will speed up simulation time. This diverges from the T210
     // slightly, which had this function just before main() entry.
-    { (NvBootError(*)())&NvBootBpmpEnablePllp, 0x07 },
+    { (NvBootError(*)())&NvBootBpmpEnablePllp, 0x08 },
     { (NvBootError(*)())&NvBootClocksSetAvpClockBeforeScatterLoad, 0x09 },
 };
 

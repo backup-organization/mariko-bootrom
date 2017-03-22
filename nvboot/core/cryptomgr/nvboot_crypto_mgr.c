@@ -771,6 +771,11 @@ NvBootError NvBootCryptoMgrLoadOemAesKeys()
         // Zero out buffer just in case before next use.
         NvBootUtilMemset((uint8_t*)AesKeyDecryptionBuffer, 0, sizeof(AesKeyDecryptionBuffer));
 
+        // Best practice is to clear out the assets as soon as it is no
+        // longer needed, so clear OEM FEKs from SE here. Note OEM FEK is 128-bits, but
+        // we zero out all 256-bits of the key slot here.
+        LoadKeyIVIntoSlot(AES_DEVICE_KEYSLOT_OEM_FEK, SE_MODE_PKT_AESMODE_KEY256, 0, 0, 0);
+        LoadKeyIVIntoSlotSE2(AES_DEVICE_KEYSLOT_OEM_FEK, SE_MODE_PKT_AESMODE_KEY256, 0, 0, 0);
     }
     else //no fuse encryption
     {
@@ -1109,14 +1114,23 @@ NvBootError NvBootCryptoMgrDecryptBlPackage(const NvBootOemBootBinaryHeader *Oem
 
     uint8_t * start_decrypt_address = (uint8_t *) BlBinary;
     uint8_t * decrypt_output_address = (uint8_t *) BlBinary;
+
+    const uint8_t KeySlot = Context.FactorySecureProvisioningMode == false ? AES_DEVICE_KEYSLOT_BEK : AES_DEVICE_KEYSLOT_FSKP_DECRYPT;
+    NvBootError e;
+    // Clear IVs of keyslot before decrypt.
+    e = NvBootInitializeNvBootError();
+    NV_BOOT_CHECK_ERROR(AesDevMgr.AesDevMgrCallbacks->ClearOriginalIv(KeySlot));
+    e = NvBootInitializeNvBootError();
+    NV_BOOT_CHECK_ERROR(AesDevMgr.AesDevMgrCallbacks->ClearUpdatedIv(KeySlot));
+
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootInitializeNvBootError();
+     e = NvBootInitializeNvBootError();
     if(e == NvBootError_Success)
         do_exception();
 
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC(start_decrypt_address,
                                                 decrypt_output_address,
-                                                AES_DEVICE_KEYSLOT_BEK,
+                                                KeySlot,
                                                 s_CryptoMgrContext.AesKeySize,
                                                 OemHeader->Length);
     return e;
@@ -1391,6 +1405,8 @@ NvBootError NvBootCryptoMgrFskpInit(FskpKeyNum KeyNum, uint8_t *KeyWrapKey)
     // Force FSKP AES-CMAC authentication and encryption.
     s_CryptoMgrContext.AuthenticationScheme = CryptoAlgo_FSKP_CMAC;
     s_CryptoMgrContext.EngineForAuthentication = CryptoAlgo_AES;
+    s_CryptoMgrContext.EncryptionScheme = CryptoAlgo_AES;
+    s_CryptoMgrContext.AesKeySize = AES_KEY_256;
 
     if(NvBootFuseGetSecureProvisioningIndexValidity() == NvBootError_Success)
     {
@@ -1473,6 +1489,15 @@ NvBootError NvBootCryptoMgrDecryptBctFskp(NvBootConfigTable *Bct)
     size_t bct_encrypted_section_size = SIZE_BCT_ENCRYPTED_SECT(Bct);
 
     NvBootError e;
+    e = NvBootInitializeNvBootError();
+    NV_BOOT_CHECK_ERROR(AesDevMgr.AesDevMgrCallbacks->ClearOriginalIv(AES_DEVICE_KEYSLOT_FSKP_DECRYPT));
+    e = NvBootInitializeNvBootError();
+    NV_BOOT_CHECK_ERROR(AesDevMgr.AesDevMgrCallbacks->ClearUpdatedIv(AES_DEVICE_KEYSLOT_FSKP_DECRYPT));
+    // Default to "fail", subsequent functions can set to pass.
+    e = NvBootInitializeNvBootError();
+    if(e == NvBootError_Success)
+        do_exception();
+
     e = AesDevMgr.AesDevMgrCallbacks->AesDecryptCBC(start_decrypt_address,
                                                 decrypt_output_address,
                                                 AES_DEVICE_KEYSLOT_FSKP_DECRYPT,
@@ -1494,17 +1519,12 @@ NvBootError NvBootCryptoMgrAuthRcmPayloadFskp(const NvBootRcmMsg *RcmMsg)
     NvBootError e;
 
     uint32_t AuthSize = 0;
-    // Calculate the length to authenticate, depending if this
-    // is a download & execute or not.
-    if(RcmMsg->Opcode == NvBootRcmOpcode_DownloadExecute)
-    {
+
+    // Validate the length of the payload.
         NV_BOOT_CHECK_ERROR(NvBootValidateAddress(RcmMsgRange, (uint32_t) RcmMsg, RcmMsg->LengthInsecure));
+
+    // Calculate the length to authenticate.
         AuthSize = RcmMsg->LengthInsecure - OFFSET_RCM_SIGNED_SECT(RcmMsg);
-    }
-    else
-    {
-        AuthSize = SIZE_RCM_SIGNED_SECT(RcmMsg);
-    }
 
     // Setup AES-CMAC context.
     s_CryptoMgr_Buffers.AesCmacContext.pK1 = (uint32_t *) &s_CryptoMgr_Buffers.CmacK1;

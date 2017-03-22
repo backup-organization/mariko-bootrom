@@ -92,6 +92,7 @@ typedef enum
 {
     SE_OP_MODE_AES_CMAC_HASH,
     SE_OP_MODE_AES_CBC,
+    SE_OP_MODE_AES_ECB,
 
     // Specifies the number of modes.
     SE_OP_MODE_MAX,

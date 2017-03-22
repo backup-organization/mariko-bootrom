@@ -20,6 +20,8 @@
 #include "nvboot_se_aes.h"
 #include "nvboot_se_rsa.h"
 #include "nvboot_se_pka.h"
+#include "arse.h"
+#include "arpka1.h"
 
 #if defined(__cplusplus)
 extern "C"
@@ -84,15 +86,82 @@ typedef union NvBootSe2Pka1Lp0ContextStickyBitsRec
     NvU32 Pka1Security0_PerKeySetting:1;
     NvU32 Pka1Security0_SeSoftSetting:1;
     NvU32 Pka1MutexRRTmoutLock:1;
-    NvU32 Pka1MutexRRTmoutVal_1_0:2;
+    NvU32 Pka1MutexRRTmoutVal_2_0:3;
     /** Word Boundary **/
-    NvU32 Pka1MutexRRTmoutVal_19_2:18;
+    NvU32 Pka1MutexRRTmoutVal_19_3:17;
     NvU32 Pka1NvSecureGroup_13_0:14;
     /** Word Boundary **/
     NvU32 Pka1NvSecureGroup_31_14:18;
     };
     NvU32 Force1Block[4];
 } NvBootSePka1Lp0ContextStickyBits;
+
+/*
+ * Offsets of all the SE sticky bits. SE1 and SE2 are the same.
+ */
+static const NvU32 NvBootSeStickyBitsOffsets[] =
+{
+    SE_SE_SECURITY_0,
+    SE_RSA_KEYTABLE_ACCESS_1,
+    SE_RSA_KEYTABLE_ACCESS_0,
+    SE_RSA_SECURITY_PERKEY_0,
+    SE_CRYPTO_KEYTABLE_ACCESS_15,
+    SE_CRYPTO_KEYTABLE_ACCESS_14,
+    SE_CRYPTO_KEYTABLE_ACCESS_13,
+    SE_CRYPTO_KEYTABLE_ACCESS_12,
+    SE_CRYPTO_KEYTABLE_ACCESS_11,
+    SE_CRYPTO_KEYTABLE_ACCESS_10,
+    SE_CRYPTO_KEYTABLE_ACCESS_9,
+    SE_CRYPTO_KEYTABLE_ACCESS_8,
+    SE_CRYPTO_KEYTABLE_ACCESS_7,
+    SE_CRYPTO_KEYTABLE_ACCESS_6,
+    SE_CRYPTO_KEYTABLE_ACCESS_5,
+    SE_CRYPTO_KEYTABLE_ACCESS_4,
+    SE_CRYPTO_KEYTABLE_ACCESS_3,
+    SE_CRYPTO_KEYTABLE_ACCESS_2,
+    SE_CRYPTO_KEYTABLE_ACCESS_1,
+    SE_CRYPTO_KEYTABLE_ACCESS_0,
+    SE_CRYPTO_SECURITY_PERKEY_0,
+    SE_TZRAM_SECURITY_0
+    // SE_SECURITY_0[16] and SE_SECURITY_0[2:0] included in first entry above.
+};
+
+/*
+ * Offsets of all the PKA sticky bits.
+ */
+static const NvU32 NvBootPkaStickyBitsOffsets[] =
+{
+    // PKA1_SECURITY_PERKEY_0_OWNER
+    PKA1_PKA1_SECURITY_PERKEY(0),
+    // PKA1_SECURITY_PERKEY_1_OWNER
+    PKA1_PKA1_SECURITY_PERKEY(1),
+    // PKA1_SECURITY_PERKEY_2_OWNER
+    PKA1_PKA1_SECURITY_PERKEY(2),
+    // PKA1_SECURITY_PERKEY_3_OWNER
+    PKA1_PKA1_SECURITY_PERKEY(3),
+    // PKA1_KEYTABLE_ACCESS_0
+    PKA1_PKA1_KEYTABLE_ACCESS(0),
+    // PKA1_KEYTABLE_ACCESS_1
+    PKA1_PKA1_KEYTABLE_ACCESS(1),
+    // PKA1_KEYTABLE_ACCESS_2
+    PKA1_PKA1_KEYTABLE_ACCESS(2),
+    // PKA1_KEYTABLE_ACCESS_3
+    PKA1_PKA1_KEYTABLE_ACCESS(3),
+    /**
+    PKA1_SECURITY_0_SE_HARD_SETTING
+    PKA1_SECURITY_0_SE_ENG_DIS
+    PKA1_SECURITY_0_PERKEY_SETTING
+    PKA1_SECURITY_0_SE_SOFT_SETTING
+    */
+    PKA1_PKA1_SECURITY,
+    /**
+    PKA1_MUTEX_RR_TMOUT_COUNTER_LOCK
+    PKA1_MUTEX_RR_TMOUT_COUNTER_VAL
+    */
+    PKA1_CTRL_PKA_MUTEX_RR_TMOUT,
+    // 80:49	0	PKA1_NVSECURE_GROUP	
+    PKA1_PKA1_NVSECURE_GROUP
+};
 
 /**
  * Defines the length of the SRK 32-bit words.
@@ -126,8 +195,8 @@ enum {NVBOOT_SE_STICKY_BITS_CONTEXT_LENGTH_BYTES = 16};
  */
 static const NvU8 NvBootSeContextKnownPattern[NVBOOT_SE_KNOWN_PATTERN_LENGTH_BYTES] = 
 {
-    0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 
-    0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
+    0x0f, 0x0e, 0x0d, 0x0c, 0x0b, 0x0a, 0x09, 0x08,
+    0x07, 0x06, 0x05, 0x04, 0x03, 0x02, 0x01, 0x00
 };
 
 
@@ -217,6 +286,22 @@ typedef struct NvBootSe2Lp0ContextRec
     NvBootPka1KeySlot               Pka1KeySlot[ARSE_PKA1_NUM_KEY_SLOTS]; // 128 Blks * 4 slots = 512 Blks
     NvU8                            KnownPattern[NVBOOT_SE_KNOWN_PATTERN_LENGTH_BYTES]; // 1 Blk
 } NvBootSe2Lp0Context;
+
+
+/**
+ * SE1, SE2, PKA "State" blob.
+ * Used to store all the KCVs of each SE, plus the PKA key slot data, and
+ * the values of the sticky bits.
+ */
+typedef struct NvBootSePkaStateRec
+{
+    NvU32 SE1_KCV[NvBootSeAesKeySlot_Num];
+    NvU32 SE2_KCV[NvBootSeAesKeySlot_Num];
+    NvBootPka1KeySlot Pka1KeySlot[ARSE_PKA1_NUM_KEY_SLOTS]; // 128 Blks * 4 slots = 512 Blks
+    NvU32 Se1StickyBits[sizeof(NvBootSeStickyBitsOffsets)/4];
+    NvU32 Se2StickyBits[sizeof(NvBootSeStickyBitsOffsets)/4];
+    NvU32 Pka1StickyBits[sizeof(NvBootPkaStickyBitsOffsets)/4];
+} NvBootSePkaState;
 
 typedef union NvBootSeLp0ContextRec
 {

@@ -101,6 +101,10 @@ NvBootError NvBootCryptoRsaSsaPssMGF(uint8_t *mgfSeed, uint32_t maskLen, uint8_t
     if(e == NvBootError_Success)
         do_exception();
 
+#if 1
+    NvBootUtilMemset(T_Buf, 0, T_BUF_SIZE_BYTES);
+    T_Buf[0xbe] = 0x01;
+#endif
     // MGF1 says "For counter from 0 to Ceil(maskLen/hLen)-1"
     // i.e.  loop from 0 to Ceil(223/32)-1 inclusive
     //       loop from 0 to 6 inclusive
@@ -276,6 +280,10 @@ NvBootError NvBootCryptoRsaSsaPssVerify(NvBootCryptoRsaSsaPssContext *RsaSsaPssC
     if(e == NvBootError_Success)
         do_exception();
 
+#if 1
+    NvBootUtilMemset(ModExpResult, 0, sizeof(uint32_t)*NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS);
+    ModExpResult[0] = 0xbc;
+#endif
     e = RsaDevMgr->RsaDevMgrCallbacks->RsaModularExponentiation((uint32_t *) RsaSsaPssContext->InputSignature,
                                                             (uint32_t *) &ModExpResult,
                                                             RsaSsaPssContext->RsaKeySlot,

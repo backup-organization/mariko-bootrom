@@ -32,6 +32,7 @@
 #include "nvboot_devmgr_int.h"
 #include "nvboot_debug_int.h"
 #include "nvboot_pmc_int.h"
+#include "nvboot_rng_int.h"
 
 
 /* Compile time assertions */
@@ -40,46 +41,42 @@
  * If this fails, adjust NVBOOT_BCT_RESERVED_SIZE in nvboot_config.h to
  * change its size.
  */
-TODO
-/// Glaring todos. But till final bct is decided, no sense in chasing this alignment-JN.
+NV_CT_ASSERT((sizeof(NvBootConfigTable) & 0xf) == 0);
 
-// //this needs to be revisisted, bct is with 2 params
-// NV_CT_ASSERT((sizeof(NvBootConfigTable) & 0xf) == 0);
+/*
+ * Verify  the end of a BCT will not fall within the last 16 bytes
+ * of a page (Smallest page size is NVBOOT_MIN_PAGE_SIZE bytes).
+ */
+NV_CT_ASSERT(((sizeof(NvBootConfigTable)) % NVBOOT_MIN_PAGE_SIZE) <=
+                                    (NVBOOT_MIN_PAGE_SIZE - 16));
 
-// /*
- // * Verify  the end of a BCT will not fall within the last 16 bytes
- // * of a page (Smallest page size is NVBOOT_MIN_PAGE_SIZE bytes).
- // */
-// NV_CT_ASSERT(((sizeof(NvBootConfigTable)) % NVBOOT_MIN_PAGE_SIZE) <=
-                                    // (NVBOOT_MIN_PAGE_SIZE - 16));
+/*
+ * This assert is to make sure CustomerData field is always aligned to
+ * a 4-byte boundary
+ */
+NV_CT_ASSERT((offsetof(NvBootConfigTable, CustomerData[0]) % 4) == 0);
 
-// /*
- // * This assert is to make sure CustomerData field is always aligned to
- // * a 4-byte boundary
- // */
-// NV_CT_ASSERT((offsetof(NvBootConfigTable, CustomerData[0]) % 4) == 0);
+/*
+ * The unsigned section of the BCT must be a multiple of AES blocks (16 bytes)
+ * to maintain compatibility with the nvboot_reader code. The nvboot_reader
+ * code which does the AES CMAC-HASH and AES decryption using the BSEA/BSEV
+ * engines must skip the unsigned section only in AES block multiples.
+ */
+NV_CT_ASSERT((offsetof(NvBootConfigTable, RandomAesBlock) % 16) == 0);
 
-// /*
- // * The unsigned section of the BCT must be a multiple of AES blocks (16 bytes)
- // * to maintain compatibility with the nvboot_reader code. The nvboot_reader
- // * code which does the AES CMAC-HASH and AES decryption using the BSEA/BSEV
- // * engines must skip the unsigned section only in AES block multiples.
- // */
-// NV_CT_ASSERT((offsetof(NvBootConfigTable, RandomAesBlock) % 16) == 0);
-
-// /*
- // * BCT size should match with required size (NVBOOT_BCT_REQUIRED_SIZE).defined
- // * If it fails need to adjust reserved filed,  customer data size or either
- // * required size itself  for better performance.
- // */
-// NV_CT_ASSERT(sizeof(NvBootConfigTable) == NVBOOT_BCT_REQUIRED_SIZE);
+/*
+ * BCT size should match with required size (NVBOOT_BCT_REQUIRED_SIZE).defined
+ * If it fails need to adjust reserved filed,  customer data size or either
+ * required size itself  for better performance.
+ */
+NV_CT_ASSERT(sizeof(NvBootConfigTable) == NVBOOT_BCT_REQUIRED_SIZE);
 
 /*
  * Make sure MainBCT starts at SYSRAM location TBD.
  */
 NV_CT_ASSERT(sizeof(NvBootInfoTable) >  0x80);
 NV_CT_ASSERT(sizeof(NvBootInfoTable) <= 0x500);
-// NV_CT_ASSERT(sizeof(NvBootInfoTable) == NVBOOT_BIT_REQUIRED_SIZE);
+NV_CT_ASSERT(sizeof(NvBootInfoTable) == NVBOOT_BIT_REQUIRED_SIZE);
 
 /*
  * NcBootDevParams size is 64 bytes
@@ -90,6 +87,7 @@ NV_CT_ASSERT(sizeof(NvBootDevParams) == 64);
 extern NvBootInfoTable   BootInfoTable;
 extern NvBootConfigTable *pBootConfigTable;
 extern NvBootCryptoMgrPublicBuf *pPublicCryptoBufR5;
+extern int32_t FI_counter1;
 
 /*
  * Static data
@@ -378,13 +376,17 @@ NvBootError NvBootProcessBct(NvBootConfigTable *Bct)
 static NvBootError
 ReadOneBct(NvBootContext *Context, const NvU32 Block, const NvU32 Page)
 {
-    NvBootError             e;
+    // Default to "fail", subsequent functions can set to pass.
+    volatile NvBootError e = NvBootInitializeNvBootError();
     // Point to global variabl already initialized.
     NvBootConfigTable      *Bct = pBootConfigTable;
     NvBootDevMgr *DevMgr;
     NvBootDeviceStatus      ReadStatus;
 
     NV_ASSERT(Context != NULL);
+
+    // FI counter that is incremented after every critical step in the function.
+    FI_counter1 = 0;
 
     // Null pointer?
     if(!Bct)
@@ -418,11 +420,15 @@ ReadOneBct(NvBootContext *Context, const NvU32 Block, const NvU32 Page)
     // Load the Pcp if necessary.
     e = NvBootCryptoMgrSetOemPcp(&Bct->Pcp);
 
+    FI_counter1 += COUNTER1;
+
     // If we are not in a PKC boot mode, NvBootCryptoMgrSetOemPcp will
     // return NvBootError_CryptoMgr_Pcp_Not_Loaded_Not_PK_Mode.
     // Continue in this case because we will be using SBK.
     if( (e != NvBootError_Success) && (e != NvBootError_CryptoMgr_Pcp_Not_Loaded_Not_PK_Mode))
         return e;
+
+    FI_counter1 += COUNTER1;
 
     // If PRODUCTION_MODE = 1, SECURITY_MODE = 0, check if
     // this is a Secure Provisioning Boot.
@@ -430,8 +436,37 @@ ReadOneBct(NvBootContext *Context, const NvU32 Block, const NvU32 Page)
     if(e == NvBootError_SecProvisioningEnabled)
     {
         NV_BOOT_CHECK_ERROR(NvBootCryptoMgrFskpInit(Bct->SecProvisioningKeyNum_Insecure, (uint8_t *)&Bct->SecProvisioningKeyWrapKey));
-        NV_BOOT_CHECK_ERROR(NvBootCryptoMgrAuthBctFskp(Bct));
-        NV_BOOT_CHECK_ERROR(NvBootCryptoMgrDecryptBctFskp(Bct));
+        e = NvBootCryptoMgrAuthBctFskp(Bct);
+        if(e != NvBootError_Success)
+        {
+            // Reset FSKP context variable to disabled.
+            Context->FactorySecureProvisioningMode = NV_FALSE;
+            // Reset crypto mgr context for RCM usage.
+            NvBootCryptoMgrInit();
+
+            return e;
+        }
+
+        FI_counter1 += COUNTER1;
+
+        // Random delay before double checking
+        NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+        if(e > NvBootError_Success)
+            return e;
+
+        e = NvBootCryptoMgrDecryptBctFskp(Bct);
+        if(e != NvBootError_Success)
+        {
+            // Reset FSKP context variable to disabled.
+            Context->FactorySecureProvisioningMode = NV_FALSE;
+            // Reset crypto mgr context for RCM usage.
+            NvBootCryptoMgrInit();
+
+            return e;
+        }
+
+        FI_counter1 += COUNTER1;
     }
     else if(e == NvBootError_SecProvisioningInvalidKeyInput)
     {
@@ -444,8 +479,27 @@ ReadOneBct(NvBootContext *Context, const NvU32 Block, const NvU32 Page)
 
         // This is the non-FSKP "regular" path.
         // Authenticate and decrypt BCT.
-        NV_BOOT_CHECK_ERROR(NvBootCryptoMgrAuthBct(Bct));
+        e = NvBootCryptoMgrAuthBct(Bct);
+        if(e != NvBootError_Success)
+        {
+            /// Introduces code distance between error detection and response.
+            FI_ADD_DISTANCE_STEP(2);
+            return e;
+        }
+
+        FI_counter1 += COUNTER1;
+        // Random delay before double checking
+        NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+        if(e > NvBootError_Success)
+        {
+            /// Introduces code distance between error detection and response.
+            FI_ADD_DISTANCE_STEP(2);
+            return e;
+        }
+
         NV_BOOT_CHECK_ERROR(NvBootCryptoMgrDecryptBct(Bct));
+        FI_counter1 += COUNTER1;
     }
 
     // Everything that reaches this point should be e == NvBootError_Success.
@@ -453,6 +507,7 @@ ReadOneBct(NvBootContext *Context, const NvU32 Block, const NvU32 Page)
 
     /* Validate the BCT */
     NV_BOOT_CHECK_ERROR(ValidateBct(Context));
+    FI_counter1 += COUNTER1;
 
     /* Update the BCT info in the BIT */
     BootInfoTable.BctValid = NV_TRUE;
@@ -462,12 +517,32 @@ ReadOneBct(NvBootContext *Context, const NvU32 Block, const NvU32 Page)
     // After BCT is validated, process any necessary settings.
     NV_BOOT_CHECK_ERROR(NvBootProcessBct(Bct));
 
-    // Now that BCT is validated, update KEK if BctKEKKeySelect == Kek_256b.
-    TODO
-    // if(Bct->BctKEKKeySelect == Kek_256b)
-        // NvBootCryptoMgrLoadOemKEK1As256b();
+    FI_counter1 += COUNTER1;
 
-    return NvBootError_Success;
+    // Check if function counter is the expected value. If not, some instruction skipping might
+    // have occurred.
+    if(FI_counter1 != COUNTER1 * BctValidate_COUNTER_STEPS)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return NvBootError_Fault_Injection_Detection;
+    }
+
+    // Decrement function counter.
+    FI_counter1 -= COUNTER1 * BctValidate_COUNTER_STEPS;
+
+    // Add random delay to mitigate against temporal glitching.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    // Re-check counter.
+    if(FI_counter1 != 0)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return NvBootError_Fault_Injection_Detection;
+    }
+    
+    return e;
 }
 
 static void

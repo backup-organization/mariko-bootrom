@@ -60,4 +60,4 @@ void NvBootAhbWaitCoherency(NvU8 AhbMasterID);
  *
  * @retval none. 
  */
-NvBool NvBootAhbCheckIsExtMemAddr(NvU32 *Address);
+NvBool NvBootAhbCheckIsExtMemAddr(NvU8 *Address);

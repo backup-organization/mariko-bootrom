@@ -62,9 +62,9 @@ void NvBootAhbWaitCoherency(NvU8 AhbMasterID)
     
 }
 
-NvBool NvBootAhbCheckIsExtMemAddr(NvU32 *Address) 
+NvBool NvBootAhbCheckIsExtMemAddr(NvU8 *Address) 
 {
     return
-    ( (Address >= (NvU32 *)NV_ADDRESS_MAP_EMEM_LO_BASE) && (Address <= (NvU32 *)NV_ADDRESS_MAP_EMEM_LO_LIMIT) ) ? 
+    ( (Address >= (NvU8 *)NV_ADDRESS_MAP_EMEM_LO_BASE) && (Address <= (NvU8 *)NV_ADDRESS_MAP_EMEM_LO_LIMIT) ) ? 
     NV_TRUE : NV_FALSE;
 }

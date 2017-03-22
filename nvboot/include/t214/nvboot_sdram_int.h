@@ -92,6 +92,26 @@ NvBootSdramQueryTotalSize( NvBool );
 NvU32
 NvBootSdramQueryTotalMB ( NvBool );
 
+/**
+    // Function: 
+    //  -Brings IOBRICK's out of DPD
+    //  -Enables all MSS clocks and ROC clock
+    //  -deasserts MSS resets
+
+    // Prerequisites:
+    // IO rails should be stable before this function is called
+    // For warmBoot (preserveDram ==1):
+    //  -*pData: unpacking of bct from PMC space needs to have been executed
+    //  -IOBRICK's and CMD/RESET pads held in DPD, either via DPD_REQ or RAMDUMP FSM
+    // For other boot variants (preserveDram == 0)
+    //   -no assumptions made on pad DPD state.  proper DPD exit sequence will be followed
+    //   *pData not required
+
+    // preserveDram == 1: requires *pData pointer to BCT settings unpacked from PMC.  Required for warmBoot
+    // preserveDram == 0: *pData is not used.  DRAM contents lost 
+*/    
+void NvBootEnableMemClk (const NvBootSdramParams *pData, NvBool preserveDram);
+
 #if FIXME
 #define NV_ULLC(c)         (c##ULL)
 #define NV_U64C(c)        (NV_ULLC(c))

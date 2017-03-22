@@ -428,6 +428,56 @@ NvBootError  NvBootUtilInstrWait(const NvU32 loops);
 
 #define NvBootPmcUtilWaitUS(x) NvBootUtilWaitUS(x)
 
+/**
+ *  FI add code distance between detection and response
+ *  FI mitigation technique
+ */
+ extern int32_t FI_IncrDist; // Dummy global to increase code distance between Error detection 
+                             //and response.
+ #define FI_ADD_DISTANCE_STEP(N)    FI_STEP_##N
+ 
+ /**
+  *  Adds 12 bytes of code distance
+  */
+ #define FI_STEP_1  \
+ do \
+ {  \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+ }while(0) \
+ 
+ /**
+  *  Adds 18 bytes of code distance
+  */
+ #define FI_STEP_2  \
+ do \
+ {  \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+ }while(0) \
+ 
+ /**
+  *  Adds 22 bytes of code distance
+  */
+ #define FI_STEP_3  \
+ do \
+ {  \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+ }while(0) \
+ 
+ /**
+  *  Adds 30 bytes of code distance
+  */
+ #define FI_STEP_4  \
+ do \
+ {  \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+    FI_IncrDist+=NV_READ32(&FI_IncrDist);   \
+ }while(0) \
+ 
 #if defined(__cplusplus)
 }
 #endif

@@ -29,6 +29,9 @@
 #define DEBUG_PRINT(a) 
 #define ITOA(a) 
 #define UART_INIT(a,b) (void)a
+#else
+extern void DEBUG_PRINT(char* Msg);
+char* ITOA(NvU32 num);
 #endif // DEBUG_XUSB
 
 /****************************** End Util Macros ***************************************************/

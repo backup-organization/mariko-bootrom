@@ -29,11 +29,13 @@
 #include "nvboot_address_int.h"
 #include "nvboot_oem_boot_binary_header.h"
 #include "nvboot_bootloader_int.h"
+#include "nvboot_rng_int.h"
 
 /* Global data */
 extern NvBootInfoTable   BootInfoTable;
 extern NvBootConfigTable *pBootConfigTable;
 extern NvBootCryptoMgrPublicBuf *pPublicCryptoBufR5;
+extern int32_t FI_counter1;
 extern void do_exception();
 
  // This buffer should be the size of the largest page size supported by bootrom. Adjust accordingly
@@ -66,11 +68,14 @@ LoadOneBootLoader(
     NvBootLoaderInfo *BlInfo)
 {
     // Default to "fail", subsequent functions can set to pass.
-    NvBootError e = NvBootInitializeNvBootError();
+    volatile NvBootError e = NvBootInitializeNvBootError();
     NvBootDevMgr *DevMgr;
     NvBootDeviceStatus      ReadStatus;
     NvBootOemBootBinaryHeader *OemBootBinaryHeader;
     uint32_t HeaderSize = sizeof(NvBootOemBootBinaryHeader);
+
+    // FI counter that is incremented after every critical step in the function.
+    FI_counter1 = 0;
 
     DevMgr = &(Context->DevMgr);
     
@@ -98,9 +103,12 @@ LoadOneBootLoader(
     {
         return NvBootError_IllegalParameter;
     }
+    FI_counter1 += COUNTER1;
     
     /// Authenticate OemBootBinaryHeader hashes. This gives the length of Bl/Nv+Mv1 Package.
     NV_BOOT_CHECK_ERROR(NvBootCryptoMgrAuthOemBootBinaryHeader(OemBootBinaryHeader));
+
+    FI_counter1 += COUNTER1;
 
     uint32_t OemMb1LoadAddress = OemBootBinaryHeader->LoadAddress;
 
@@ -113,8 +121,12 @@ LoadOneBootLoader(
     if ((e_IramBlCheck != NvBootError_Success) && (e_SdramBlCheck != NvBootError_Success))
         return NvBootError_Invalid_Bl_Load_Address;
 
+    FI_counter1 += COUNTER1;
+
     /// Validate EntryPoint
     NV_BOOT_CHECK_ERROR(NvBootValidateEntryPoint(OemMb1LoadAddress, OemBootBinaryHeader->Length,OemBootBinaryHeader->EntryPoint));
+    
+    FI_counter1 += COUNTER1;
     
     /// Part of Bootloader has already been read into FirstPageBuffer. Copy into LoadAddress
     /// It is guaranteed that FirstPageBuffer can hold atleast OemMb1Header
@@ -158,14 +170,57 @@ LoadOneBootLoader(
     }
     
     /// Authenticate Oem Mb1 Package
-    NV_BOOT_CHECK_ERROR(NvBootCryptoMgrAuthBlPackage(OemBootBinaryHeader, (uint32_t*)OemMb1LoadAddress));
+    e  = NvBootCryptoMgrAuthBlPackage(OemBootBinaryHeader, (uint32_t*)OemMb1LoadAddress);
+    if(e != NvBootError_Success)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return e;
+    }
+    FI_counter1 += COUNTER1;
+
+    /// Random delay before checking the error again.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+    if(e > NvBootError_Success)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return e;
+    }
 
     /// Decrypt Oem Mb1 Package
     NV_BOOT_CHECK_ERROR(NvBootCryptoMgrDecryptBlPackage(OemBootBinaryHeader, (uint32_t*)OemMb1LoadAddress));
 
+    FI_counter1 += COUNTER1;
+
     /// Check BCT <--> OEM Boot Binary Header version binding.
     NV_BOOT_CHECK_ERROR(NvBootBootLoaderCheckVersionBinding(BlInfo, OemBootBinaryHeader));
     
+    FI_counter1 += COUNTER1;
+    
+    // Check if function counter is the expected value. If not, some instruction skipping might
+    // have occurred.
+    if(FI_counter1 != COUNTER1 * BootloaderValidate_COUNTER_STEPS)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return NvBootError_Fault_Injection_Detection;
+    }
+
+    // Decrement function counter.
+    FI_counter1 -= COUNTER1 * BootloaderValidate_COUNTER_STEPS;
+
+    // Add random delay to mitigate against temporal glitching.
+    NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+    // Re-check counter.
+    if(FI_counter1 != 0)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return NvBootError_Fault_Injection_Detection;
+    }
+
     // Save validated entry point (validated above in NvBootValidateEntryPoint().
     Context->BootLoader = (uint8_t*)OemBootBinaryHeader->EntryPoint;
 

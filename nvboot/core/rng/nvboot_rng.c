@@ -95,7 +95,7 @@ NvBootError NvBootRngInit(void)
     
     /// Entropy Ring Oscillators not synthesized on fpga.
     /// http://nvbugs/1859832
-    if(NvBootIsPlatformFpga() || Cya)
+    if(Cya)
     {
         RngState = RNG_DISABLED;
         e = NvBootError_Success;
@@ -103,7 +103,7 @@ NvBootError NvBootRngInit(void)
         /// RNG is disabled either because of a CYA or FPGA
         /// If not both, then there was a glitch.
         CyaComplement = (~NvBootGetSwCYA()) & NVBOOT_SW_CYA_RNG_DISABLE;
-        if(CyaComplement && !NvBootIsPlatformFpga())
+        if(CyaComplement)
         {
             e = NvBootError_NotInitialized;
         }

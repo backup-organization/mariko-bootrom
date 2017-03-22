@@ -51,40 +51,42 @@
                                                                              3: 2
 #define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_CAL_DEV_SELECTN_RANGE\
                                                                              5: 4
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_CLK_DIV2_EN_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_FORCE_CC_TRIGGER_RANGE\
                                                                              6: 6
 #define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_INVERT_DCD_RANGE\
                                                                              7: 7
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLC_OUT_FOR_EMC_EN_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_CLK_DIV2_EN_RANGE\
                                                                              8: 8
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLP_OUT_FOR_EMC_EN_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_USE_32KHZ_AS_CLK_M_RANGE\
                                                                              9: 9
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_OVERRIDE_SYNCMUX_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLP_OUT_FOR_EMC_EN_RANGE\
                                                                             10:10
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_VCO_SEL_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLC_OUT_FOR_EMC_EN_RANGE\
                                                                             11:11
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_SYNC_MUX_CTRL_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_MC_EMC_SAME_FREQ_RANGE\
                                                                             12:12
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_ENABLE_SW_OVERRIDE_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_OVERRIDE_SYNCMUX_RANGE\
                                                                             13:13
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_IDDQ_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_VCO_SEL_RANGE\
                                                                             14:14
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_EN_LCKDET_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_SYNC_MUX_CTRL_RANGE\
                                                                             15:15
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_LOCK_OVERRIDE_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_ENABLE_SW_OVERRIDE_RANGE\
                                                                             16:16
-#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_KVCO_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_IDDQ_RANGE\
                                                                             17:17
-#define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_CAL_CMD_RANGE  18:18
-#define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_LATCH_CMD_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_EN_LCKDET_RANGE\
+                                                                            18:18
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_LOCK_OVERRIDE_RANGE\
                                                                             19:19
-#define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_CAL_LENGTH_RANGE\
+#define APBDEV_PMC_SCRATCH7_0_CLK_RST_CONTROLLER_PLLM_MISC2_ALIAS_0_PLLM_KVCO_RANGE\
                                                                             20:20
-#define APBDEV_PMC_SCRATCH7_0_EMC_ODT_WRITE_0_ODT_WR_DELAY_RANGE            24:21
-#define APBDEV_PMC_SCRATCH7_0_EMC_ODT_WRITE_0_DRIVE_BOTH_ODT_RANGE          25:25
-#define APBDEV_PMC_SCRATCH7_0_EMC_ODT_WRITE_0_SHARE_ONE_ODT_RANGE           26:26
-#define APBDEV_PMC_SCRATCH7_0_EMC_ODT_WRITE_0_ODT_WR_DURATION_RANGE         30:27
-#define APBDEV_PMC_SCRATCH7_0_EMC_ODT_WRITE_0_ENABLE_ODT_DURING_WRITE_RANGE 31:31
+#define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_CAL_CMD_RANGE  21:21
+#define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_LATCH_CMD_RANGE\
+                                                                            22:22
+#define APBDEV_PMC_SCRATCH7_0_EMC_ZQ_CAL_DDR3_WARM_BOOT_0_ZQ_CAL_LENGTH_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH7_0_EMC_RC_0_RC_RANGE                             31:24
 
 // LPDDR2 only
 #define APBDEV_PMC_SCRATCH8_0_EMC_MRW6_0_MRW6_OP_SP0_RANGE                   7: 0
@@ -1174,7 +1176,12 @@
 #define APBDEV_PMC_SCRATCH84_0_EMC_PMACRO_RX_TERM_0_DQ_RX_DRVDN_TERM_RANGE  11: 6
 #define APBDEV_PMC_SCRATCH84_0_EMC_PMACRO_RX_TERM_0_DQS_RX_DRVUP_TERM_RANGE 17:12
 #define APBDEV_PMC_SCRATCH84_0_EMC_PMACRO_RX_TERM_0_DQS_RX_DRVDN_TERM_RANGE 23:18
-#define APBDEV_PMC_SCRATCH84_0_EMC_RC_0_RC_RANGE                            31:24
+#define APBDEV_PMC_SCRATCH84_0_EMC_SEL_DPD_CTRL_0_CLK_SEL_DPD_EN_RANGE      24:24
+#define APBDEV_PMC_SCRATCH84_0_EMC_SEL_DPD_CTRL_0_CA_SEL_DPD_EN_RANGE       25:25
+#define APBDEV_PMC_SCRATCH84_0_EMC_SEL_DPD_CTRL_0_RESET_SEL_DPD_EN_RANGE    26:26
+#define APBDEV_PMC_SCRATCH84_0_EMC_SEL_DPD_CTRL_0_ODT_SEL_DPD_EN_RANGE      27:27
+#define APBDEV_PMC_SCRATCH84_0_EMC_SEL_DPD_CTRL_0_DATA_SEL_DPD_EN_RANGE     28:28
+#define APBDEV_PMC_SCRATCH84_0_EMC_SEL_DPD_CTRL_0_SEL_DPD_DLY_RANGE         31:29
 
 #define APBDEV_PMC_SCRATCH85_0_EMC_PMACRO_DQ_TX_DRV_0_DATA_DQ_TX_DRVUP_RANGE\
                                                                              5: 0
@@ -1184,12 +1191,8 @@
                                                                             17:12
 #define APBDEV_PMC_SCRATCH85_0_EMC_PMACRO_DQ_TX_DRV_0_DATA_DQS_TX_DRVDN_RANGE\
                                                                             23:18
-#define APBDEV_PMC_SCRATCH85_0_EMC_SEL_DPD_CTRL_0_CLK_SEL_DPD_EN_RANGE      24:24
-#define APBDEV_PMC_SCRATCH85_0_EMC_SEL_DPD_CTRL_0_CA_SEL_DPD_EN_RANGE       25:25
-#define APBDEV_PMC_SCRATCH85_0_EMC_SEL_DPD_CTRL_0_RESET_SEL_DPD_EN_RANGE    26:26
-#define APBDEV_PMC_SCRATCH85_0_EMC_SEL_DPD_CTRL_0_ODT_SEL_DPD_EN_RANGE      27:27
-#define APBDEV_PMC_SCRATCH85_0_EMC_SEL_DPD_CTRL_0_DATA_SEL_DPD_EN_RANGE     28:28
-#define APBDEV_PMC_SCRATCH85_0_EMC_SEL_DPD_CTRL_0_SEL_DPD_DLY_RANGE         31:29
+#define APBDEV_PMC_SCRATCH85_0_EMC_OBDLY_0_OBDLY_RANGE                      29:24
+#define APBDEV_PMC_SCRATCH85_0_EMC_OBDLY_0_OBDLY_MODE_RANGE                 31:30
 
 #define APBDEV_PMC_SCRATCH86_0_EMC_PMACRO_CA_TX_DRV_0_CMD_DQ_TX_DRVUP_RANGE  5: 0
 #define APBDEV_PMC_SCRATCH86_0_EMC_PMACRO_CA_TX_DRV_0_CMD_DQ_TX_DRVDN_RANGE 11: 6
@@ -1197,8 +1200,10 @@
                                                                             17:12
 #define APBDEV_PMC_SCRATCH86_0_EMC_PMACRO_CA_TX_DRV_0_CMD_DQS_TX_DRVDN_RANGE\
                                                                             23:18
-#define APBDEV_PMC_SCRATCH86_0_EMC_OBDLY_0_OBDLY_RANGE                      29:24
-#define APBDEV_PMC_SCRATCH86_0_EMC_OBDLY_0_OBDLY_MODE_RANGE                 31:30
+#define APBDEV_PMC_SCRATCH86_0_EMC_PMACRO_VTTGEN_CTRL_1_0_VTT_VDDA_CTRL_RANGE\
+                                                                            29:24
+#define APBDEV_PMC_SCRATCH86_0_EMC_PMACRO_VTTGEN_CTRL_1_0_VTT_VDDA_WB_CTRL_RANGE\
+                                                                            31:30
 
 #define APBDEV_PMC_SCRATCH87_0_EMC_PMACRO_ZCTRL_0_DQ_RX_DRVUP_TERM_ZCTRL_RANGE\
                                                                              1: 0
@@ -1224,15 +1229,12 @@
                                                                             21:20
 #define APBDEV_PMC_SCRATCH87_0_EMC_PMACRO_ZCTRL_0_DATA_DQS_TX_DRVDN_ZCTRL_RANGE\
                                                                             23:22
-#define APBDEV_PMC_SCRATCH87_0_EMC_PMACRO_VTTGEN_CTRL_1_0_VTT_VDDA_CTRL_RANGE\
-                                                                            29:24
-#define APBDEV_PMC_SCRATCH87_0_EMC_PMACRO_VTTGEN_CTRL_1_0_VTT_VDDA_WB_CTRL_RANGE\
-                                                                            31:30
+#define APBDEV_PMC_SCRATCH87_0_EMC_PMACRO_VTTGEN_CTRL_2_0_VTT_VDDA_LOAD_RANGE\
+                                                                            31:24
 
 #define APBDEV_PMC_SCRATCH88_0_EMC_ZCAL_INTERVAL_0_ZCAL_INTERVAL_HI_RANGE   13: 0
 #define APBDEV_PMC_SCRATCH88_0_EMC_ZCAL_INTERVAL_0_ZCAL_INTERVAL_LO_RANGE   23:14
-#define APBDEV_PMC_SCRATCH88_0_EMC_PMACRO_VTTGEN_CTRL_2_0_VTT_VDDA_LOAD_RANGE\
-                                                                            31:24
+#define APBDEV_PMC_SCRATCH88_0_MC_EMEM_ARB_TIMING_RC_0_RC_RANGE             31:24
 
 #define APBDEV_PMC_SCRATCH89_0_EMC_DATA_BRLSHFT_0_0_RANK0_BYTE0_DATA_BRLSHFT_RANGE\
                                                                              2: 0
@@ -1250,7 +1252,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH89_0_EMC_DATA_BRLSHFT_0_0_RANK0_BYTE7_DATA_BRLSHFT_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH89_0_MC_EMEM_ARB_TIMING_RC_0_RC_RANGE             31:24
+#define APBDEV_PMC_SCRATCH89_0_MC_EMEM_ARB_RSV_0_EMEM_ARB_RESERVED_BYTE0_RANGE\
+                                                                            31:24
 
 #define APBDEV_PMC_SCRATCH90_0_EMC_DATA_BRLSHFT_1_0_RANK1_BYTE0_DATA_BRLSHFT_RANGE\
                                                                              2: 0
@@ -1268,8 +1271,7 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH90_0_EMC_DATA_BRLSHFT_1_0_RANK1_BYTE7_DATA_BRLSHFT_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH90_0_MC_EMEM_ARB_RSV_0_EMEM_ARB_RESERVED_BYTE0_RANGE\
-                                                                            31:24
+#define APBDEV_PMC_SCRATCH90_0_EMC_TIMING_CONTROL_WAIT_RANGE                31:24
 
 #define APBDEV_PMC_SCRATCH91_0_EMC_DQS_BRLSHFT_0_0_RANK0_BYTE0_DQS_BRLSHFT_RANGE\
                                                                              2: 0
@@ -1287,7 +1289,7 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH91_0_EMC_DQS_BRLSHFT_0_0_RANK0_BYTE7_DQS_BRLSHFT_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH91_0_EMC_TIMING_CONTROL_WAIT_RANGE                31:24
+#define APBDEV_PMC_SCRATCH91_0_EMC_ZCAL_WARM_BOOT_WAIT_RANGE                31:24
 
 #define APBDEV_PMC_SCRATCH92_0_EMC_DQS_BRLSHFT_1_0_RANK1_BYTE0_DQS_BRLSHFT_RANGE\
                                                                              2: 0
@@ -1305,7 +1307,7 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH92_0_EMC_DQS_BRLSHFT_1_0_RANK1_BYTE7_DQS_BRLSHFT_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH92_0_EMC_ZCAL_WARM_BOOT_WAIT_RANGE                31:24
+#define APBDEV_PMC_SCRATCH92_0_WARM_BOOT_WAIT_RANGE                         31:24
 
 #define APBDEV_PMC_SCRATCH93_0_EMC_SWIZZLE_RANK0_BYTE0_0_SWZ_RANK0_BYTE0_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1323,7 +1325,7 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH93_0_EMC_SWIZZLE_RANK0_BYTE0_0_SWZ_RANK0_BYTE0_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH93_0_WARM_BOOT_WAIT_RANGE                         31:24
+#define APBDEV_PMC_SCRATCH93_0_EMC_PIN_PROGRAM_WAIT_RANGE                   31:24
 
 #define APBDEV_PMC_SCRATCH94_0_EMC_SWIZZLE_RANK0_BYTE1_0_SWZ_RANK0_BYTE1_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1341,7 +1343,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH94_0_EMC_SWIZZLE_RANK0_BYTE1_0_SWZ_RANK0_BYTE1_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH94_0_EMC_PIN_PROGRAM_WAIT_RANGE                   31:24
+#define APBDEV_PMC_SCRATCH94_0_EMC_RAS_0_RAS_RANGE                          30:24
+#define APBDEV_PMC_SCRATCH94_0_EMC_CFG_0_WAIT_FOR_DISPLAY_READY_B4_CC_RANGE 31:31
 
 #define APBDEV_PMC_SCRATCH95_0_EMC_SWIZZLE_RANK0_BYTE2_0_SWZ_RANK0_BYTE2_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1359,8 +1362,9 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH95_0_EMC_SWIZZLE_RANK0_BYTE2_0_SWZ_RANK0_BYTE2_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH95_0_EMC_RAS_0_RAS_RANGE                          30:24
-#define APBDEV_PMC_SCRATCH95_0_EMC_CFG_0_WAIT_FOR_DISPLAY_READY_B4_CC_RANGE 31:31
+#define APBDEV_PMC_SCRATCH95_0_EMC_W2P_0_W2P_RANGE                          30:24
+#define APBDEV_PMC_SCRATCH95_0_EMC_CFG_0_WAIT_FOR_DISPLAYB_READY_B4_CC_RANGE\
+                                                                            31:31
 
 #define APBDEV_PMC_SCRATCH96_0_EMC_SWIZZLE_RANK0_BYTE3_0_SWZ_RANK0_BYTE3_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1378,9 +1382,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH96_0_EMC_SWIZZLE_RANK0_BYTE3_0_SWZ_RANK0_BYTE3_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH96_0_EMC_W2P_0_W2P_RANGE                          30:24
-#define APBDEV_PMC_SCRATCH96_0_EMC_CFG_0_WAIT_FOR_DISPLAYB_READY_B4_CC_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SCRATCH96_0_EMC_QSAFE_0_QSAFE_RANGE                      30:24
+#define APBDEV_PMC_SCRATCH96_0_EMC_CFG_0_INVERT_DQM_RANGE                   31:31
 
 #define APBDEV_PMC_SCRATCH97_0_EMC_SWIZZLE_RANK1_BYTE0_0_SWZ_RANK1_BYTE0_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1398,8 +1401,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH97_0_EMC_SWIZZLE_RANK1_BYTE0_0_SWZ_RANK1_BYTE0_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH97_0_EMC_QSAFE_0_QSAFE_RANGE                      30:24
-#define APBDEV_PMC_SCRATCH97_0_EMC_CFG_0_INVERT_DQM_RANGE                   31:31
+#define APBDEV_PMC_SCRATCH97_0_EMC_RDV_0_RDV_RANGE                          30:24
+#define APBDEV_PMC_SCRATCH97_0_EMC_CFG_0_WAIT_FOR_ISP2_READY_B4_CC_RANGE    31:31
 
 #define APBDEV_PMC_SCRATCH98_0_EMC_SWIZZLE_RANK1_BYTE1_0_SWZ_RANK1_BYTE1_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1417,8 +1420,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH98_0_EMC_SWIZZLE_RANK1_BYTE1_0_SWZ_RANK1_BYTE1_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH98_0_EMC_RDV_0_RDV_RANGE                          30:24
-#define APBDEV_PMC_SCRATCH98_0_EMC_CFG_0_WAIT_FOR_ISP2_READY_B4_CC_RANGE    31:31
+#define APBDEV_PMC_SCRATCH98_0_EMC_RW2PDEN_0_RW2PDEN_RANGE                  30:24
+#define APBDEV_PMC_SCRATCH98_0_EMC_CFG_0_WAIT_FOR_VI2_READY_B4_CC_RANGE     31:31
 
 #define APBDEV_PMC_SCRATCH99_0_EMC_SWIZZLE_RANK1_BYTE2_0_SWZ_RANK1_BYTE2_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1436,8 +1439,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH99_0_EMC_SWIZZLE_RANK1_BYTE2_0_SWZ_RANK1_BYTE2_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH99_0_EMC_RW2PDEN_0_RW2PDEN_RANGE                  30:24
-#define APBDEV_PMC_SCRATCH99_0_EMC_CFG_0_WAIT_FOR_VI2_READY_B4_CC_RANGE     31:31
+#define APBDEV_PMC_SCRATCH99_0_EMC_TFAW_0_TFAW_RANGE                        30:24
+#define APBDEV_PMC_SCRATCH99_0_EMC_CFG_0_WAIT_FOR_ISP2B_READY_B4_CC_RANGE   31:31
 
 #define APBDEV_PMC_SCRATCH100_0_EMC_SWIZZLE_RANK1_BYTE3_0_SWZ_RANK1_BYTE3_BIT0_SEL_RANGE\
                                                                              2: 0
@@ -1455,8 +1458,8 @@
                                                                             20:18
 #define APBDEV_PMC_SCRATCH100_0_EMC_SWIZZLE_RANK1_BYTE3_0_SWZ_RANK1_BYTE3_BIT7_SEL_RANGE\
                                                                             23:21
-#define APBDEV_PMC_SCRATCH100_0_EMC_TFAW_0_TFAW_RANGE                       30:24
-#define APBDEV_PMC_SCRATCH100_0_EMC_CFG_0_WAIT_FOR_ISP2B_READY_B4_CC_RANGE  31:31
+#define APBDEV_PMC_SCRATCH100_0_EMC_TCLKSTABLE_0_TCLKSTABLE_RANGE           30:24
+#define APBDEV_PMC_SCRATCH100_0_EMC_CFG_0_DSR_VTTGEN_DRV_EN_RANGE           31:31
 
 #define APBDEV_PMC_SCRATCH101_0_EMC_CFG_PIPE_2_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE3_BRICK0_RANGE\
                                                                              0: 0
@@ -1506,8 +1509,8 @@
                                                                             22:22
 #define APBDEV_PMC_SCRATCH101_0_EMC_CFG_PIPE_2_0_EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE3_BRICK11_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH101_0_EMC_TCLKSTABLE_0_TCLKSTABLE_RANGE           30:24
-#define APBDEV_PMC_SCRATCH101_0_EMC_CFG_0_DSR_VTTGEN_DRV_EN_RANGE           31:31
+#define APBDEV_PMC_SCRATCH101_0_EMC_TRTM_0_TRTM_RANGE                       30:24
+#define APBDEV_PMC_SCRATCH101_0_EMC_CFG_0_PERIODIC_QRST_RANGE               31:31
 
 #define APBDEV_PMC_SCRATCH102_0_EMC_CFG_PIPE_1_0_EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE1_BRICK0_RANGE\
                                                                              0: 0
@@ -1557,8 +1560,8 @@
                                                                             22:22
 #define APBDEV_PMC_SCRATCH102_0_EMC_CFG_PIPE_1_0_EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE2_BRICK11_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH102_0_EMC_TRTM_0_TRTM_RANGE                       30:24
-#define APBDEV_PMC_SCRATCH102_0_EMC_CFG_0_PERIODIC_QRST_RANGE               31:31
+#define APBDEV_PMC_SCRATCH102_0_EMC_TWTM_0_TWTM_RANGE                       30:24
+#define APBDEV_PMC_SCRATCH102_0_EMC_CFG_0_MAN_PRE_RD_RANGE                  31:31
 
 #define APBDEV_PMC_SCRATCH103_0_EMC_PMACRO_DDLL_PWRD_0_0_DDLL_BYTE_TXDQS_PWRD_BYTE0_RANGE\
                                                                              0: 0
@@ -1608,8 +1611,8 @@
                                                                             22:22
 #define APBDEV_PMC_SCRATCH103_0_EMC_PMACRO_DDLL_PWRD_0_0_DDLL_BIT_RXDQ_PWRD_BYTE3_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH103_0_EMC_TWTM_0_TWTM_RANGE                       30:24
-#define APBDEV_PMC_SCRATCH103_0_EMC_CFG_0_MAN_PRE_RD_RANGE                  31:31
+#define APBDEV_PMC_SCRATCH103_0_EMC_TRATM_0_TRATM_RANGE                     30:24
+#define APBDEV_PMC_SCRATCH103_0_EMC_CFG_0_MAN_PRE_WR_RANGE                  31:31
 
 #define APBDEV_PMC_SCRATCH104_0_EMC_PMACRO_DDLL_PWRD_1_0_DDLL_BYTE_TXDQS_PWRD_BYTE4_RANGE\
                                                                              0: 0
@@ -1659,8 +1662,8 @@
                                                                             22:22
 #define APBDEV_PMC_SCRATCH104_0_EMC_PMACRO_DDLL_PWRD_1_0_DDLL_BIT_RXDQ_PWRD_BYTE7_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH104_0_EMC_TRATM_0_TRATM_RANGE                     30:24
-#define APBDEV_PMC_SCRATCH104_0_EMC_CFG_0_MAN_PRE_WR_RANGE                  31:31
+#define APBDEV_PMC_SCRATCH104_0_EMC_TWATM_0_TWATM_RANGE                     30:24
+#define APBDEV_PMC_SCRATCH104_0_EMC_CFG_0_AUTO_PRE_RD_RANGE                 31:31
 
 #define APBDEV_PMC_SCRATCH105_0_EMC_PMACRO_DDLL_PWRD_2_0_DDLL_BYTE_TXDQS_PWRD_CMD0_RANGE\
                                                                              0: 0
@@ -1710,8 +1713,8 @@
                                                                             22:22
 #define APBDEV_PMC_SCRATCH105_0_EMC_PMACRO_DDLL_PWRD_2_0_DDLL_BIT_RXDQ_PWRD_CMD3_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH105_0_EMC_TWATM_0_TWATM_RANGE                     30:24
-#define APBDEV_PMC_SCRATCH105_0_EMC_CFG_0_AUTO_PRE_RD_RANGE                 31:31
+#define APBDEV_PMC_SCRATCH105_0_EMC_TR2REF_0_TR2REF_RANGE                   30:24
+#define APBDEV_PMC_SCRATCH105_0_EMC_CFG_0_AUTO_PRE_WR_RANGE                 31:31
 
 #define APBDEV_PMC_SCRATCH106_0_EMC_PMACRO_DDLL_PERIODIC_OFFSET_0_DDLL_PERIODIC_OFFSET_RANGE\
                                                                              5: 0
@@ -1751,14 +1754,20 @@
                                                                             22:22
 #define APBDEV_PMC_SCRATCH106_0_EMC_PMACRO_DDLL_PERIODIC_OFFSET_0_CMD_DDLL_PERIODIC_OFFSET_BYTE_QU_EN_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH106_0_EMC_TR2REF_0_TR2REF_RANGE                   30:24
-#define APBDEV_PMC_SCRATCH106_0_EMC_CFG_0_AUTO_PRE_WR_RANGE                 31:31
+#define APBDEV_PMC_SCRATCH106_0_EMC_PDEX2MRR_0_PDEX2MRR_RANGE               30:24
+#define APBDEV_PMC_SCRATCH106_0_EMC_CFG_0_REQACT_ASYNC_RANGE                31:31
 
 #define APBDEV_PMC_SCRATCH107_0_MC_EMEM_ARB_DA_COVERS_0_RC_COVER_RANGE       7: 0
 #define APBDEV_PMC_SCRATCH107_0_MC_EMEM_ARB_DA_COVERS_0_RCD_R_COVER_RANGE   15: 8
 #define APBDEV_PMC_SCRATCH107_0_MC_EMEM_ARB_DA_COVERS_0_RCD_W_COVER_RANGE   23:16
-#define APBDEV_PMC_SCRATCH107_0_EMC_PDEX2MRR_0_PDEX2MRR_RANGE               30:24
-#define APBDEV_PMC_SCRATCH107_0_EMC_CFG_0_REQACT_ASYNC_RANGE                31:31
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_CMDQ_CLKEN_OVR_RANGE   24:24
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_DRAMC_CLKEN_OVR_RANGE  25:25
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_RR_CLKEN_OVR_RANGE     26:26
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_STATS_CLKEN_OVR_RANGE  27:27
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_TR_CLKEN_OVR_RANGE     28:28
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_PAD_CONFIG_OVR_RANGE   29:29
+#define APBDEV_PMC_SCRATCH107_0_EMC_CLKEN_OVERRIDE_0_BIST_CLKEN_OVR_RANGE   30:30
+#define APBDEV_PMC_SCRATCH107_0_EMC_CFG_0_DYN_SELF_REF_RANGE                31:31
 
 #define APBDEV_PMC_SCRATCH108_0_EMC_XM2COMPPADCTRL_0_EMC2TMC_CFG_XM2COMP_MEM_MODE_RANGE\
                                                                              1: 0
@@ -1879,14 +1888,14 @@
 #define APBDEV_PMC_SCRATCH115_0_EMC_FBIO_CFG7_0_USE_SELF_REF_STATE_RANGE    19:19
 #define APBDEV_PMC_SCRATCH115_0_EMC_FBIO_CFG7_0_CFG_DLL_DISABLE_CHAIN_RANGE 21:20
 #define APBDEV_PMC_SCRATCH115_0_EMC_AR2PDEN_0_AR2PDEN_RANGE                 30:22
-#define APBDEV_PMC_SCRATCH115_0_EMC_CFG_0_DYN_SELF_REF_RANGE                31:31
+#define APBDEV_PMC_SCRATCH115_0_EMC_CFG_0_DRAM_ACPD_RANGE                   31:31
 
 #define APBDEV_PMC_SCRATCH123_0_EMC_PMACRO_QUSE_DDLL_RANK0_0_0_QUSE_DDLL_RANK0_BYTE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH123_0_EMC_PMACRO_QUSE_DDLL_RANK0_0_0_QUSE_DDLL_RANK0_BYTE1_RANGE\
                                                                             21:11
 #define APBDEV_PMC_SCRATCH123_0_EMC_RFC_SLR_0_RFC_SLR_RANGE                 30:22
-#define APBDEV_PMC_SCRATCH123_0_EMC_CFG_0_DRAM_ACPD_RANGE                   31:31
+#define APBDEV_PMC_SCRATCH123_0_EMC_CFG_0_DRAM_CLKSTOP_SR_RANGE             31:31
 
 #define APBDEV_PMC_SCRATCH124_0_EMC_PMACRO_QUSE_DDLL_RANK0_1_0_QUSE_DDLL_RANK0_BYTE2_RANGE\
                                                                             10: 0
@@ -1894,26 +1903,33 @@
                                                                             21:11
 #define APBDEV_PMC_SCRATCH124_0_EMC_IBDLY_0_IBDLY_RANGE                     28:22
 #define APBDEV_PMC_SCRATCH124_0_EMC_IBDLY_0_IBDLY_MODE_RANGE                30:29
-#define APBDEV_PMC_SCRATCH124_0_EMC_CFG_0_DRAM_CLKSTOP_SR_RANGE             31:31
+#define APBDEV_PMC_SCRATCH124_0_EMC_CFG_0_DRAM_CLKSTOP_PD_RANGE             31:31
 
 #define APBDEV_PMC_SCRATCH125_0_EMC_PMACRO_QUSE_DDLL_RANK0_2_0_QUSE_DDLL_RANK0_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH125_0_EMC_PMACRO_QUSE_DDLL_RANK0_2_0_QUSE_DDLL_RANK0_BYTE5_RANGE\
                                                                             21:11
 #define APBDEV_PMC_SCRATCH125_0_MC_EMEM_ARB_TIMING_RFCPB_0_RFCPB_RANGE      30:22
-#define APBDEV_PMC_SCRATCH125_0_EMC_CFG_0_DRAM_CLKSTOP_PD_RANGE             31:31
+#define APBDEV_PMC_SCRATCH125_0_EMC_FBIO_CFG5_0_DRAM_WIDTH_RANGE            31:31
 
 #define APBDEV_PMC_SCRATCH126_0_EMC_PMACRO_QUSE_DDLL_RANK0_3_0_QUSE_DDLL_RANK0_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH126_0_EMC_PMACRO_QUSE_DDLL_RANK0_3_0_QUSE_DDLL_RANK0_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_CMDQ_CLKEN_OVR_RANGE   22:22
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_DRAMC_CLKEN_OVR_RANGE  23:23
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_RR_CLKEN_OVR_RANGE     24:24
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_STATS_CLKEN_OVR_RANGE  25:25
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_TR_CLKEN_OVR_RANGE     26:26
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_PAD_CONFIG_OVR_RANGE   27:27
-#define APBDEV_PMC_SCRATCH126_0_EMC_CLKEN_OVERRIDE_0_BIST_CLKEN_OVR_RANGE   28:28
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_CA_RANGE\
+                                                                            22:22
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_CLK_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_CMD_RANGE\
+                                                                            24:24
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQ_RANGE\
+                                                                            25:25
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQ_TERM_RANGE\
+                                                                            26:26
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQS_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH126_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQS_TERM_RANGE\
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH126_0_EMC_FBIO_CFG5_0_EMC2PMACRO_CFG_QUSE_MODE_RANGE\
                                                                             31:29
 
@@ -1921,27 +1937,14 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH127_0_EMC_PMACRO_QUSE_DDLL_RANK0_4_0_QUSE_DDLL_RANK0_CMD1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_CA_RANGE\
-                                                                            22:22
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_CLK_RANGE\
-                                                                            23:23
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_CMD_RANGE\
-                                                                            24:24
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQ_RANGE\
-                                                                            25:25
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQ_TERM_RANGE\
-                                                                            26:26
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQS_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH127_0_EMC_AUTO_CAL_CONFIG9_0_AUTO_CAL_OVERRIDE_DQS_TERM_RANGE\
-                                                                            28:28
+#define APBDEV_PMC_SCRATCH127_0_EMC_RDV_MASK_0_RDV_MASK_RANGE               28:22
 #define APBDEV_PMC_SCRATCH127_0_EMC_CFG_2_0_ZQ_EXTRA_DELAY_RANGE            31:29
 
 #define APBDEV_PMC_SCRATCH128_0_EMC_PMACRO_QUSE_DDLL_RANK0_5_0_QUSE_DDLL_RANK0_CMD2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH128_0_EMC_PMACRO_QUSE_DDLL_RANK0_5_0_QUSE_DDLL_RANK0_CMD3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH128_0_EMC_RDV_MASK_0_RDV_MASK_RANGE               28:22
+#define APBDEV_PMC_SCRATCH128_0_EMC_RDV_EARLY_MASK_0_RDV_EARLY_MASK_RANGE   28:22
 #define APBDEV_PMC_SCRATCH128_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_EBOOST_PD_MODE_RANGE\
                                                                             31:29
 
@@ -1949,7 +1952,7 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH129_0_EMC_PMACRO_QUSE_DDLL_RANK1_0_0_QUSE_DDLL_RANK1_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH129_0_EMC_RDV_EARLY_MASK_0_RDV_EARLY_MASK_RANGE   28:22
+#define APBDEV_PMC_SCRATCH129_0_EMC_RDV_EARLY_0_RDV_EARLY_RANGE             28:22
 #define APBDEV_PMC_SCRATCH129_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_EBOOST_PU_MODE_RANGE\
                                                                             31:29
 
@@ -1957,7 +1960,9 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH130_0_EMC_PMACRO_QUSE_DDLL_RANK1_1_0_QUSE_DDLL_RANK1_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH130_0_EMC_RDV_EARLY_0_RDV_EARLY_RANGE             28:22
+#define APBDEV_PMC_SCRATCH130_0_EMC_QUSE_WIDTH_0_QUSE_DURATION_RANGE        26:22
+#define APBDEV_PMC_SCRATCH130_0_EMC_QUSE_WIDTH_0_QUSE_EXTEND_UI_RANGE       27:27
+#define APBDEV_PMC_SCRATCH130_0_EMC_QUSE_WIDTH_0_QUSE_SHORTEN_2UI_RANGE     28:28
 #define APBDEV_PMC_SCRATCH130_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_EBOOST_PD_MODE_RANGE\
                                                                             31:29
 
@@ -1965,9 +1970,8 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH131_0_EMC_PMACRO_QUSE_DDLL_RANK1_2_0_QUSE_DDLL_RANK1_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH131_0_EMC_QUSE_WIDTH_0_QUSE_DURATION_RANGE        26:22
-#define APBDEV_PMC_SCRATCH131_0_EMC_QUSE_WIDTH_0_QUSE_EXTEND_UI_RANGE       27:27
-#define APBDEV_PMC_SCRATCH131_0_EMC_QUSE_WIDTH_0_QUSE_SHORTEN_2UI_RANGE     28:28
+#define APBDEV_PMC_SCRATCH131_0_EMC_PMACRO_DDLL_SHORT_CMD_2_0_DDLL_SHORT_CMD_RESET_RANGE\
+                                                                            28:22
 #define APBDEV_PMC_SCRATCH131_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_EBOOST_PU_MODE_RANGE\
                                                                             31:29
 
@@ -1975,8 +1979,14 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_QUSE_DDLL_RANK1_3_0_QUSE_DDLL_RANK1_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_DDLL_SHORT_CMD_2_0_DDLL_SHORT_CMD_RESET_RANGE\
-                                                                            28:22
+#define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_DQ_RX_TERM_MODE_RANGE\
+                                                                            23:22
+#define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_DQSP_RX_TERM_MODE_RANGE\
+                                                                            25:24
+#define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_DQSN_RX_TERM_MODE_RANGE\
+                                                                            27:26
+#define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_E_PWRD_RX_RANGE\
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH132_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_EBOOST_PD_MODE_RANGE\
                                                                             31:29
 
@@ -1984,13 +1994,13 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_QUSE_DDLL_RANK1_4_0_QUSE_DDLL_RANK1_CMD1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_DQ_RX_TERM_MODE_RANGE\
+#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_DQ_RX_TERM_MODE_RANGE\
                                                                             23:22
-#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_DQSP_RX_TERM_MODE_RANGE\
+#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_DQSP_RX_TERM_MODE_RANGE\
                                                                             25:24
-#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_DQSN_RX_TERM_MODE_RANGE\
+#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_DQSN_RX_TERM_MODE_RANGE\
                                                                             27:26
-#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_CMD_RX_TERM_MODE_0_CMD_E_PWRD_RX_RANGE\
+#define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_E_PWRD_RX_RANGE\
                                                                             28:28
 #define APBDEV_PMC_SCRATCH133_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_EBOOST_PU_MODE_RANGE\
                                                                             31:29
@@ -1999,14 +2009,7 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH134_0_EMC_PMACRO_QUSE_DDLL_RANK1_5_0_QUSE_DDLL_RANK1_CMD3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH134_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_DQ_RX_TERM_MODE_RANGE\
-                                                                            23:22
-#define APBDEV_PMC_SCRATCH134_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_DQSP_RX_TERM_MODE_RANGE\
-                                                                            25:24
-#define APBDEV_PMC_SCRATCH134_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_DQSN_RX_TERM_MODE_RANGE\
-                                                                            27:26
-#define APBDEV_PMC_SCRATCH134_0_EMC_PMACRO_DATA_RX_TERM_MODE_0_DATA_E_PWRD_RX_RANGE\
-                                                                            28:28
+#define APBDEV_PMC_SCRATCH134_0_MC_EMEM_ARB_TIMING_RP_0_RP_RANGE            28:22
 #define APBDEV_PMC_SCRATCH134_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_EBOOST_PD_MODE_RANGE\
                                                                             31:29
 
@@ -2014,7 +2017,7 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH135_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_0_0_OB_DDLL_LONG_DQ_RANK0_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH135_0_MC_EMEM_ARB_TIMING_RP_0_RP_RANGE            28:22
+#define APBDEV_PMC_SCRATCH135_0_MC_EMEM_ARB_TIMING_RAS_0_RAS_RANGE          28:22
 #define APBDEV_PMC_SCRATCH135_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_EBOOST_PU_MODE_RANGE\
                                                                             31:29
 
@@ -2022,459 +2025,455 @@
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH136_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_1_0_OB_DDLL_LONG_DQ_RANK0_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH136_0_MC_EMEM_ARB_TIMING_RAS_0_RAS_RANGE          28:22
+#define APBDEV_PMC_SCRATCH136_0_MC_EMEM_ARB_TIMING_FAW_0_FAW_RANGE          28:22
 #define APBDEV_PMC_SCRATCH136_0_EMC_CFG_0_EMC2MC_CLK_RATIO_RANGE            30:29
-#define APBDEV_PMC_SCRATCH136_0_EMC_FBIO_CFG5_0_DRAM_WIDTH_RANGE            31:31
+#define APBDEV_PMC_SCRATCH136_0_EMC_FBIO_CFG5_0_CMD_TX_EN_RANGE             31:31
 
 #define APBDEV_PMC_SCRATCH137_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_2_0_OB_DDLL_LONG_DQ_RANK0_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH137_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_2_0_OB_DDLL_LONG_DQ_RANK0_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH137_0_MC_EMEM_ARB_TIMING_FAW_0_FAW_RANGE          28:22
+#define APBDEV_PMC_SCRATCH137_0_MC_EMEM_ARB_TIMING_RAP2PRE_0_RAP2PRE_RANGE  28:22
 #define APBDEV_PMC_SCRATCH137_0_EMC_FBIO_CFG5_0_DRAM_TYPE_RANGE             30:29
-#define APBDEV_PMC_SCRATCH137_0_EMC_FBIO_CFG5_0_CMD_TX_EN_RANGE             31:31
+#define APBDEV_PMC_SCRATCH137_0_EMC_FBIO_CFG5_0_DISABLE_CONCURRENT_AUTOPRE_RANGE\
+                                                                            31:31
 
 #define APBDEV_PMC_SCRATCH138_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_3_0_OB_DDLL_LONG_DQ_RANK0_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH138_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_3_0_OB_DDLL_LONG_DQ_RANK0_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH138_0_MC_EMEM_ARB_TIMING_RAP2PRE_0_RAP2PRE_RANGE  28:22
+#define APBDEV_PMC_SCRATCH138_0_MC_EMEM_ARB_TIMING_WAP2PRE_0_WAP2PRE_RANGE  28:22
 #define APBDEV_PMC_SCRATCH138_0_EMC_FBIO_CFG5_0_DRAM_BURST_RANGE            30:29
-#define APBDEV_PMC_SCRATCH138_0_EMC_FBIO_CFG5_0_DISABLE_CONCURRENT_AUTOPRE_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SCRATCH138_0_EMC_FBIO_CFG5_0_CMD_2T_TIMING_RANGE         31:31
 
 #define APBDEV_PMC_SCRATCH139_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_4_0_OB_DDLL_LONG_DQ_RANK0_CMD0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH139_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_4_0_OB_DDLL_LONG_DQ_RANK0_CMD1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH139_0_MC_EMEM_ARB_TIMING_WAP2PRE_0_WAP2PRE_RANGE  28:22
+#define APBDEV_PMC_SCRATCH139_0_MC_EMEM_ARB_TIMING_R2W_0_R2W_RANGE          28:22
 #define APBDEV_PMC_SCRATCH139_0_EMC_CFG_2_0_DRAMC_WD_CHK_POLICY_RANGE       30:29
-#define APBDEV_PMC_SCRATCH139_0_EMC_FBIO_CFG5_0_CMD_2T_TIMING_RANGE         31:31
+#define APBDEV_PMC_SCRATCH139_0_EMC_FBIO_CFG5_0_LPDDR3_WR_PREAMBLE_TOGGLE_RANGE\
+                                                                            31:31
 
 #define APBDEV_PMC_SCRATCH140_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_5_0_OB_DDLL_LONG_DQ_RANK0_CMD2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH140_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK0_5_0_OB_DDLL_LONG_DQ_RANK0_CMD3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH140_0_MC_EMEM_ARB_TIMING_R2W_0_R2W_RANGE          28:22
-#define APBDEV_PMC_SCRATCH140_0_EMC_FBIO_CFG5_0_LPDDR3_WR_PREAMBLE_TOGGLE_RANGE\
-                                                                            29:29
-#define APBDEV_PMC_SCRATCH140_0_EMC_FBIO_CFG5_0_LPDDR3_DRAM_RANGE           30:30
-#define APBDEV_PMC_SCRATCH140_0_EMC_FBIO_CFG5_0_CMD_BUS_RETURN_TO_ONE_RANGE 31:31
+#define APBDEV_PMC_SCRATCH140_0_MC_EMEM_ARB_TIMING_W2R_0_W2R_RANGE          28:22
+#define APBDEV_PMC_SCRATCH140_0_EMC_FBIO_CFG5_0_LPDDR3_DRAM_RANGE           29:29
+#define APBDEV_PMC_SCRATCH140_0_EMC_FBIO_CFG5_0_CMD_BUS_RETURN_TO_ONE_RANGE 30:30
+#define APBDEV_PMC_SCRATCH140_0_EMC_FBIO_CFG5_0_CMD_BUS_RETURN_TO_ZERO_RANGE\
+                                                                            31:31
 
 #define APBDEV_PMC_SCRATCH141_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_0_0_OB_DDLL_LONG_DQ_RANK1_BYTE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH141_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_0_0_OB_DDLL_LONG_DQ_RANK1_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH141_0_MC_EMEM_ARB_TIMING_W2R_0_W2R_RANGE          28:22
-#define APBDEV_PMC_SCRATCH141_0_EMC_FBIO_CFG5_0_CMD_BUS_RETURN_TO_ZERO_RANGE\
-                                                                            29:29
-#define APBDEV_PMC_SCRATCH141_0_EMC_FBIO_CFG5_0_MASK_PUTERM_N_DQS_PULLD_DURING_ZQCAL_RANGE\
-                                                                            30:30
-#define APBDEV_PMC_SCRATCH141_0_EMC_FBIO_CFG5_0_DATA_BUS_RETURN_TO_ONE_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SCRATCH141_0_EMC_WDV_0_WDV_RANGE                         27:22
+#define APBDEV_PMC_SCRATCH141_0_EMC_FBIO_CFG5_0_ERR_RD_BUBBLE_RANGE         31:28
 
 #define APBDEV_PMC_SCRATCH142_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_1_0_OB_DDLL_LONG_DQ_RANK1_BYTE2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH142_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_1_0_OB_DDLL_LONG_DQ_RANK1_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH142_0_EMC_WDV_0_WDV_RANGE                         27:22
-#define APBDEV_PMC_SCRATCH142_0_EMC_FBIO_CFG5_0_ERR_RD_BUBBLE_RANGE         31:28
+#define APBDEV_PMC_SCRATCH142_0_EMC_QUSE_0_QUSE_RANGE                       27:22
+#define APBDEV_PMC_SCRATCH142_0_EMC_FBIO_CFG5_0_MASK_PUTERM_N_DQS_PULLD_DURING_ZQCAL_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH142_0_EMC_FBIO_CFG5_0_DATA_BUS_RETURN_TO_ONE_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH142_0_EMC_FBIO_CFG5_0_DATA_BUS_RETURN_TO_ZERO_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH142_0_EMC_CFG_2_0_CLKCHANGE_REQ_ENABLE_RANGE      31:31
 
 #define APBDEV_PMC_SCRATCH143_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_2_0_OB_DDLL_LONG_DQ_RANK1_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH143_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_2_0_OB_DDLL_LONG_DQ_RANK1_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH143_0_EMC_QUSE_0_QUSE_RANGE                       27:22
-#define APBDEV_PMC_SCRATCH143_0_EMC_FBIO_CFG5_0_DATA_BUS_RETURN_TO_ZERO_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_CLKCHANGE_REQ_ENABLE_RANGE      29:29
-#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_CLKCHANGE_PD_ENABLE_RANGE       30:30
-#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_REF_AFTER_SREF_RANGE            31:31
+#define APBDEV_PMC_SCRATCH143_0_EMC_PDEX2WR_0_PDEX2WR_RANGE                 27:22
+#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_CLKCHANGE_PD_ENABLE_RANGE       28:28
+#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_REF_AFTER_SREF_RANGE            29:29
+#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_EARLY_TRFC_8_CLK_RANGE          30:30
+#define APBDEV_PMC_SCRATCH143_0_EMC_CFG_2_0_DONT_GEN_EARLY_TRFC_DONE_RANGE  31:31
 
 #define APBDEV_PMC_SCRATCH144_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_3_0_OB_DDLL_LONG_DQ_RANK1_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH144_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_3_0_OB_DDLL_LONG_DQ_RANK1_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH144_0_EMC_PDEX2WR_0_PDEX2WR_RANGE                 27:22
-#define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_EARLY_TRFC_8_CLK_RANGE          28:28
-#define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_DONT_GEN_EARLY_TRFC_DONE_RANGE  29:29
+#define APBDEV_PMC_SCRATCH144_0_EMC_PDEX2RD_0_PDEX2RD_RANGE                 27:22
 #define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_DIS_CNTR_WITH_CFG_TIMING_UPDATE_RANGE\
-                                                                            30:30
-#define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_DONT_GEN_EARLY_MRS_DONE_RANGE   31:31
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_DONT_GEN_EARLY_MRS_DONE_RANGE   29:29
+#define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_REF_B4_SREF_RANGE               30:30
+#define APBDEV_PMC_SCRATCH144_0_EMC_CFG_2_0_CLKCHANGE_ACTIVE_SR_RANGE       31:31
 
 #define APBDEV_PMC_SCRATCH145_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_4_0_OB_DDLL_LONG_DQ_RANK1_CMD0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH145_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_4_0_OB_DDLL_LONG_DQ_RANK1_CMD1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH145_0_EMC_PDEX2RD_0_PDEX2RD_RANGE                 27:22
-#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_REF_B4_SREF_RANGE               28:28
-#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_CLKCHANGE_ACTIVE_SR_RANGE       29:29
-#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_COMBINED_INTERRUPT_MODE_RANGE   30:30
-#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_ISSUE_PCHGALL_AFTER_REF_RANGE   31:31
+#define APBDEV_PMC_SCRATCH145_0_EMC_PDEX2CKE_0_PDEX2CKE_RANGE               27:22
+#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_COMBINED_INTERRUPT_MODE_RANGE   28:28
+#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_ISSUE_PCHGALL_AFTER_REF_RANGE   29:29
+#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_CHK_PDEX2RD_TO_START_WR_RANGE   30:30
+#define APBDEV_PMC_SCRATCH145_0_EMC_CFG_2_0_DSR_STUTTER_ENABLE_RANGE        31:31
 
 #define APBDEV_PMC_SCRATCH146_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_5_0_OB_DDLL_LONG_DQ_RANK1_CMD2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH146_0_EMC_PMACRO_OB_DDLL_LONG_DQ_RANK1_5_0_OB_DDLL_LONG_DQ_RANK1_CMD3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH146_0_EMC_PDEX2CKE_0_PDEX2CKE_RANGE               27:22
-#define APBDEV_PMC_SCRATCH146_0_EMC_CFG_2_0_CHK_PDEX2RD_TO_START_WR_RANGE   28:28
-#define APBDEV_PMC_SCRATCH146_0_EMC_CFG_2_0_DSR_STUTTER_ENABLE_RANGE        29:29
+#define APBDEV_PMC_SCRATCH146_0_EMC_PCHG2PDEN_0_PCHG2PDEN_RANGE             27:22
 #define APBDEV_PMC_SCRATCH146_0_EMC_CFG_2_0_ALLOW_REF_DURING_CC_PRE_EXE_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH146_0_EMC_CFG_2_0_DONT_CLR_TIMING_COUNTER_WHEN_CLKCHANGE_RANGE\
-                                                                            31:31
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH146_0_EMC_CFG_2_0_CLR_ACT_BANK_INUSE_WHEN_BANK_CLOSE_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH146_0_EMC_CFG_2_0_IGNORE_MC_A_BUS_RANGE           31:31
 
 #define APBDEV_PMC_SCRATCH147_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_0_0_OB_DDLL_LONG_DQS_RANK0_BYTE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH147_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_0_0_OB_DDLL_LONG_DQS_RANK0_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH147_0_EMC_PCHG2PDEN_0_PCHG2PDEN_RANGE             27:22
-#define APBDEV_PMC_SCRATCH147_0_EMC_CFG_2_0_CLR_ACT_BANK_INUSE_WHEN_BANK_CLOSE_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH147_0_EMC_CFG_2_0_IGNORE_MC_A_BUS_RANGE           29:29
-#define APBDEV_PMC_SCRATCH147_0_EMC_CFG_2_0_DRAMC_PRE_B4_ACT_RANGE          30:30
+#define APBDEV_PMC_SCRATCH147_0_EMC_ACT2PDEN_0_ACT2PDEN_RANGE               27:22
+#define APBDEV_PMC_SCRATCH147_0_EMC_CFG_2_0_DRAMC_PRE_B4_ACT_RANGE          28:28
 #define APBDEV_PMC_SCRATCH147_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK0_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH147_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK1_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH147_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH148_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_1_0_OB_DDLL_LONG_DQS_RANK0_BYTE2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH148_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_1_0_OB_DDLL_LONG_DQS_RANK0_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH148_0_EMC_ACT2PDEN_0_ACT2PDEN_RANGE               27:22
-#define APBDEV_PMC_SCRATCH148_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK1_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH148_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK2_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH148_0_EMC_CKE2PDEN_0_CKE2PDEN_RANGE               27:22
 #define APBDEV_PMC_SCRATCH148_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK3_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH148_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK4_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH148_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK5_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH148_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK6_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH149_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_2_0_OB_DDLL_LONG_DQS_RANK0_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH149_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_2_0_OB_DDLL_LONG_DQS_RANK0_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH149_0_EMC_CKE2PDEN_0_CKE2PDEN_RANGE               27:22
-#define APBDEV_PMC_SCRATCH149_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK5_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH149_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK6_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH149_0_EMC_TCKE_0_TCKE_RANGE                       27:22
 #define APBDEV_PMC_SCRATCH149_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK7_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH149_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK8_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH149_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK9_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH149_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK10_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH150_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_3_0_OB_DDLL_LONG_DQS_RANK0_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH150_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_3_0_OB_DDLL_LONG_DQS_RANK0_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH150_0_EMC_TCKE_0_TCKE_RANGE                       27:22
-#define APBDEV_PMC_SCRATCH150_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK9_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH150_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK10_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH150_0_EMC_TRPAB_0_TRPAB_RANGE                     27:22
 #define APBDEV_PMC_SCRATCH150_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK11_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH150_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK0_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH150_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK1_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH150_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH151_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_4_0_OB_DDLL_LONG_DQS_RANK0_CMD0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH151_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_4_0_OB_DDLL_LONG_DQS_RANK0_CMD1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH151_0_EMC_TRPAB_0_TRPAB_RANGE                     27:22
-#define APBDEV_PMC_SCRATCH151_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK1_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH151_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK2_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH151_0_EMC_EINPUT_0_EINPUT_RANGE                   27:22
 #define APBDEV_PMC_SCRATCH151_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK3_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH151_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK4_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH151_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK5_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH151_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK6_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH152_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_5_0_OB_DDLL_LONG_DQS_RANK0_CMD2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH152_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK0_5_0_OB_DDLL_LONG_DQS_RANK0_CMD3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH152_0_EMC_EINPUT_0_EINPUT_RANGE                   27:22
-#define APBDEV_PMC_SCRATCH152_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK5_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH152_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK6_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH152_0_EMC_EINPUT_DURATION_0_EINPUT_DURATION_RANGE 27:22
 #define APBDEV_PMC_SCRATCH152_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK7_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH152_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK8_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH152_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK9_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH152_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK10_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH153_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_0_0_OB_DDLL_LONG_DQS_RANK1_BYTE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH153_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_0_0_OB_DDLL_LONG_DQS_RANK1_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH153_0_EMC_EINPUT_DURATION_0_EINPUT_DURATION_RANGE 27:22
-#define APBDEV_PMC_SCRATCH153_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK9_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH153_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK10_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH153_0_EMC_PUTERM_EXTRA_0_RXTERM_RANGE             27:22
 #define APBDEV_PMC_SCRATCH153_0_EMC_CFG_PIPE_0_EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK11_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH153_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ0_TX_SEL_CLK_SRC_BYTE0_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH153_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ1_TX_SEL_CLK_SRC_BYTE0_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH153_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ2_TX_SEL_CLK_SRC_BYTE0_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_1_0_OB_DDLL_LONG_DQS_RANK1_BYTE2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_1_0_OB_DDLL_LONG_DQS_RANK1_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH154_0_EMC_PUTERM_EXTRA_0_RXTERM_RANGE             27:22
-#define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ1_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ2_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH154_0_EMC_TCKESR_0_TCKESR_RANGE                   27:22
 #define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ3_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ4_TX_SEL_CLK_SRC_BYTE0_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ5_TX_SEL_CLK_SRC_BYTE0_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH154_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ6_TX_SEL_CLK_SRC_BYTE0_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_2_0_OB_DDLL_LONG_DQS_RANK1_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_2_0_OB_DDLL_LONG_DQS_RANK1_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH155_0_EMC_TCKESR_0_TCKESR_RANGE                   27:22
-#define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ5_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ6_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH155_0_EMC_TPD_0_TPD_RANGE                         27:22
 #define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ7_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ8_TX_SEL_CLK_SRC_BYTE0_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSP_TX_SEL_CLK_SRC_BYTE0_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH155_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSN_TX_SEL_CLK_SRC_BYTE0_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_3_0_OB_DDLL_LONG_DQS_RANK1_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_3_0_OB_DDLL_LONG_DQS_RANK1_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH156_0_EMC_TPD_0_TPD_RANGE                         27:22
-#define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSP_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSN_TX_SEL_CLK_SRC_BYTE0_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH156_0_EMC_WDV_MASK_0_WDV_MASK_RANGE               27:22
 #define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ0_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ1_TX_SEL_CLK_SRC_BYTE1_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ2_TX_SEL_CLK_SRC_BYTE1_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH156_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ3_TX_SEL_CLK_SRC_BYTE1_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_4_0_OB_DDLL_LONG_DQS_RANK1_CMD0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_4_0_OB_DDLL_LONG_DQS_RANK1_CMD1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH157_0_EMC_WDV_MASK_0_WDV_MASK_RANGE               27:22
-#define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ2_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ3_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH157_0_EMC_WDV_CHK_0_WDV_CHK_BASE_RANGE            27:22
 #define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ4_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ5_TX_SEL_CLK_SRC_BYTE1_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ6_TX_SEL_CLK_SRC_BYTE1_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH157_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ7_TX_SEL_CLK_SRC_BYTE1_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_5_0_OB_DDLL_LONG_DQS_RANK1_CMD2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_OB_DDLL_LONG_DQS_RANK1_5_0_OB_DDLL_LONG_DQS_RANK1_CMD3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH158_0_EMC_WDV_CHK_0_WDV_CHK_BASE_RANGE            27:22
-#define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ6_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ7_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH158_0_EMC_CMD_BRLSHFT_0_0_CH0_SUBP0_1T_BRLSHFT_RANGE\
+                                                                            24:22
+#define APBDEV_PMC_SCRATCH158_0_EMC_CMD_BRLSHFT_0_0_CH0_SUBP1_1T_BRLSHFT_RANGE\
+                                                                            27:25
 #define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQ8_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSP_TX_SEL_CLK_SRC_BYTE1_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSN_TX_SEL_CLK_SRC_BYTE1_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH158_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ0_TX_SEL_CLK_SRC_BYTE2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_0_0_IB_DDLL_LONG_DQS_RANK0_BYTE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_0_0_IB_DDLL_LONG_DQS_RANK0_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH159_0_EMC_CMD_BRLSHFT_0_0_CH0_SUBP0_1T_BRLSHFT_RANGE\
+#define APBDEV_PMC_SCRATCH159_0_EMC_CMD_BRLSHFT_1_0_CH1_SUBP0_1T_BRLSHFT_RANGE\
                                                                             24:22
-#define APBDEV_PMC_SCRATCH159_0_EMC_CMD_BRLSHFT_0_0_CH0_SUBP1_1T_BRLSHFT_RANGE\
+#define APBDEV_PMC_SCRATCH159_0_EMC_CMD_BRLSHFT_1_0_CH1_SUBP1_1T_BRLSHFT_RANGE\
                                                                             27:25
-#define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_TX_SEL_CLK_SRC_0_0_DQSN_TX_SEL_CLK_SRC_BYTE1_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ0_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ1_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ2_TX_SEL_CLK_SRC_BYTE2_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ3_TX_SEL_CLK_SRC_BYTE2_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH159_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ4_TX_SEL_CLK_SRC_BYTE2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_1_0_IB_DDLL_LONG_DQS_RANK0_BYTE2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_1_0_IB_DDLL_LONG_DQS_RANK0_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH160_0_EMC_CMD_BRLSHFT_1_0_CH1_SUBP0_1T_BRLSHFT_RANGE\
+#define APBDEV_PMC_SCRATCH160_0_EMC_CMD_BRLSHFT_2_0_CH0_SUBP0_2T_BRLSHFT_RANGE\
                                                                             24:22
-#define APBDEV_PMC_SCRATCH160_0_EMC_CMD_BRLSHFT_1_0_CH1_SUBP1_1T_BRLSHFT_RANGE\
+#define APBDEV_PMC_SCRATCH160_0_EMC_CMD_BRLSHFT_2_0_CH0_SUBP1_2T_BRLSHFT_RANGE\
                                                                             27:25
-#define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ3_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ4_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ5_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ6_TX_SEL_CLK_SRC_BYTE2_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ7_TX_SEL_CLK_SRC_BYTE2_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH160_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ8_TX_SEL_CLK_SRC_BYTE2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_2_0_IB_DDLL_LONG_DQS_RANK0_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_2_0_IB_DDLL_LONG_DQS_RANK0_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH161_0_EMC_CMD_BRLSHFT_2_0_CH0_SUBP0_2T_BRLSHFT_RANGE\
+#define APBDEV_PMC_SCRATCH161_0_EMC_CMD_BRLSHFT_3_0_CH1_SUBP0_2T_BRLSHFT_RANGE\
                                                                             24:22
-#define APBDEV_PMC_SCRATCH161_0_EMC_CMD_BRLSHFT_2_0_CH0_SUBP1_2T_BRLSHFT_RANGE\
+#define APBDEV_PMC_SCRATCH161_0_EMC_CMD_BRLSHFT_3_0_CH1_SUBP1_2T_BRLSHFT_RANGE\
                                                                             27:25
-#define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ7_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ8_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQSP_TX_SEL_CLK_SRC_BYTE2_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQSN_TX_SEL_CLK_SRC_BYTE2_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ0_TX_SEL_CLK_SRC_BYTE3_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH161_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ1_TX_SEL_CLK_SRC_BYTE3_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_3_0_IB_DDLL_LONG_DQS_RANK0_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK0_3_0_IB_DDLL_LONG_DQS_RANK0_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH162_0_EMC_CMD_BRLSHFT_3_0_CH1_SUBP0_2T_BRLSHFT_RANGE\
-                                                                            24:22
-#define APBDEV_PMC_SCRATCH162_0_EMC_CMD_BRLSHFT_3_0_CH1_SUBP1_2T_BRLSHFT_RANGE\
-                                                                            27:25
-#define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ0_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ1_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH162_0_EMC_WEV_0_WEV_RANGE                         27:22
 #define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ2_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ3_TX_SEL_CLK_SRC_BYTE3_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ4_TX_SEL_CLK_SRC_BYTE3_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH162_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ5_TX_SEL_CLK_SRC_BYTE3_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_0_0_IB_DDLL_LONG_DQS_RANK1_BYTE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_0_0_IB_DDLL_LONG_DQS_RANK1_BYTE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH163_0_EMC_WEV_0_WEV_RANGE                         27:22
-#define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ4_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ5_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH163_0_EMC_WSV_0_WSV_RANGE                         27:22
 #define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ6_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ7_TX_SEL_CLK_SRC_BYTE3_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ8_TX_SEL_CLK_SRC_BYTE3_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH163_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQSP_TX_SEL_CLK_SRC_BYTE3_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_1_0_IB_DDLL_LONG_DQS_RANK1_BYTE2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_1_0_IB_DDLL_LONG_DQS_RANK1_BYTE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH164_0_EMC_WSV_0_WSV_RANGE                         27:22
-#define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQ8_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQSP_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH164_0_EMC_CFG_3_0_MRR_BYTESEL_RANGE               24:22
+#define APBDEV_PMC_SCRATCH164_0_EMC_CFG_3_0_MRR_BYTESEL_X16_RANGE           27:25
 #define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_TX_SEL_CLK_SRC_1_0_DQSN_TX_SEL_CLK_SRC_BYTE3_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ0_TX_SEL_CLK_SRC_BYTE6_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ1_TX_SEL_CLK_SRC_BYTE6_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH164_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ2_TX_SEL_CLK_SRC_BYTE6_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_2_0_IB_DDLL_LONG_DQS_RANK1_BYTE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_2_0_IB_DDLL_LONG_DQS_RANK1_BYTE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH165_0_EMC_CFG_3_0_MRR_BYTESEL_RANGE               24:22
-#define APBDEV_PMC_SCRATCH165_0_EMC_CFG_3_0_MRR_BYTESEL_X16_RANGE           27:25
-#define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ1_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ2_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH165_0_EMC_PUTERM_WIDTH_0_CFG_STATIC_TERM_RANGE    22:22
+#define APBDEV_PMC_SCRATCH165_0_EMC_PUTERM_WIDTH_0_RXTERM_DURATION_RANGE    27:23
 #define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ3_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ4_TX_SEL_CLK_SRC_BYTE6_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ5_TX_SEL_CLK_SRC_BYTE6_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH165_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ6_TX_SEL_CLK_SRC_BYTE6_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_3_0_IB_DDLL_LONG_DQS_RANK1_BYTE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_IB_DDLL_LONG_DQS_RANK1_3_0_IB_DDLL_LONG_DQS_RANK1_BYTE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH166_0_EMC_PUTERM_WIDTH_0_CFG_STATIC_TERM_RANGE    22:22
-#define APBDEV_PMC_SCRATCH166_0_EMC_PUTERM_WIDTH_0_RXTERM_DURATION_RANGE    27:23
-#define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ5_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ6_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH166_0_MC_EMEM_ARB_TIMING_RCD_0_RCD_RANGE          27:22
 #define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ7_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ8_TX_SEL_CLK_SRC_BYTE6_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSP_TX_SEL_CLK_SRC_BYTE6_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH166_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSN_TX_SEL_CLK_SRC_BYTE6_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_DDLL_LONG_CMD_0_0_DDLL_LONG_CMD_CKE0_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_DDLL_LONG_CMD_0_0_DDLL_LONG_CMD_CKE1_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH167_0_MC_EMEM_ARB_TIMING_RCD_0_RCD_RANGE          27:22
-#define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSP_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSN_TX_SEL_CLK_SRC_BYTE6_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH167_0_MC_EMEM_ARB_TIMING_CCDMW_0_CCDMW_RANGE      27:22
 #define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ0_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ1_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ2_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH167_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ3_TX_SEL_CLK_SRC_BYTE7_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_DDLL_LONG_CMD_1_0_DDLL_LONG_CMD_CKE2_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_DDLL_LONG_CMD_1_0_DDLL_LONG_CMD_CKE3_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_TIMING_CCDMW_0_CCDMW_RANGE      27:22
-#define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ2_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ3_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            29:29
+#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_OVERRIDE_0_ARB_EMEM_AP_OVERRIDE_RANGE\
+                                                                            22:22
+#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_OVERRIDE_0_ARB_HUM_FIFO_OVERRIDE_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_OVERRIDE_0_ALLOC_ONE_BQ_PER_CLIENT_RANGE\
+                                                                            24:24
+#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_OVERRIDE_0_OBSERVED_DIRECTION_OVERRIDE_RANGE\
+                                                                            25:25
+#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_OVERRIDE_0_EXPIRE_UPDATE_OVERRIDE_RANGE\
+                                                                            26:26
+#define APBDEV_PMC_SCRATCH168_0_MC_EMEM_ARB_OVERRIDE_0_GPU_SLICE_MERGE_OVERRIDE_RANGE\
+                                                                            27:27
 #define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ4_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            30:30
+                                                                            28:28
 #define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ5_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ6_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH168_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ7_TX_SEL_CLK_SRC_BYTE7_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH169_0_EMC_PMACRO_DDLL_LONG_CMD_2_0_DDLL_LONG_CMD_CKE4_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH169_0_EMC_PMACRO_DDLL_LONG_CMD_2_0_DDLL_LONG_CMD_CKE5_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH169_0_MC_EMEM_ARB_OVERRIDE_0_ARB_EMEM_AP_OVERRIDE_RANGE\
-                                                                            22:22
-#define APBDEV_PMC_SCRATCH169_0_MC_EMEM_ARB_OVERRIDE_0_ARB_HUM_FIFO_OVERRIDE_RANGE\
-                                                                            23:23
-#define APBDEV_PMC_SCRATCH169_0_MC_EMEM_ARB_OVERRIDE_0_ALLOC_ONE_BQ_PER_CLIENT_RANGE\
-                                                                            24:24
-#define APBDEV_PMC_SCRATCH169_0_MC_EMEM_ARB_OVERRIDE_0_OBSERVED_DIRECTION_OVERRIDE_RANGE\
-                                                                            25:25
-#define APBDEV_PMC_SCRATCH169_0_MC_EMEM_ARB_OVERRIDE_0_EXPIRE_UPDATE_OVERRIDE_RANGE\
-                                                                            26:26
-#define APBDEV_PMC_SCRATCH169_0_MC_EMEM_ARB_OVERRIDE_0_GPU_SLICE_MERGE_OVERRIDE_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH169_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ6_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH169_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ7_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            29:29
-#define APBDEV_PMC_SCRATCH169_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ8_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            30:30
-#define APBDEV_PMC_SCRATCH169_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSP_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SCRATCH169_0_EMC_RRD_0_RRD_RANGE                         26:22
+#define APBDEV_PMC_SCRATCH169_0_EMC_REXT_0_REXT_RANGE                       31:27
 
 #define APBDEV_PMC_SCRATCH170_0_EMC_PMACRO_DDLL_LONG_CMD_3_0_DDLL_LONG_CMD_CKE6_RANGE\
                                                                             10: 0
 #define APBDEV_PMC_SCRATCH170_0_EMC_PMACRO_DDLL_LONG_CMD_3_0_DDLL_LONG_CMD_CKE7_RANGE\
                                                                             21:11
-#define APBDEV_PMC_SCRATCH170_0_EMC_RRD_0_RRD_RANGE                         26:22
-#define APBDEV_PMC_SCRATCH170_0_EMC_REXT_0_REXT_RANGE                       31:27
+#define APBDEV_PMC_SCRATCH170_0_EMC_TCLKSTOP_0_TCLKSTOP_RANGE               26:22
+#define APBDEV_PMC_SCRATCH170_0_EMC_WEXT_0_WEXT_RANGE                       31:27
 
 #define APBDEV_PMC_SCRATCH171_0_EMC_PMACRO_PERBIT_FGCG_CTRL_0_0_DQ0_TX_DISABLE_FGCG_BIT_BYTE0_RANGE\
                                                                              0: 0
@@ -2520,8 +2519,10 @@
                                                                             20:20
 #define APBDEV_PMC_SCRATCH171_0_EMC_PMACRO_PERBIT_FGCG_CTRL_0_0_DQSN_TX_DISABLE_FGCG_BIT_BYTE1_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH171_0_EMC_TCLKSTOP_0_TCLKSTOP_RANGE               26:22
-#define APBDEV_PMC_SCRATCH171_0_EMC_WEXT_0_WEXT_RANGE                       31:27
+#define APBDEV_PMC_SCRATCH171_0_EMC_REFCTRL2_0_REFRESH_PER_DEVICE_RANGE     22:22
+#define APBDEV_PMC_SCRATCH171_0_EMC_REFCTRL2_0_REFPB_PD_THRESHOLD_RANGE     25:23
+#define APBDEV_PMC_SCRATCH171_0_EMC_REFCTRL2_0_REFPB_VALID_RANGE            26:26
+#define APBDEV_PMC_SCRATCH171_0_EMC_WE_DURATION_0_WE_DURATION_RANGE         31:27
 
 #define APBDEV_PMC_SCRATCH172_0_EMC_PMACRO_PERBIT_FGCG_CTRL_1_0_DQ0_TX_DISABLE_FGCG_BIT_BYTE2_RANGE\
                                                                              0: 0
@@ -2567,10 +2568,13 @@
                                                                             20:20
 #define APBDEV_PMC_SCRATCH172_0_EMC_PMACRO_PERBIT_FGCG_CTRL_1_0_DQSN_TX_DISABLE_FGCG_BIT_BYTE3_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH172_0_EMC_REFCTRL2_0_REFRESH_PER_DEVICE_RANGE     22:22
-#define APBDEV_PMC_SCRATCH172_0_EMC_REFCTRL2_0_REFPB_PD_THRESHOLD_RANGE     25:23
-#define APBDEV_PMC_SCRATCH172_0_EMC_REFCTRL2_0_REFPB_VALID_RANGE            26:26
-#define APBDEV_PMC_SCRATCH172_0_EMC_WE_DURATION_0_WE_DURATION_RANGE         31:27
+#define APBDEV_PMC_SCRATCH172_0_EMC_WS_DURATION_0_WS_DURATION_RANGE         26:22
+#define APBDEV_PMC_SCRATCH172_0_EMC_PMACRO_PAD_CFG_CTRL_0_TX_BPS_AUTOCAL_DRVDEC_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH172_0_EMC_PMACRO_PAD_CFG_CTRL_0_E_PWRD_RANGE      28:28
+#define APBDEV_PMC_SCRATCH172_0_EMC_PMACRO_PAD_CFG_CTRL_0_TX_SEL_MV_CYCLE_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH172_0_EMC_PMACRO_PAD_CFG_CTRL_0_MEM_MODE_RANGE    31:30
 
 #define APBDEV_PMC_SCRATCH173_0_EMC_PMACRO_PERBIT_FGCG_CTRL_2_0_DQ0_TX_DISABLE_FGCG_BIT_BYTE4_RANGE\
                                                                              0: 0
@@ -2616,13 +2620,8 @@
                                                                             20:20
 #define APBDEV_PMC_SCRATCH173_0_EMC_PMACRO_PERBIT_FGCG_CTRL_2_0_DQSN_TX_DISABLE_FGCG_BIT_BYTE5_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH173_0_EMC_WS_DURATION_0_WS_DURATION_RANGE         26:22
-#define APBDEV_PMC_SCRATCH173_0_EMC_PMACRO_PAD_CFG_CTRL_0_TX_BPS_AUTOCAL_DRVDEC_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH173_0_EMC_PMACRO_PAD_CFG_CTRL_0_E_PWRD_RANGE      28:28
-#define APBDEV_PMC_SCRATCH173_0_EMC_PMACRO_PAD_CFG_CTRL_0_TX_SEL_MV_CYCLE_RANGE\
-                                                                            29:29
-#define APBDEV_PMC_SCRATCH173_0_EMC_PMACRO_PAD_CFG_CTRL_0_MEM_MODE_RANGE    31:30
+#define APBDEV_PMC_SCRATCH173_0_MC_EMEM_ARB_TIMING_RRD_0_RRD_RANGE          26:22
+#define APBDEV_PMC_SCRATCH173_0_MC_EMEM_ARB_TIMING_R2R_0_R2R_RANGE          31:27
 
 #define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_PERBIT_FGCG_CTRL_3_0_DQ0_TX_DISABLE_FGCG_BIT_BYTE6_RANGE\
                                                                              0: 0
@@ -2668,8 +2667,17 @@
                                                                             20:20
 #define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_PERBIT_FGCG_CTRL_3_0_DQSN_TX_DISABLE_FGCG_BIT_BYTE7_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH174_0_MC_EMEM_ARB_TIMING_RRD_0_RRD_RANGE          26:22
-#define APBDEV_PMC_SCRATCH174_0_MC_EMEM_ARB_TIMING_R2R_0_R2R_RANGE          31:27
+#define APBDEV_PMC_SCRATCH174_0_MC_EMEM_ARB_TIMING_W2W_0_W2W_RANGE          26:22
+#define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQ8_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSP_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSN_TX_SEL_CLK_SRC_BYTE7_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ0_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH174_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ1_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            31:31
 
 #define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_PERBIT_FGCG_CTRL_4_0_DQ0_TX_DISABLE_FGCG_BIT_CMD0_RANGE\
                                                                              0: 0
@@ -2715,16 +2723,25 @@
                                                                             20:20
 #define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_PERBIT_FGCG_CTRL_4_0_DQSN_TX_DISABLE_FGCG_BIT_CMD1_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH175_0_MC_EMEM_ARB_TIMING_W2W_0_W2W_RANGE          26:22
-#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_3_0_DQSN_TX_SEL_CLK_SRC_BYTE7_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ0_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ1_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ2_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            30:30
+                                                                            22:22
 #define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ3_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ4_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            24:24
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ5_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            25:25
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ6_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            26:26
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ7_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ8_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSP_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSN_TX_SEL_CLK_SRC_BYTE4_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH175_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ0_TX_SEL_CLK_SRC_BYTE5_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_PERBIT_FGCG_CTRL_5_0_DQ0_TX_DISABLE_FGCG_BIT_CMD2_RANGE\
@@ -2771,25 +2788,25 @@
                                                                             20:20
 #define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_PERBIT_FGCG_CTRL_5_0_DQSN_TX_DISABLE_FGCG_BIT_CMD3_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ4_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            22:22
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ5_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            23:23
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ6_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            24:24
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ7_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            25:25
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ8_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            26:26
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSP_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSN_TX_SEL_CLK_SRC_BYTE4_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ0_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ1_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            30:30
+                                                                            22:22
 #define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ2_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ3_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            24:24
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ4_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            25:25
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ5_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            26:26
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ6_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ7_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ8_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSP_TX_SEL_CLK_SRC_BYTE5_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH176_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSN_TX_SEL_CLK_SRC_BYTE5_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH177_0_MC_EMEM_ARB_CFG_0_CYCLES_PER_UPDATE_RANGE    8: 0
@@ -2799,25 +2816,25 @@
                                                                             17:14
 #define APBDEV_PMC_SCRATCH177_0_MC_EMEM_ARB_CFG_0_EXTRA_TICKS_PER_UPDATE_FRACTION_RANGE\
                                                                             21:18
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ3_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            22:22
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ4_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            23:23
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ5_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            24:24
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ6_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            25:25
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ7_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            26:26
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQ8_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSP_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_2_0_DQSN_TX_SEL_CLK_SRC_BYTE5_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ0_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            30:30
+                                                                            22:22
 #define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ1_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ2_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            24:24
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ3_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            25:25
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ4_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            26:26
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ5_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ6_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ7_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ8_TX_SEL_CLK_SRC_CMD0_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH177_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSP_TX_SEL_CLK_SRC_CMD0_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH178_0_MC_EMEM_ARB_MISC1_0_BLOCK_LP_CPU_RD_IF_SMMU_INP_HP_RANGE\
@@ -2836,44 +2853,44 @@
                                                                             17:16
 #define APBDEV_PMC_SCRATCH178_0_MC_EMEM_ARB_MISC1_0_DEADLOCK_PREVENTION_SLACK_THRESHOLD_RANGE\
                                                                             21:18
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ2_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            22:22
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ3_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            23:23
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ4_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            24:24
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ5_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            25:25
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ6_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            26:26
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ7_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ8_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSP_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            29:29
 #define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSN_TX_SEL_CLK_SRC_CMD0_RANGE\
-                                                                            30:30
+                                                                            22:22
 #define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ0_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            23:23
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ1_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            24:24
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ2_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            25:25
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ3_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            26:26
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ4_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            27:27
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ5_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ6_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ7_TX_SEL_CLK_SRC_CMD1_RANGE\
+                                                                            30:30
+#define APBDEV_PMC_SCRATCH178_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ8_TX_SEL_CLK_SRC_CMD1_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH179_0_EMC_MRS_WAIT_CNT2_0_MRS_EXT1_WAIT_CNT_RANGE  9: 0
 #define APBDEV_PMC_SCRATCH179_0_EMC_MRS_WAIT_CNT2_0_MRS_EXT2_WAIT_CNT_RANGE 20:10
-#define APBDEV_PMC_SCRATCH179_0_EMC_PMACRO_IB_RXRT_0_IB_RXRT_RANGE          31:21
+#define APBDEV_PMC_SCRATCH179_0_EMC_ODT_WRITE_0_ODT_WR_DELAY_RANGE          24:21
+#define APBDEV_PMC_SCRATCH179_0_EMC_ODT_WRITE_0_DRIVE_BOTH_ODT_RANGE        25:25
+#define APBDEV_PMC_SCRATCH179_0_EMC_ODT_WRITE_0_SHARE_ONE_ODT_RANGE         26:26
+#define APBDEV_PMC_SCRATCH179_0_EMC_ODT_WRITE_0_ODT_WR_DURATION_RANGE       30:27
+#define APBDEV_PMC_SCRATCH179_0_EMC_ODT_WRITE_0_ENABLE_ODT_DURING_WRITE_RANGE\
+                                                                            31:31
 
 #define APBDEV_PMC_SCRATCH180_0_EMC_MRS_WAIT_CNT_0_MRS_SHORT_WAIT_CNT_RANGE  9: 0
 #define APBDEV_PMC_SCRATCH180_0_EMC_MRS_WAIT_CNT_0_MRS_LONG_WAIT_CNT_RANGE  20:10
-#define APBDEV_PMC_SCRATCH180_0_EMC_PMACRO_DDLL_LONG_CMD_4_0_DDLL_LONG_CMD_RESET_RANGE\
-                                                                            31:21
+#define APBDEV_PMC_SCRATCH180_0_EMC_PMACRO_IB_RXRT_0_IB_RXRT_RANGE          31:21
 
 #define APBDEV_PMC_SCRATCH181_0_EMC_AUTO_CAL_INTERVAL_0_AUTO_CAL_INTERVAL_RANGE\
                                                                             20: 0
-#define APBDEV_PMC_SCRATCH181_0_MC_EMEM_ARB_OUTSTANDING_REQ_0_ARB_MAX_OUTSTANDING_RANGE\
-                                                                            29:21
-#define APBDEV_PMC_SCRATCH181_0_MC_EMEM_ARB_OUTSTANDING_REQ_0_LIMIT_DURING_HOLDOFF_OVERRIDE_RANGE\
-                                                                            30:30
-#define APBDEV_PMC_SCRATCH181_0_MC_EMEM_ARB_OUTSTANDING_REQ_0_LIMIT_OUTSTANDING_RANGE\
-                                                                            31:31
+#define APBDEV_PMC_SCRATCH181_0_EMC_PMACRO_DDLL_LONG_CMD_4_0_DDLL_LONG_CMD_RESET_RANGE\
+                                                                            31:21
 
 #define APBDEV_PMC_SCRATCH182_0_MC_EMEM_ARB_REFPB_HP_CTRL_0_REFPB_THRESH_ENABLE_HP_RANGE\
                                                                              6: 0
@@ -2881,27 +2898,11 @@
                                                                             13: 7
 #define APBDEV_PMC_SCRATCH182_0_MC_EMEM_ARB_REFPB_HP_CTRL_0_REFPB_OPEN_WORK_THRESH_RANGE\
                                                                             20:14
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ1_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            21:21
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ2_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            22:22
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ3_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            23:23
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ4_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            24:24
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ5_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            25:25
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ6_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            26:26
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ7_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            27:27
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQ8_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            28:28
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSP_TX_SEL_CLK_SRC_CMD1_RANGE\
-                                                                            29:29
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSN_TX_SEL_CLK_SRC_CMD1_RANGE\
+#define APBDEV_PMC_SCRATCH182_0_MC_EMEM_ARB_OUTSTANDING_REQ_0_ARB_MAX_OUTSTANDING_RANGE\
+                                                                            29:21
+#define APBDEV_PMC_SCRATCH182_0_MC_EMEM_ARB_OUTSTANDING_REQ_0_LIMIT_DURING_HOLDOFF_OVERRIDE_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH182_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ0_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH182_0_MC_EMEM_ARB_OUTSTANDING_REQ_0_LIMIT_OUTSTANDING_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH183_0_EMC_XM2COMPPADCTRL2_0_EMC2TMC_CFG_XM2COMP_PU_RX_MODE_RANGE\
@@ -3104,7 +3105,7 @@
                                                                             29:24
 #define APBDEV_PMC_SCRATCH192_0_EMC_PMACRO_AUTOCAL_CFG_COMMON_0_E_CAL_BYPASS_DVFS_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH192_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ1_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH192_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSP_TX_SEL_CLK_SRC_CMD1_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH193_0_EMC_PMACRO_DLL_CFG_1_0_DDLLCAL_CTRL_START_TRIM_RANGE\
@@ -3131,9 +3132,9 @@
                                                                             27:26
 #define APBDEV_PMC_SCRATCH193_0_EMC_PMACRO_PERBIT_RFU1_CTRL_2_0_DQSN_RFU_BYTE5_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SCRATCH193_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ2_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH193_0_EMC_PMACRO_TX_SEL_CLK_SRC_4_0_DQSN_TX_SEL_CLK_SRC_CMD1_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH193_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ3_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH193_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ0_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH194_0_EMC_PMACRO_CMD_BRICK_CTRL_FDPD_0_CMD_BRICK_CTRL_FDPD_RFU_PHASE_BIT0_RANGE\
@@ -3166,9 +3167,9 @@
                                                                             27:26
 #define APBDEV_PMC_SCRATCH194_0_EMC_PMACRO_PERBIT_RFU1_CTRL_3_0_DQSN_RFU_BYTE7_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SCRATCH194_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ4_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH194_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ1_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH194_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ5_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH194_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ2_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH195_0_EMC_PMACRO_DATA_BRICK_CTRL_FDPD_0_DATA_BRICK_CTRL_FDPD_RFU_PHASE_BIT0_RANGE\
@@ -3201,9 +3202,9 @@
                                                                             27:26
 #define APBDEV_PMC_SCRATCH195_0_EMC_PMACRO_PERBIT_RFU1_CTRL_4_0_DQSN_RFU_CMD1_RANGE\
                                                                             29:28
-#define APBDEV_PMC_SCRATCH195_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ6_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH195_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ3_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH195_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ7_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH195_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ4_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH196_0_EMC_DYN_SELF_REF_CONTROL_0_DSR_THRESHOLD_RANGE\
@@ -3247,11 +3248,11 @@
                                                                             26:25
 #define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_PERBIT_RFU1_CTRL_5_0_DQSN_RFU_CMD3_RANGE\
                                                                             28:27
-#define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ8_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ5_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSP_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ6_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSN_TX_SEL_CLK_SRC_CMD2_RANGE\
+#define APBDEV_PMC_SCRATCH197_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ7_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_DATA_PAD_RX_CTRL_0_DATA_DQ_RX_MODE_RANGE\
@@ -3272,35 +3273,35 @@
                                                                             12:12
 #define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_DATA_PAD_RX_CTRL_0_DATA_DQ_RX_CTRL_RANGE\
                                                                             16:13
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ0_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ8_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             17:17
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ1_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSP_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             18:18
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ2_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSN_TX_SEL_CLK_SRC_CMD2_RANGE\
                                                                             19:19
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ3_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ0_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             20:20
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ4_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ1_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ5_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ2_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             22:22
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ6_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ3_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ7_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ4_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ8_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ5_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSP_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ6_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSN_TX_SEL_CLK_SRC_CMD3_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ7_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             27:27
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_E_IVREF_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQ8_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             28:28
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_E_WKPD_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSP_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             29:29
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_E_WKPU_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_TX_SEL_CLK_SRC_5_0_DQSN_TX_SEL_CLK_SRC_CMD3_RANGE\
                                                                             30:30
-#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_E_IVREF_RANGE\
+#define APBDEV_PMC_SCRATCH198_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_E_IVREF_RANGE\
                                                                             31:31
 
 #define APBDEV_PMC_SCRATCH199_0_EMC_REFRESH_0_REFRESH_LO_RANGE               5: 0
@@ -3492,62 +3493,68 @@
                                                                             15:10
 #define APBDEV_PMC_SCRATCH215_0_SWIZZLE_RANK_BYTE_ENCODE_RANGE              31:16
 
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSP_TX_E_WKPD_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_E_WKPD_RANGE\
                                                                              0: 0
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSP_TX_E_WKPU_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_E_WKPU_RANGE\
                                                                              1: 1
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSN_TX_E_WKPD_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_E_IVREF_RANGE\
                                                                              2: 2
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSN_TX_E_WKPU_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSP_TX_E_WKPD_RANGE\
                                                                              3: 3
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_DRVDN_FORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSP_TX_E_WKPU_RANGE\
                                                                              4: 4
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_RX_E_PERBIT_DQSTRIM_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSN_TX_E_WKPD_RANGE\
                                                                              5: 5
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_DRVDN_FORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQSN_TX_E_WKPU_RANGE\
                                                                              6: 6
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_DRVFORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_DRVDN_FORCEON_RANGE\
                                                                              7: 7
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_DRVFORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_RX_E_PERBIT_DQSTRIM_RANGE\
                                                                              8: 8
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_DISABLE_CAL_UPDATE_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_DRVDN_FORCEON_RANGE\
                                                                              9: 9
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_TX_DISABLE_FGCG_VAUXC_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQ_TX_DRVFORCEON_RANGE\
                                                                             10:10
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_TX_DISABLE_FGCG_VDDA_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_DRVFORCEON_RANGE\
                                                                             11:11
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_E_IVREF_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_DQS_TX_DISABLE_CAL_UPDATE_RANGE\
                                                                             12:12
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_E_WKPD_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_TX_DISABLE_FGCG_VAUXC_RANGE\
                                                                             13:13
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_E_WKPU_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_CMD_PAD_TX_CTRL_0_CMD_TX_DISABLE_FGCG_VDDA_RANGE\
                                                                             14:14
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_E_IVREF_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_E_IVREF_RANGE\
                                                                             15:15
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSP_TX_E_WKPD_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_E_WKPD_RANGE\
                                                                             16:16
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSP_TX_E_WKPU_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_E_WKPU_RANGE\
                                                                             17:17
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSN_TX_E_WKPD_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_E_IVREF_RANGE\
                                                                             18:18
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSN_TX_E_WKPU_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSP_TX_E_WKPD_RANGE\
                                                                             19:19
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_DRVDN_FORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSP_TX_E_WKPU_RANGE\
                                                                             20:20
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_RX_E_PERBIT_DQSTRIM_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSN_TX_E_WKPD_RANGE\
                                                                             21:21
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_DRVDN_FORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQSN_TX_E_WKPU_RANGE\
                                                                             22:22
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_DRVFORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_DRVDN_FORCEON_RANGE\
                                                                             23:23
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_DRVFORCEON_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_RX_E_PERBIT_DQSTRIM_RANGE\
                                                                             24:24
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_DISABLE_CAL_UPDATE_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_DRVDN_FORCEON_RANGE\
                                                                             25:25
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_TX_DISABLE_FGCG_VAUXC_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQ_TX_DRVFORCEON_RANGE\
                                                                             26:26
-#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_TX_DISABLE_FGCG_VDDA_RANGE\
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_DRVFORCEON_RANGE\
                                                                             27:27
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_DQS_TX_DISABLE_CAL_UPDATE_RANGE\
+                                                                            28:28
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_TX_DISABLE_FGCG_VAUXC_RANGE\
+                                                                            29:29
+#define APBDEV_PMC_SCRATCH216_0_EMC_PMACRO_DATA_PAD_TX_CTRL_0_DATA_TX_DISABLE_FGCG_VDDA_RANGE\
+                                                                            30:30
 
 // macros for variables with different names but sharing the same registers
 #define EMC_MRW_LPDDR2_ZCAL_WARM_BOOT_0_MRW_MA_RANGE \
@@ -3562,16 +3569,22 @@
         EMC_MRW_0_MRW_DEV_SELECTN_RANGE
 #define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_2X_CLK_SRC_RANGE \
         CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_2X_CLK_SRC_RANGE
-#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_CLK_DIV2_EN_RANGE \
-        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_CLK_DIV2_EN_RANGE
-#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_2X_CLK_DIVISOR_RANGE \
-        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_2X_CLK_DIVISOR_RANGE
+#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_FORCE_CC_TRIGGER_RANGE \
+        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_FORCE_CC_TRIGGER_RANGE
 #define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_INVERT_DCD_RANGE \
         CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_INVERT_DCD_RANGE
-#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLC_OUT_FOR_EMC_EN_RANGE \
-        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_PLLC_OUT_FOR_EMC_EN_RANGE
+#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_CLK_DIV2_EN_RANGE \
+        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_CLK_DIV2_EN_RANGE
+#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_USE_32KHZ_AS_CLK_M_RANGE \
+        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_USE_32KHZ_AS_CLK_M_RANGE
 #define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLP_OUT_FOR_EMC_EN_RANGE \
         CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_PLLP_OUT_FOR_EMC_EN_RANGE
+#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_PLLC_OUT_FOR_EMC_EN_RANGE \
+        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_PLLC_OUT_FOR_EMC_EN_RANGE
+#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_MC_EMC_SAME_FREQ_RANGE \
+        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_MC_EMC_SAME_FREQ_RANGE
+#define CLK_RST_CONTROLLER_CLK_SOURCE_EMC_ALIAS_0_EMC_2X_CLK_DIVISOR_RANGE \
+        CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_2X_CLK_DIVISOR_RANGE
 #define EMC_WARM_BOOT_MRS_EXTRA_0_MRS_DEV_SELECTN_RANGE \
         EMC_MRS_0_MRS_DEV_SELECTN_RANGE
 #define EMC_WARM_BOOT_MRS_EXTRA_0_USE_MRS_EXT_CNT_RANGE \
@@ -3647,10 +3660,13 @@
     _( 7, CLK_RST_CONTROLLER, PLLM_MISC2_ALIAS, PLLM_PTS, ClkRstControllerPllmMisc2Override) \
     _( 7, CLK_RST_CONTROLLER, PLLM_MISC2_ALIAS, PLLM_KCP, ClkRstControllerPllmMisc2Override) \
     _( 7, EMC, ZQ_CAL_DDR3_WARM_BOOT, ZQ_CAL_DEV_SELECTN, EmcZqCalLpDdr4WarmBoot) \
-    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, EMC_CLK_DIV2_EN, EmcClockSource) \
+    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, FORCE_CC_TRIGGER, EmcClockSource) \
     _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, EMC_INVERT_DCD, EmcClockSource) \
-    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, PLLC_OUT_FOR_EMC_EN, EmcClockSource) \
+    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, EMC_CLK_DIV2_EN, EmcClockSource) \
+    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, USE_32KHZ_AS_CLK_M, EmcClockSource) \
     _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, PLLP_OUT_FOR_EMC_EN, EmcClockSource) \
+    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, PLLC_OUT_FOR_EMC_EN, EmcClockSource) \
+    _( 7, CLK_RST_CONTROLLER, CLK_SOURCE_EMC_ALIAS, MC_EMC_SAME_FREQ, EmcClockSource) \
     _( 7, CLK_RST_CONTROLLER, PLLM_MISC2_ALIAS, PLLM_OVERRIDE_SYNCMUX, ClkRstControllerPllmMisc2Override) \
     _( 7, CLK_RST_CONTROLLER, PLLM_MISC2_ALIAS, PLLM_VCO_SEL, ClkRstControllerPllmMisc2Override) \
     _( 7, CLK_RST_CONTROLLER, PLLM_MISC2_ALIAS, PLLM_SYNC_MUX_CTRL, ClkRstControllerPllmMisc2Override) \
@@ -3662,11 +3678,7 @@
     _( 7, EMC, ZQ_CAL_DDR3_WARM_BOOT, ZQ_CAL_CMD, EmcZqCalLpDdr4WarmBoot) \
     _( 7, EMC, ZQ_CAL_DDR3_WARM_BOOT, ZQ_LATCH_CMD, EmcZqCalLpDdr4WarmBoot) \
     _( 7, EMC, ZQ_CAL_DDR3_WARM_BOOT, ZQ_CAL_LENGTH, EmcZqCalLpDdr4WarmBoot) \
-    _( 7, EMC, ODT_WRITE, ODT_WR_DELAY, EmcOdtWrite) \
-    _( 7, EMC, ODT_WRITE, DRIVE_BOTH_ODT, EmcOdtWrite) \
-    _( 7, EMC, ODT_WRITE, SHARE_ONE_ODT, EmcOdtWrite) \
-    _( 7, EMC, ODT_WRITE, ODT_WR_DURATION, EmcOdtWrite) \
-    _( 7, EMC, ODT_WRITE, ENABLE_ODT_DURING_WRITE, EmcOdtWrite) \
+    _( 7, EMC, RC, RC, EmcRc) \
     _( 8, EMC, PMACRO_BG_BIAS_CTRL_0, XM2COMP_BG_ILVL_CTRL, EmcPmacroBgBiasCtrl0) \
     _(14, EMC, FDPD_CTRL_CMD_NO_RAMP, CMD_DPD_NO_RAMP_ENABLE, EmcFdpdCtrlCmdNoRamp) \
     _(14, EMC, CFG_PIPE_CLK, PIPE_CLK_ENABLE_OVERRIDE, EmcCfgPipeClk) \
@@ -4092,23 +4104,24 @@
     _(84, EMC, PMACRO_RX_TERM, DQ_RX_DRVDN_TERM, EmcPmacroRxTerm) \
     _(84, EMC, PMACRO_RX_TERM, DQS_RX_DRVUP_TERM, EmcPmacroRxTerm) \
     _(84, EMC, PMACRO_RX_TERM, DQS_RX_DRVDN_TERM, EmcPmacroRxTerm) \
-    _(84, EMC, RC, RC, EmcRc) \
+    _(84, EMC, SEL_DPD_CTRL, CLK_SEL_DPD_EN, EmcSelDpdCtrl) \
+    _(84, EMC, SEL_DPD_CTRL, CA_SEL_DPD_EN, EmcSelDpdCtrl) \
+    _(84, EMC, SEL_DPD_CTRL, RESET_SEL_DPD_EN, EmcSelDpdCtrl) \
+    _(84, EMC, SEL_DPD_CTRL, ODT_SEL_DPD_EN, EmcSelDpdCtrl) \
+    _(84, EMC, SEL_DPD_CTRL, DATA_SEL_DPD_EN, EmcSelDpdCtrl) \
+    _(84, EMC, SEL_DPD_CTRL, SEL_DPD_DLY, EmcSelDpdCtrl) \
     _(85, EMC, PMACRO_DQ_TX_DRV, DATA_DQ_TX_DRVUP, EmcPmacroDqTxDrv) \
     _(85, EMC, PMACRO_DQ_TX_DRV, DATA_DQ_TX_DRVDN, EmcPmacroDqTxDrv) \
     _(85, EMC, PMACRO_DQ_TX_DRV, DATA_DQS_TX_DRVUP, EmcPmacroDqTxDrv) \
     _(85, EMC, PMACRO_DQ_TX_DRV, DATA_DQS_TX_DRVDN, EmcPmacroDqTxDrv) \
-    _(85, EMC, SEL_DPD_CTRL, CLK_SEL_DPD_EN, EmcSelDpdCtrl) \
-    _(85, EMC, SEL_DPD_CTRL, CA_SEL_DPD_EN, EmcSelDpdCtrl) \
-    _(85, EMC, SEL_DPD_CTRL, RESET_SEL_DPD_EN, EmcSelDpdCtrl) \
-    _(85, EMC, SEL_DPD_CTRL, ODT_SEL_DPD_EN, EmcSelDpdCtrl) \
-    _(85, EMC, SEL_DPD_CTRL, DATA_SEL_DPD_EN, EmcSelDpdCtrl) \
-    _(85, EMC, SEL_DPD_CTRL, SEL_DPD_DLY, EmcSelDpdCtrl) \
+    _(85, EMC, OBDLY, OBDLY, EmcObdly) \
+    _(85, EMC, OBDLY, OBDLY_MODE, EmcObdly) \
     _(86, EMC, PMACRO_CA_TX_DRV, CMD_DQ_TX_DRVUP, EmcPmacroCaTxDrv) \
     _(86, EMC, PMACRO_CA_TX_DRV, CMD_DQ_TX_DRVDN, EmcPmacroCaTxDrv) \
     _(86, EMC, PMACRO_CA_TX_DRV, CMD_DQS_TX_DRVUP, EmcPmacroCaTxDrv) \
     _(86, EMC, PMACRO_CA_TX_DRV, CMD_DQS_TX_DRVDN, EmcPmacroCaTxDrv) \
-    _(86, EMC, OBDLY, OBDLY, EmcObdly) \
-    _(86, EMC, OBDLY, OBDLY_MODE, EmcObdly) \
+    _(86, EMC, PMACRO_VTTGEN_CTRL_1, VTT_VDDA_CTRL, EmcPmacroVttgenCtrl1) \
+    _(86, EMC, PMACRO_VTTGEN_CTRL_1, VTT_VDDA_WB_CTRL, EmcPmacroVttgenCtrl1) \
     _(87, EMC, PMACRO_ZCTRL, DQ_RX_DRVUP_TERM_ZCTRL, EmcPmacroZctrl) \
     _(87, EMC, PMACRO_ZCTRL, DQS_RX_DRVUP_TERM_ZCTRL, EmcPmacroZctrl) \
     _(87, EMC, PMACRO_ZCTRL, DQ_RX_DRVDN_TERM_ZCTRL, EmcPmacroZctrl) \
@@ -4121,11 +4134,10 @@
     _(87, EMC, PMACRO_ZCTRL, DATA_DQS_TX_DRVUP_ZCTRL, EmcPmacroZctrl) \
     _(87, EMC, PMACRO_ZCTRL, DATA_DQ_TX_DRVDN_ZCTRL, EmcPmacroZctrl) \
     _(87, EMC, PMACRO_ZCTRL, DATA_DQS_TX_DRVDN_ZCTRL, EmcPmacroZctrl) \
-    _(87, EMC, PMACRO_VTTGEN_CTRL_1, VTT_VDDA_CTRL, EmcPmacroVttgenCtrl1) \
-    _(87, EMC, PMACRO_VTTGEN_CTRL_1, VTT_VDDA_WB_CTRL, EmcPmacroVttgenCtrl1) \
+    _(87, EMC, PMACRO_VTTGEN_CTRL_2, VTT_VDDA_LOAD, EmcPmacroVttgenCtrl2) \
     _(88, EMC, ZCAL_INTERVAL, ZCAL_INTERVAL_HI, EmcZcalInterval) \
     _(88, EMC, ZCAL_INTERVAL, ZCAL_INTERVAL_LO, EmcZcalInterval) \
-    _(88, EMC, PMACRO_VTTGEN_CTRL_2, VTT_VDDA_LOAD, EmcPmacroVttgenCtrl2) \
+    _(88, MC, EMEM_ARB_TIMING_RC, RC, McEmemArbTimingRc) \
     _(89, EMC, DATA_BRLSHFT_0, RANK0_BYTE0_DATA_BRLSHFT, EmcDataBrlshft0) \
     _(89, EMC, DATA_BRLSHFT_0, RANK0_BYTE1_DATA_BRLSHFT, EmcDataBrlshft0) \
     _(89, EMC, DATA_BRLSHFT_0, RANK0_BYTE2_DATA_BRLSHFT, EmcDataBrlshft0) \
@@ -4134,7 +4146,7 @@
     _(89, EMC, DATA_BRLSHFT_0, RANK0_BYTE5_DATA_BRLSHFT, EmcDataBrlshft0) \
     _(89, EMC, DATA_BRLSHFT_0, RANK0_BYTE6_DATA_BRLSHFT, EmcDataBrlshft0) \
     _(89, EMC, DATA_BRLSHFT_0, RANK0_BYTE7_DATA_BRLSHFT, EmcDataBrlshft0) \
-    _(89, MC, EMEM_ARB_TIMING_RC, RC, McEmemArbTimingRc) \
+    _(89, MC, EMEM_ARB_RSV, EMEM_ARB_RESERVED_BYTE0, McEmemArbRsv) \
     _(90, EMC, DATA_BRLSHFT_1, RANK1_BYTE0_DATA_BRLSHFT, EmcDataBrlshft1) \
     _(90, EMC, DATA_BRLSHFT_1, RANK1_BYTE1_DATA_BRLSHFT, EmcDataBrlshft1) \
     _(90, EMC, DATA_BRLSHFT_1, RANK1_BYTE2_DATA_BRLSHFT, EmcDataBrlshft1) \
@@ -4143,7 +4155,6 @@
     _(90, EMC, DATA_BRLSHFT_1, RANK1_BYTE5_DATA_BRLSHFT, EmcDataBrlshft1) \
     _(90, EMC, DATA_BRLSHFT_1, RANK1_BYTE6_DATA_BRLSHFT, EmcDataBrlshft1) \
     _(90, EMC, DATA_BRLSHFT_1, RANK1_BYTE7_DATA_BRLSHFT, EmcDataBrlshft1) \
-    _(90, MC, EMEM_ARB_RSV, EMEM_ARB_RESERVED_BYTE0, McEmemArbRsv) \
     _(91, EMC, DQS_BRLSHFT_0, RANK0_BYTE0_DQS_BRLSHFT, EmcDqsBrlshft0) \
     _(91, EMC, DQS_BRLSHFT_0, RANK0_BYTE1_DQS_BRLSHFT, EmcDqsBrlshft0) \
     _(91, EMC, DQS_BRLSHFT_0, RANK0_BYTE2_DQS_BRLSHFT, EmcDqsBrlshft0) \
@@ -4176,6 +4187,8 @@
     _(94, EMC, SWIZZLE_RANK0_BYTE1, SWZ_RANK0_BYTE1_BIT5_SEL, EmcSwizzleRank0Byte1) \
     _(94, EMC, SWIZZLE_RANK0_BYTE1, SWZ_RANK0_BYTE1_BIT6_SEL, EmcSwizzleRank0Byte1) \
     _(94, EMC, SWIZZLE_RANK0_BYTE1, SWZ_RANK0_BYTE1_BIT7_SEL, EmcSwizzleRank0Byte1) \
+    _(94, EMC, RAS, RAS, EmcRas) \
+    _(94, EMC, CFG, WAIT_FOR_DISPLAY_READY_B4_CC, EmcCfg) \
     _(95, EMC, SWIZZLE_RANK0_BYTE2, SWZ_RANK0_BYTE2_BIT0_SEL, EmcSwizzleRank0Byte2) \
     _(95, EMC, SWIZZLE_RANK0_BYTE2, SWZ_RANK0_BYTE2_BIT1_SEL, EmcSwizzleRank0Byte2) \
     _(95, EMC, SWIZZLE_RANK0_BYTE2, SWZ_RANK0_BYTE2_BIT2_SEL, EmcSwizzleRank0Byte2) \
@@ -4184,8 +4197,8 @@
     _(95, EMC, SWIZZLE_RANK0_BYTE2, SWZ_RANK0_BYTE2_BIT5_SEL, EmcSwizzleRank0Byte2) \
     _(95, EMC, SWIZZLE_RANK0_BYTE2, SWZ_RANK0_BYTE2_BIT6_SEL, EmcSwizzleRank0Byte2) \
     _(95, EMC, SWIZZLE_RANK0_BYTE2, SWZ_RANK0_BYTE2_BIT7_SEL, EmcSwizzleRank0Byte2) \
-    _(95, EMC, RAS, RAS, EmcRas) \
-    _(95, EMC, CFG, WAIT_FOR_DISPLAY_READY_B4_CC, EmcCfg) \
+    _(95, EMC, W2P, W2P, EmcW2p) \
+    _(95, EMC, CFG, WAIT_FOR_DISPLAYB_READY_B4_CC, EmcCfg) \
     _(96, EMC, SWIZZLE_RANK0_BYTE3, SWZ_RANK0_BYTE3_BIT0_SEL, EmcSwizzleRank0Byte3) \
     _(96, EMC, SWIZZLE_RANK0_BYTE3, SWZ_RANK0_BYTE3_BIT1_SEL, EmcSwizzleRank0Byte3) \
     _(96, EMC, SWIZZLE_RANK0_BYTE3, SWZ_RANK0_BYTE3_BIT2_SEL, EmcSwizzleRank0Byte3) \
@@ -4194,8 +4207,8 @@
     _(96, EMC, SWIZZLE_RANK0_BYTE3, SWZ_RANK0_BYTE3_BIT5_SEL, EmcSwizzleRank0Byte3) \
     _(96, EMC, SWIZZLE_RANK0_BYTE3, SWZ_RANK0_BYTE3_BIT6_SEL, EmcSwizzleRank0Byte3) \
     _(96, EMC, SWIZZLE_RANK0_BYTE3, SWZ_RANK0_BYTE3_BIT7_SEL, EmcSwizzleRank0Byte3) \
-    _(96, EMC, W2P, W2P, EmcW2p) \
-    _(96, EMC, CFG, WAIT_FOR_DISPLAYB_READY_B4_CC, EmcCfg) \
+    _(96, EMC, QSAFE, QSAFE, EmcQSafe) \
+    _(96, EMC, CFG, INVERT_DQM, EmcCfg) \
     _(97, EMC, SWIZZLE_RANK1_BYTE0, SWZ_RANK1_BYTE0_BIT0_SEL, EmcSwizzleRank1Byte0) \
     _(97, EMC, SWIZZLE_RANK1_BYTE0, SWZ_RANK1_BYTE0_BIT1_SEL, EmcSwizzleRank1Byte0) \
     _(97, EMC, SWIZZLE_RANK1_BYTE0, SWZ_RANK1_BYTE0_BIT2_SEL, EmcSwizzleRank1Byte0) \
@@ -4204,8 +4217,8 @@
     _(97, EMC, SWIZZLE_RANK1_BYTE0, SWZ_RANK1_BYTE0_BIT5_SEL, EmcSwizzleRank1Byte0) \
     _(97, EMC, SWIZZLE_RANK1_BYTE0, SWZ_RANK1_BYTE0_BIT6_SEL, EmcSwizzleRank1Byte0) \
     _(97, EMC, SWIZZLE_RANK1_BYTE0, SWZ_RANK1_BYTE0_BIT7_SEL, EmcSwizzleRank1Byte0) \
-    _(97, EMC, QSAFE, QSAFE, EmcQSafe) \
-    _(97, EMC, CFG, INVERT_DQM, EmcCfg) \
+    _(97, EMC, RDV, RDV, EmcRdv) \
+    _(97, EMC, CFG, WAIT_FOR_ISP2_READY_B4_CC, EmcCfg) \
     _(98, EMC, SWIZZLE_RANK1_BYTE1, SWZ_RANK1_BYTE1_BIT0_SEL, EmcSwizzleRank1Byte1) \
     _(98, EMC, SWIZZLE_RANK1_BYTE1, SWZ_RANK1_BYTE1_BIT1_SEL, EmcSwizzleRank1Byte1) \
     _(98, EMC, SWIZZLE_RANK1_BYTE1, SWZ_RANK1_BYTE1_BIT2_SEL, EmcSwizzleRank1Byte1) \
@@ -4214,8 +4227,8 @@
     _(98, EMC, SWIZZLE_RANK1_BYTE1, SWZ_RANK1_BYTE1_BIT5_SEL, EmcSwizzleRank1Byte1) \
     _(98, EMC, SWIZZLE_RANK1_BYTE1, SWZ_RANK1_BYTE1_BIT6_SEL, EmcSwizzleRank1Byte1) \
     _(98, EMC, SWIZZLE_RANK1_BYTE1, SWZ_RANK1_BYTE1_BIT7_SEL, EmcSwizzleRank1Byte1) \
-    _(98, EMC, RDV, RDV, EmcRdv) \
-    _(98, EMC, CFG, WAIT_FOR_ISP2_READY_B4_CC, EmcCfg) \
+    _(98, EMC, RW2PDEN, RW2PDEN, EmcRw2Pden) \
+    _(98, EMC, CFG, WAIT_FOR_VI2_READY_B4_CC, EmcCfg) \
     _(99, EMC, SWIZZLE_RANK1_BYTE2, SWZ_RANK1_BYTE2_BIT0_SEL, EmcSwizzleRank1Byte2) \
     _(99, EMC, SWIZZLE_RANK1_BYTE2, SWZ_RANK1_BYTE2_BIT1_SEL, EmcSwizzleRank1Byte2) \
     _(99, EMC, SWIZZLE_RANK1_BYTE2, SWZ_RANK1_BYTE2_BIT2_SEL, EmcSwizzleRank1Byte2) \
@@ -4224,8 +4237,8 @@
     _(99, EMC, SWIZZLE_RANK1_BYTE2, SWZ_RANK1_BYTE2_BIT5_SEL, EmcSwizzleRank1Byte2) \
     _(99, EMC, SWIZZLE_RANK1_BYTE2, SWZ_RANK1_BYTE2_BIT6_SEL, EmcSwizzleRank1Byte2) \
     _(99, EMC, SWIZZLE_RANK1_BYTE2, SWZ_RANK1_BYTE2_BIT7_SEL, EmcSwizzleRank1Byte2) \
-    _(99, EMC, RW2PDEN, RW2PDEN, EmcRw2Pden) \
-    _(99, EMC, CFG, WAIT_FOR_VI2_READY_B4_CC, EmcCfg) \
+    _(99, EMC, TFAW, TFAW, EmcTfaw) \
+    _(99, EMC, CFG, WAIT_FOR_ISP2B_READY_B4_CC, EmcCfg) \
     _(100, EMC, SWIZZLE_RANK1_BYTE3, SWZ_RANK1_BYTE3_BIT0_SEL, EmcSwizzleRank1Byte3) \
     _(100, EMC, SWIZZLE_RANK1_BYTE3, SWZ_RANK1_BYTE3_BIT1_SEL, EmcSwizzleRank1Byte3) \
     _(100, EMC, SWIZZLE_RANK1_BYTE3, SWZ_RANK1_BYTE3_BIT2_SEL, EmcSwizzleRank1Byte3) \
@@ -4234,8 +4247,8 @@
     _(100, EMC, SWIZZLE_RANK1_BYTE3, SWZ_RANK1_BYTE3_BIT5_SEL, EmcSwizzleRank1Byte3) \
     _(100, EMC, SWIZZLE_RANK1_BYTE3, SWZ_RANK1_BYTE3_BIT6_SEL, EmcSwizzleRank1Byte3) \
     _(100, EMC, SWIZZLE_RANK1_BYTE3, SWZ_RANK1_BYTE3_BIT7_SEL, EmcSwizzleRank1Byte3) \
-    _(100, EMC, TFAW, TFAW, EmcTfaw) \
-    _(100, EMC, CFG, WAIT_FOR_ISP2B_READY_B4_CC, EmcCfg) \
+    _(100, EMC, TCLKSTABLE, TCLKSTABLE, EmcTClkStable) \
+    _(100, EMC, CFG, DSR_VTTGEN_DRV_EN, EmcCfg) \
     _(101, EMC, CFG_PIPE_2, EMC2PMACRO_CFG_BYPASS_OB_PIPE3_BRICK0, EmcCfgPipe2) \
     _(101, EMC, CFG_PIPE_2, EMC2PMACRO_CFG_BYPASS_OB_PIPE3_BRICK1, EmcCfgPipe2) \
     _(101, EMC, CFG_PIPE_2, EMC2PMACRO_CFG_BYPASS_OB_PIPE3_BRICK2, EmcCfgPipe2) \
@@ -4260,8 +4273,8 @@
     _(101, EMC, CFG_PIPE_2, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE3_BRICK9, EmcCfgPipe2) \
     _(101, EMC, CFG_PIPE_2, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE3_BRICK10, EmcCfgPipe2) \
     _(101, EMC, CFG_PIPE_2, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE3_BRICK11, EmcCfgPipe2) \
-    _(101, EMC, TCLKSTABLE, TCLKSTABLE, EmcTClkStable) \
-    _(101, EMC, CFG, DSR_VTTGEN_DRV_EN, EmcCfg) \
+    _(101, EMC, TRTM, TRTM, EmcTrtm) \
+    _(101, EMC, CFG, PERIODIC_QRST, EmcCfg) \
     _(102, EMC, CFG_PIPE_1, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE1_BRICK0, EmcCfgPipe1) \
     _(102, EMC, CFG_PIPE_1, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE1_BRICK1, EmcCfgPipe1) \
     _(102, EMC, CFG_PIPE_1, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE1_BRICK2, EmcCfgPipe1) \
@@ -4286,8 +4299,8 @@
     _(102, EMC, CFG_PIPE_1, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE2_BRICK9, EmcCfgPipe1) \
     _(102, EMC, CFG_PIPE_1, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE2_BRICK10, EmcCfgPipe1) \
     _(102, EMC, CFG_PIPE_1, EMC2PMACRO_CFG_BYPASS_CMD_OB_PIPE2_BRICK11, EmcCfgPipe1) \
-    _(102, EMC, TRTM, TRTM, EmcTrtm) \
-    _(102, EMC, CFG, PERIODIC_QRST, EmcCfg) \
+    _(102, EMC, TWTM, TWTM, EmcTwtm) \
+    _(102, EMC, CFG, MAN_PRE_RD, EmcCfg) \
     _(103, EMC, PMACRO_DDLL_PWRD_0, DDLL_BYTE_TXDQS_PWRD_BYTE0, EmcPmacroDdllPwrd0) \
     _(103, EMC, PMACRO_DDLL_PWRD_0, DDLL_BYTE_RXDQS_PWRD_BYTE0, EmcPmacroDdllPwrd0) \
     _(103, EMC, PMACRO_DDLL_PWRD_0, DDLL_BYTE_QU_PWRD_BYTE0, EmcPmacroDdllPwrd0) \
@@ -4312,8 +4325,8 @@
     _(103, EMC, PMACRO_DDLL_PWRD_0, DDLL_BYTE_RXRT_PWRD_BYTE3, EmcPmacroDdllPwrd0) \
     _(103, EMC, PMACRO_DDLL_PWRD_0, DDLL_BIT_TXDQ_PWRD_BYTE3, EmcPmacroDdllPwrd0) \
     _(103, EMC, PMACRO_DDLL_PWRD_0, DDLL_BIT_RXDQ_PWRD_BYTE3, EmcPmacroDdllPwrd0) \
-    _(103, EMC, TWTM, TWTM, EmcTwtm) \
-    _(103, EMC, CFG, MAN_PRE_RD, EmcCfg) \
+    _(103, EMC, TRATM, TRATM, EmcTratm) \
+    _(103, EMC, CFG, MAN_PRE_WR, EmcCfg) \
     _(104, EMC, PMACRO_DDLL_PWRD_1, DDLL_BYTE_TXDQS_PWRD_BYTE4, EmcPmacroDdllPwrd1) \
     _(104, EMC, PMACRO_DDLL_PWRD_1, DDLL_BYTE_RXDQS_PWRD_BYTE4, EmcPmacroDdllPwrd1) \
     _(104, EMC, PMACRO_DDLL_PWRD_1, DDLL_BYTE_QU_PWRD_BYTE4, EmcPmacroDdllPwrd1) \
@@ -4338,8 +4351,8 @@
     _(104, EMC, PMACRO_DDLL_PWRD_1, DDLL_BYTE_RXRT_PWRD_BYTE7, EmcPmacroDdllPwrd1) \
     _(104, EMC, PMACRO_DDLL_PWRD_1, DDLL_BIT_TXDQ_PWRD_BYTE7, EmcPmacroDdllPwrd1) \
     _(104, EMC, PMACRO_DDLL_PWRD_1, DDLL_BIT_RXDQ_PWRD_BYTE7, EmcPmacroDdllPwrd1) \
-    _(104, EMC, TRATM, TRATM, EmcTratm) \
-    _(104, EMC, CFG, MAN_PRE_WR, EmcCfg) \
+    _(104, EMC, TWATM, TWATM, EmcTwatm) \
+    _(104, EMC, CFG, AUTO_PRE_RD, EmcCfg) \
     _(105, EMC, PMACRO_DDLL_PWRD_2, DDLL_BYTE_TXDQS_PWRD_CMD0, EmcPmacroDdllPwrd2) \
     _(105, EMC, PMACRO_DDLL_PWRD_2, DDLL_BYTE_RXDQS_PWRD_CMD0, EmcPmacroDdllPwrd2) \
     _(105, EMC, PMACRO_DDLL_PWRD_2, DDLL_BYTE_QU_PWRD_CMD0, EmcPmacroDdllPwrd2) \
@@ -4364,8 +4377,8 @@
     _(105, EMC, PMACRO_DDLL_PWRD_2, DDLL_BYTE_RXRT_PWRD_CMD3, EmcPmacroDdllPwrd2) \
     _(105, EMC, PMACRO_DDLL_PWRD_2, DDLL_BIT_TXDQ_PWRD_CMD3, EmcPmacroDdllPwrd2) \
     _(105, EMC, PMACRO_DDLL_PWRD_2, DDLL_BIT_RXDQ_PWRD_CMD3, EmcPmacroDdllPwrd2) \
-    _(105, EMC, TWATM, TWATM, EmcTwatm) \
-    _(105, EMC, CFG, AUTO_PRE_RD, EmcCfg) \
+    _(105, EMC, TR2REF, TR2REF, EmcTr2ref) \
+    _(105, EMC, CFG, AUTO_PRE_WR, EmcCfg) \
     _(106, EMC, PMACRO_DDLL_PERIODIC_OFFSET, DDLL_PERIODIC_OFFSET, EmcPmacroDdllPeriodicOffset) \
     _(106, EMC, PMACRO_DDLL_PERIODIC_OFFSET, DATA_DDLL_PERIODIC_OFFSET_BIT_TXDQ_EN, EmcPmacroDdllPeriodicOffset) \
     _(106, EMC, PMACRO_DDLL_PERIODIC_OFFSET, DATA_DDLL_PERIODIC_OFFSET_BIT_TXDQS_EN, EmcPmacroDdllPeriodicOffset) \
@@ -4385,13 +4398,19 @@
     _(106, EMC, PMACRO_DDLL_PERIODIC_OFFSET, CMD_DDLL_PERIODIC_OFFSET_BYTE_TXCMD_EN, EmcPmacroDdllPeriodicOffset) \
     _(106, EMC, PMACRO_DDLL_PERIODIC_OFFSET, CMD_DDLL_PERIODIC_OFFSET_BYTE_RXDQS_EN, EmcPmacroDdllPeriodicOffset) \
     _(106, EMC, PMACRO_DDLL_PERIODIC_OFFSET, CMD_DDLL_PERIODIC_OFFSET_BYTE_QU_EN, EmcPmacroDdllPeriodicOffset) \
-    _(106, EMC, TR2REF, TR2REF, EmcTr2ref) \
-    _(106, EMC, CFG, AUTO_PRE_WR, EmcCfg) \
+    _(106, EMC, PDEX2MRR, PDEX2MRR, EmcPdex2Mrr) \
+    _(106, EMC, CFG, REQACT_ASYNC, EmcCfg) \
     _(107, MC, EMEM_ARB_DA_COVERS, RC_COVER, McEmemArbDaCovers) \
     _(107, MC, EMEM_ARB_DA_COVERS, RCD_R_COVER, McEmemArbDaCovers) \
     _(107, MC, EMEM_ARB_DA_COVERS, RCD_W_COVER, McEmemArbDaCovers) \
-    _(107, EMC, PDEX2MRR, PDEX2MRR, EmcPdex2Mrr) \
-    _(107, EMC, CFG, REQACT_ASYNC, EmcCfg) \
+    _(107, EMC, CLKEN_OVERRIDE, CMDQ_CLKEN_OVR, EmcClkenOverride) \
+    _(107, EMC, CLKEN_OVERRIDE, DRAMC_CLKEN_OVR, EmcClkenOverride) \
+    _(107, EMC, CLKEN_OVERRIDE, RR_CLKEN_OVR, EmcClkenOverride) \
+    _(107, EMC, CLKEN_OVERRIDE, STATS_CLKEN_OVR, EmcClkenOverride) \
+    _(107, EMC, CLKEN_OVERRIDE, TR_CLKEN_OVR, EmcClkenOverride) \
+    _(107, EMC, CLKEN_OVERRIDE, PAD_CONFIG_OVR, EmcClkenOverride) \
+    _(107, EMC, CLKEN_OVERRIDE, BIST_CLKEN_OVR, EmcClkenOverride) \
+    _(107, EMC, CFG, DYN_SELF_REF, EmcCfg) \
     _(108, EMC, XM2COMPPADCTRL, EMC2TMC_CFG_XM2COMP_MEM_MODE, EmcXm2CompPadCtrl) \
     _(108, EMC, XM2COMPPADCTRL, EMC2TMC_CFG_XM2COMP_BG_SETUP, EmcXm2CompPadCtrl) \
     _(108, EMC, XM2COMPPADCTRL, EMC2TMC_CFG_XM2COMP_E_PWRD, EmcXm2CompPadCtrl) \
@@ -4460,320 +4479,312 @@
     _(115, EMC, FBIO_CFG7, USE_SELF_REF_STATE, EmcFbioCfg7) \
     _(115, EMC, FBIO_CFG7, CFG_DLL_DISABLE_CHAIN, EmcFbioCfg7) \
     _(115, EMC, AR2PDEN, AR2PDEN, EmcAr2Pden) \
-    _(115, EMC, CFG, DYN_SELF_REF, EmcCfg) \
+    _(115, EMC, CFG, DRAM_ACPD, EmcCfg) \
     _(123, EMC, PMACRO_QUSE_DDLL_RANK0_0, QUSE_DDLL_RANK0_BYTE0, EmcPmacroQuseDdllRank0_0) \
     _(123, EMC, PMACRO_QUSE_DDLL_RANK0_0, QUSE_DDLL_RANK0_BYTE1, EmcPmacroQuseDdllRank0_0) \
     _(123, EMC, RFC_SLR, RFC_SLR, EmcRfcSlr) \
-    _(123, EMC, CFG, DRAM_ACPD, EmcCfg) \
+    _(123, EMC, CFG, DRAM_CLKSTOP_SR, EmcCfg) \
     _(124, EMC, PMACRO_QUSE_DDLL_RANK0_1, QUSE_DDLL_RANK0_BYTE2, EmcPmacroQuseDdllRank0_1) \
     _(124, EMC, PMACRO_QUSE_DDLL_RANK0_1, QUSE_DDLL_RANK0_BYTE3, EmcPmacroQuseDdllRank0_1) \
     _(124, EMC, IBDLY, IBDLY, EmcIbdly) \
     _(124, EMC, IBDLY, IBDLY_MODE, EmcIbdly) \
-    _(124, EMC, CFG, DRAM_CLKSTOP_SR, EmcCfg) \
+    _(124, EMC, CFG, DRAM_CLKSTOP_PD, EmcCfg) \
     _(125, EMC, PMACRO_QUSE_DDLL_RANK0_2, QUSE_DDLL_RANK0_BYTE4, EmcPmacroQuseDdllRank0_2) \
     _(125, EMC, PMACRO_QUSE_DDLL_RANK0_2, QUSE_DDLL_RANK0_BYTE5, EmcPmacroQuseDdllRank0_2) \
     _(125, MC, EMEM_ARB_TIMING_RFCPB, RFCPB, McEmemArbTimingRFCPB) \
-    _(125, EMC, CFG, DRAM_CLKSTOP_PD, EmcCfg) \
+    _(125, EMC, FBIO_CFG5, DRAM_WIDTH, EmcFbioCfg5) \
     _(126, EMC, PMACRO_QUSE_DDLL_RANK0_3, QUSE_DDLL_RANK0_BYTE6, EmcPmacroQuseDdllRank0_3) \
     _(126, EMC, PMACRO_QUSE_DDLL_RANK0_3, QUSE_DDLL_RANK0_BYTE7, EmcPmacroQuseDdllRank0_3) \
-    _(126, EMC, CLKEN_OVERRIDE, CMDQ_CLKEN_OVR, EmcClkenOverride) \
-    _(126, EMC, CLKEN_OVERRIDE, DRAMC_CLKEN_OVR, EmcClkenOverride) \
-    _(126, EMC, CLKEN_OVERRIDE, RR_CLKEN_OVR, EmcClkenOverride) \
-    _(126, EMC, CLKEN_OVERRIDE, STATS_CLKEN_OVR, EmcClkenOverride) \
-    _(126, EMC, CLKEN_OVERRIDE, TR_CLKEN_OVR, EmcClkenOverride) \
-    _(126, EMC, CLKEN_OVERRIDE, PAD_CONFIG_OVR, EmcClkenOverride) \
-    _(126, EMC, CLKEN_OVERRIDE, BIST_CLKEN_OVR, EmcClkenOverride) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_CA, EmcAutoCalConfig9) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_CLK, EmcAutoCalConfig9) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_CMD, EmcAutoCalConfig9) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQ, EmcAutoCalConfig9) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQ_TERM, EmcAutoCalConfig9) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQS, EmcAutoCalConfig9) \
+    _(126, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQS_TERM, EmcAutoCalConfig9) \
     _(126, EMC, FBIO_CFG5, EMC2PMACRO_CFG_QUSE_MODE, EmcFbioCfg5) \
     _(127, EMC, PMACRO_QUSE_DDLL_RANK0_4, QUSE_DDLL_RANK0_CMD0, EmcPmacroQuseDdllRank0_4) \
     _(127, EMC, PMACRO_QUSE_DDLL_RANK0_4, QUSE_DDLL_RANK0_CMD1, EmcPmacroQuseDdllRank0_4) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_CA, EmcAutoCalConfig9) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_CLK, EmcAutoCalConfig9) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_CMD, EmcAutoCalConfig9) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQ, EmcAutoCalConfig9) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQ_TERM, EmcAutoCalConfig9) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQS, EmcAutoCalConfig9) \
-    _(127, EMC, AUTO_CAL_CONFIG9, AUTO_CAL_OVERRIDE_DQS_TERM, EmcAutoCalConfig9) \
+    _(127, EMC, RDV_MASK, RDV_MASK, EmcRdvMask) \
     _(127, EMC, CFG_2, ZQ_EXTRA_DELAY, EmcCfg2) \
     _(128, EMC, PMACRO_QUSE_DDLL_RANK0_5, QUSE_DDLL_RANK0_CMD2, EmcPmacroQuseDdllRank0_5) \
     _(128, EMC, PMACRO_QUSE_DDLL_RANK0_5, QUSE_DDLL_RANK0_CMD3, EmcPmacroQuseDdllRank0_5) \
-    _(128, EMC, RDV_MASK, RDV_MASK, EmcRdvMask) \
+    _(128, EMC, RDV_EARLY_MASK, RDV_EARLY_MASK, EmcRdvEarlyMask) \
     _(128, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_TX_EBOOST_PD_MODE, EmcPmacroCmdPadTxCtrl) \
     _(129, EMC, PMACRO_QUSE_DDLL_RANK1_0, QUSE_DDLL_RANK1_BYTE0, EmcPmacroQuseDdllRank1_0) \
     _(129, EMC, PMACRO_QUSE_DDLL_RANK1_0, QUSE_DDLL_RANK1_BYTE1, EmcPmacroQuseDdllRank1_0) \
-    _(129, EMC, RDV_EARLY_MASK, RDV_EARLY_MASK, EmcRdvEarlyMask) \
+    _(129, EMC, RDV_EARLY, RDV_EARLY, EmcRdvEarly) \
     _(129, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_TX_EBOOST_PU_MODE, EmcPmacroCmdPadTxCtrl) \
     _(130, EMC, PMACRO_QUSE_DDLL_RANK1_1, QUSE_DDLL_RANK1_BYTE2, EmcPmacroQuseDdllRank1_1) \
     _(130, EMC, PMACRO_QUSE_DDLL_RANK1_1, QUSE_DDLL_RANK1_BYTE3, EmcPmacroQuseDdllRank1_1) \
-    _(130, EMC, RDV_EARLY, RDV_EARLY, EmcRdvEarly) \
+    _(130, EMC, QUSE_WIDTH, QUSE_DURATION, EmcQuseWidth) \
+    _(130, EMC, QUSE_WIDTH, QUSE_EXTEND_UI, EmcQuseWidth) \
+    _(130, EMC, QUSE_WIDTH, QUSE_SHORTEN_2UI, EmcQuseWidth) \
     _(130, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQS_TX_EBOOST_PD_MODE, EmcPmacroCmdPadTxCtrl) \
     _(131, EMC, PMACRO_QUSE_DDLL_RANK1_2, QUSE_DDLL_RANK1_BYTE4, EmcPmacroQuseDdllRank1_2) \
     _(131, EMC, PMACRO_QUSE_DDLL_RANK1_2, QUSE_DDLL_RANK1_BYTE5, EmcPmacroQuseDdllRank1_2) \
-    _(131, EMC, QUSE_WIDTH, QUSE_DURATION, EmcQuseWidth) \
-    _(131, EMC, QUSE_WIDTH, QUSE_EXTEND_UI, EmcQuseWidth) \
-    _(131, EMC, QUSE_WIDTH, QUSE_SHORTEN_2UI, EmcQuseWidth) \
+    _(131, EMC, PMACRO_DDLL_SHORT_CMD_2, DDLL_SHORT_CMD_RESET, EmcPmacroDdllShortCmd_2) \
     _(131, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQS_TX_EBOOST_PU_MODE, EmcPmacroCmdPadTxCtrl) \
     _(132, EMC, PMACRO_QUSE_DDLL_RANK1_3, QUSE_DDLL_RANK1_BYTE6, EmcPmacroQuseDdllRank1_3) \
     _(132, EMC, PMACRO_QUSE_DDLL_RANK1_3, QUSE_DDLL_RANK1_BYTE7, EmcPmacroQuseDdllRank1_3) \
-    _(132, EMC, PMACRO_DDLL_SHORT_CMD_2, DDLL_SHORT_CMD_RESET, EmcPmacroDdllShortCmd_2) \
+    _(132, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_DQ_RX_TERM_MODE, EmcPmacroCmdRxTermMode) \
+    _(132, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_DQSP_RX_TERM_MODE, EmcPmacroCmdRxTermMode) \
+    _(132, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_DQSN_RX_TERM_MODE, EmcPmacroCmdRxTermMode) \
+    _(132, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_E_PWRD_RX, EmcPmacroCmdRxTermMode) \
     _(132, EMC, PMACRO_DATA_PAD_TX_CTRL, DATA_DQ_TX_EBOOST_PD_MODE, EmcPmacroDataPadTxCtrl) \
     _(133, EMC, PMACRO_QUSE_DDLL_RANK1_4, QUSE_DDLL_RANK1_CMD0, EmcPmacroQuseDdllRank1_4) \
     _(133, EMC, PMACRO_QUSE_DDLL_RANK1_4, QUSE_DDLL_RANK1_CMD1, EmcPmacroQuseDdllRank1_4) \
-    _(133, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_DQ_RX_TERM_MODE, EmcPmacroCmdRxTermMode) \
-    _(133, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_DQSP_RX_TERM_MODE, EmcPmacroCmdRxTermMode) \
-    _(133, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_DQSN_RX_TERM_MODE, EmcPmacroCmdRxTermMode) \
-    _(133, EMC, PMACRO_CMD_RX_TERM_MODE, CMD_E_PWRD_RX, EmcPmacroCmdRxTermMode) \
+    _(133, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_DQ_RX_TERM_MODE, EmcPmacroDataRxTermMode) \
+    _(133, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_DQSP_RX_TERM_MODE, EmcPmacroDataRxTermMode) \
+    _(133, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_DQSN_RX_TERM_MODE, EmcPmacroDataRxTermMode) \
+    _(133, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_E_PWRD_RX, EmcPmacroDataRxTermMode) \
     _(133, EMC, PMACRO_DATA_PAD_TX_CTRL, DATA_DQ_TX_EBOOST_PU_MODE, EmcPmacroDataPadTxCtrl) \
     _(134, EMC, PMACRO_QUSE_DDLL_RANK1_5, QUSE_DDLL_RANK1_CMD2, EmcPmacroQuseDdllRank1_5) \
     _(134, EMC, PMACRO_QUSE_DDLL_RANK1_5, QUSE_DDLL_RANK1_CMD3, EmcPmacroQuseDdllRank1_5) \
-    _(134, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_DQ_RX_TERM_MODE, EmcPmacroDataRxTermMode) \
-    _(134, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_DQSP_RX_TERM_MODE, EmcPmacroDataRxTermMode) \
-    _(134, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_DQSN_RX_TERM_MODE, EmcPmacroDataRxTermMode) \
-    _(134, EMC, PMACRO_DATA_RX_TERM_MODE, DATA_E_PWRD_RX, EmcPmacroDataRxTermMode) \
+    _(134, MC, EMEM_ARB_TIMING_RP, RP, McEmemArbTimingRp) \
     _(134, EMC, PMACRO_DATA_PAD_TX_CTRL, DATA_DQS_TX_EBOOST_PD_MODE, EmcPmacroDataPadTxCtrl) \
     _(135, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_0, OB_DDLL_LONG_DQ_RANK0_BYTE0, EmcPmacroObDdllLongDqRank0_0) \
     _(135, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_0, OB_DDLL_LONG_DQ_RANK0_BYTE1, EmcPmacroObDdllLongDqRank0_0) \
-    _(135, MC, EMEM_ARB_TIMING_RP, RP, McEmemArbTimingRp) \
+    _(135, MC, EMEM_ARB_TIMING_RAS, RAS, McEmemArbTimingRas) \
     _(135, EMC, PMACRO_DATA_PAD_TX_CTRL, DATA_DQS_TX_EBOOST_PU_MODE, EmcPmacroDataPadTxCtrl) \
     _(136, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_1, OB_DDLL_LONG_DQ_RANK0_BYTE2, EmcPmacroObDdllLongDqRank0_1) \
     _(136, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_1, OB_DDLL_LONG_DQ_RANK0_BYTE3, EmcPmacroObDdllLongDqRank0_1) \
-    _(136, MC, EMEM_ARB_TIMING_RAS, RAS, McEmemArbTimingRas) \
+    _(136, MC, EMEM_ARB_TIMING_FAW, FAW, McEmemArbTimingFaw) \
     _(136, EMC, CFG, EMC2MC_CLK_RATIO, EmcCfg) \
-    _(136, EMC, FBIO_CFG5, DRAM_WIDTH, EmcFbioCfg5) \
+    _(136, EMC, FBIO_CFG5, CMD_TX_EN, EmcFbioCfg5) \
     _(137, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_2, OB_DDLL_LONG_DQ_RANK0_BYTE4, EmcPmacroObDdllLongDqRank0_2) \
     _(137, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_2, OB_DDLL_LONG_DQ_RANK0_BYTE5, EmcPmacroObDdllLongDqRank0_2) \
-    _(137, MC, EMEM_ARB_TIMING_FAW, FAW, McEmemArbTimingFaw) \
+    _(137, MC, EMEM_ARB_TIMING_RAP2PRE, RAP2PRE, McEmemArbTimingRap2Pre) \
     _(137, EMC, FBIO_CFG5, DRAM_TYPE, EmcFbioCfg5) \
-    _(137, EMC, FBIO_CFG5, CMD_TX_EN, EmcFbioCfg5) \
+    _(137, EMC, FBIO_CFG5, DISABLE_CONCURRENT_AUTOPRE, EmcFbioCfg5) \
     _(138, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_3, OB_DDLL_LONG_DQ_RANK0_BYTE6, EmcPmacroObDdllLongDqRank0_3) \
     _(138, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_3, OB_DDLL_LONG_DQ_RANK0_BYTE7, EmcPmacroObDdllLongDqRank0_3) \
-    _(138, MC, EMEM_ARB_TIMING_RAP2PRE, RAP2PRE, McEmemArbTimingRap2Pre) \
+    _(138, MC, EMEM_ARB_TIMING_WAP2PRE, WAP2PRE, McEmemArbTimingWap2Pre) \
     _(138, EMC, FBIO_CFG5, DRAM_BURST, EmcFbioCfg5) \
-    _(138, EMC, FBIO_CFG5, DISABLE_CONCURRENT_AUTOPRE, EmcFbioCfg5) \
+    _(138, EMC, FBIO_CFG5, CMD_2T_TIMING, EmcFbioCfg5) \
     _(139, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_4, OB_DDLL_LONG_DQ_RANK0_CMD0, EmcPmacroObDdllLongDqRank0_4) \
     _(139, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_4, OB_DDLL_LONG_DQ_RANK0_CMD1, EmcPmacroObDdllLongDqRank0_4) \
-    _(139, MC, EMEM_ARB_TIMING_WAP2PRE, WAP2PRE, McEmemArbTimingWap2Pre) \
+    _(139, MC, EMEM_ARB_TIMING_R2W, R2W, McEmemArbTimingR2W) \
     _(139, EMC, CFG_2, DRAMC_WD_CHK_POLICY, EmcCfg2) \
-    _(139, EMC, FBIO_CFG5, CMD_2T_TIMING, EmcFbioCfg5) \
+    _(139, EMC, FBIO_CFG5, LPDDR3_WR_PREAMBLE_TOGGLE, EmcFbioCfg5) \
     _(140, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_5, OB_DDLL_LONG_DQ_RANK0_CMD2, EmcPmacroObDdllLongDqRank0_5) \
     _(140, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK0_5, OB_DDLL_LONG_DQ_RANK0_CMD3, EmcPmacroObDdllLongDqRank0_5) \
-    _(140, MC, EMEM_ARB_TIMING_R2W, R2W, McEmemArbTimingR2W) \
-    _(140, EMC, FBIO_CFG5, LPDDR3_WR_PREAMBLE_TOGGLE, EmcFbioCfg5) \
+    _(140, MC, EMEM_ARB_TIMING_W2R, W2R, McEmemArbTimingW2R) \
     _(140, EMC, FBIO_CFG5, LPDDR3_DRAM, EmcFbioCfg5) \
     _(140, EMC, FBIO_CFG5, CMD_BUS_RETURN_TO_ONE, EmcFbioCfg5) \
+    _(140, EMC, FBIO_CFG5, CMD_BUS_RETURN_TO_ZERO, EmcFbioCfg5) \
     _(141, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_0, OB_DDLL_LONG_DQ_RANK1_BYTE0, EmcPmacroObDdllLongDqRank1_0) \
     _(141, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_0, OB_DDLL_LONG_DQ_RANK1_BYTE1, EmcPmacroObDdllLongDqRank1_0) \
-    _(141, MC, EMEM_ARB_TIMING_W2R, W2R, McEmemArbTimingW2R) \
-    _(141, EMC, FBIO_CFG5, CMD_BUS_RETURN_TO_ZERO, EmcFbioCfg5) \
-    _(141, EMC, FBIO_CFG5, MASK_PUTERM_N_DQS_PULLD_DURING_ZQCAL, EmcFbioCfg5) \
-    _(141, EMC, FBIO_CFG5, DATA_BUS_RETURN_TO_ONE, EmcFbioCfg5) \
+    _(141, EMC, WDV, WDV, EmcWdv) \
+    _(141, EMC, FBIO_CFG5, ERR_RD_BUBBLE, EmcFbioCfg5) \
     _(142, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_1, OB_DDLL_LONG_DQ_RANK1_BYTE2, EmcPmacroObDdllLongDqRank1_1) \
     _(142, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_1, OB_DDLL_LONG_DQ_RANK1_BYTE3, EmcPmacroObDdllLongDqRank1_1) \
-    _(142, EMC, WDV, WDV, EmcWdv) \
-    _(142, EMC, FBIO_CFG5, ERR_RD_BUBBLE, EmcFbioCfg5) \
+    _(142, EMC, QUSE, QUSE, EmcQUse) \
+    _(142, EMC, FBIO_CFG5, MASK_PUTERM_N_DQS_PULLD_DURING_ZQCAL, EmcFbioCfg5) \
+    _(142, EMC, FBIO_CFG5, DATA_BUS_RETURN_TO_ONE, EmcFbioCfg5) \
+    _(142, EMC, FBIO_CFG5, DATA_BUS_RETURN_TO_ZERO, EmcFbioCfg5) \
+    _(142, EMC, CFG_2, CLKCHANGE_REQ_ENABLE, EmcCfg2) \
     _(143, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_2, OB_DDLL_LONG_DQ_RANK1_BYTE4, EmcPmacroObDdllLongDqRank1_2) \
     _(143, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_2, OB_DDLL_LONG_DQ_RANK1_BYTE5, EmcPmacroObDdllLongDqRank1_2) \
-    _(143, EMC, QUSE, QUSE, EmcQUse) \
-    _(143, EMC, FBIO_CFG5, DATA_BUS_RETURN_TO_ZERO, EmcFbioCfg5) \
-    _(143, EMC, CFG_2, CLKCHANGE_REQ_ENABLE, EmcCfg2) \
+    _(143, EMC, PDEX2WR, PDEX2WR, EmcPdEx2Wr) \
     _(143, EMC, CFG_2, CLKCHANGE_PD_ENABLE, EmcCfg2) \
     _(143, EMC, CFG_2, REF_AFTER_SREF, EmcCfg2) \
+    _(143, EMC, CFG_2, EARLY_TRFC_8_CLK, EmcCfg2) \
+    _(143, EMC, CFG_2, DONT_GEN_EARLY_TRFC_DONE, EmcCfg2) \
     _(144, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_3, OB_DDLL_LONG_DQ_RANK1_BYTE6, EmcPmacroObDdllLongDqRank1_3) \
     _(144, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_3, OB_DDLL_LONG_DQ_RANK1_BYTE7, EmcPmacroObDdllLongDqRank1_3) \
-    _(144, EMC, PDEX2WR, PDEX2WR, EmcPdEx2Wr) \
-    _(144, EMC, CFG_2, EARLY_TRFC_8_CLK, EmcCfg2) \
-    _(144, EMC, CFG_2, DONT_GEN_EARLY_TRFC_DONE, EmcCfg2) \
+    _(144, EMC, PDEX2RD, PDEX2RD, EmcPdEx2Rd) \
     _(144, EMC, CFG_2, DIS_CNTR_WITH_CFG_TIMING_UPDATE, EmcCfg2) \
     _(144, EMC, CFG_2, DONT_GEN_EARLY_MRS_DONE, EmcCfg2) \
+    _(144, EMC, CFG_2, REF_B4_SREF, EmcCfg2) \
+    _(144, EMC, CFG_2, CLKCHANGE_ACTIVE_SR, EmcCfg2) \
     _(145, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_4, OB_DDLL_LONG_DQ_RANK1_CMD0, EmcPmacroObDdllLongDqRank1_4) \
     _(145, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_4, OB_DDLL_LONG_DQ_RANK1_CMD1, EmcPmacroObDdllLongDqRank1_4) \
-    _(145, EMC, PDEX2RD, PDEX2RD, EmcPdEx2Rd) \
-    _(145, EMC, CFG_2, REF_B4_SREF, EmcCfg2) \
-    _(145, EMC, CFG_2, CLKCHANGE_ACTIVE_SR, EmcCfg2) \
+    _(145, EMC, PDEX2CKE, PDEX2CKE, EmcPdex2Cke) \
     _(145, EMC, CFG_2, COMBINED_INTERRUPT_MODE, EmcCfg2) \
     _(145, EMC, CFG_2, ISSUE_PCHGALL_AFTER_REF, EmcCfg2) \
+    _(145, EMC, CFG_2, CHK_PDEX2RD_TO_START_WR, EmcCfg2) \
+    _(145, EMC, CFG_2, DSR_STUTTER_ENABLE, EmcCfg2) \
     _(146, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_5, OB_DDLL_LONG_DQ_RANK1_CMD2, EmcPmacroObDdllLongDqRank1_5) \
     _(146, EMC, PMACRO_OB_DDLL_LONG_DQ_RANK1_5, OB_DDLL_LONG_DQ_RANK1_CMD3, EmcPmacroObDdllLongDqRank1_5) \
-    _(146, EMC, PDEX2CKE, PDEX2CKE, EmcPdex2Cke) \
-    _(146, EMC, CFG_2, CHK_PDEX2RD_TO_START_WR, EmcCfg2) \
-    _(146, EMC, CFG_2, DSR_STUTTER_ENABLE, EmcCfg2) \
+    _(146, EMC, PCHG2PDEN, PCHG2PDEN, EmcPChg2Pden) \
     _(146, EMC, CFG_2, ALLOW_REF_DURING_CC_PRE_EXE, EmcCfg2) \
     _(146, EMC, CFG_2, DONT_CLR_TIMING_COUNTER_WHEN_CLKCHANGE, EmcCfg2) \
+    _(146, EMC, CFG_2, CLR_ACT_BANK_INUSE_WHEN_BANK_CLOSE, EmcCfg2) \
+    _(146, EMC, CFG_2, IGNORE_MC_A_BUS, EmcCfg2) \
     _(147, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_0, OB_DDLL_LONG_DQS_RANK0_BYTE0, EmcPmacroObDdllLongDqsRank0_0) \
     _(147, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_0, OB_DDLL_LONG_DQS_RANK0_BYTE1, EmcPmacroObDdllLongDqsRank0_0) \
-    _(147, EMC, PCHG2PDEN, PCHG2PDEN, EmcPChg2Pden) \
-    _(147, EMC, CFG_2, CLR_ACT_BANK_INUSE_WHEN_BANK_CLOSE, EmcCfg2) \
-    _(147, EMC, CFG_2, IGNORE_MC_A_BUS, EmcCfg2) \
+    _(147, EMC, ACT2PDEN, ACT2PDEN, EmcAct2Pden) \
     _(147, EMC, CFG_2, DRAMC_PRE_B4_ACT, EmcCfg2) \
     _(147, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK0, EmcCfgPipe) \
+    _(147, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK1, EmcCfgPipe) \
+    _(147, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK2, EmcCfgPipe) \
     _(148, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_1, OB_DDLL_LONG_DQS_RANK0_BYTE2, EmcPmacroObDdllLongDqsRank0_1) \
     _(148, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_1, OB_DDLL_LONG_DQS_RANK0_BYTE3, EmcPmacroObDdllLongDqsRank0_1) \
-    _(148, EMC, ACT2PDEN, ACT2PDEN, EmcAct2Pden) \
-    _(148, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK1, EmcCfgPipe) \
-    _(148, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK2, EmcCfgPipe) \
+    _(148, EMC, CKE2PDEN, CKE2PDEN, EmcCke2Pden) \
     _(148, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK3, EmcCfgPipe) \
     _(148, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK4, EmcCfgPipe) \
+    _(148, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK5, EmcCfgPipe) \
+    _(148, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK6, EmcCfgPipe) \
     _(149, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_2, OB_DDLL_LONG_DQS_RANK0_BYTE4, EmcPmacroObDdllLongDqsRank0_2) \
     _(149, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_2, OB_DDLL_LONG_DQS_RANK0_BYTE5, EmcPmacroObDdllLongDqsRank0_2) \
-    _(149, EMC, CKE2PDEN, CKE2PDEN, EmcCke2Pden) \
-    _(149, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK5, EmcCfgPipe) \
-    _(149, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK6, EmcCfgPipe) \
+    _(149, EMC, TCKE, TCKE, EmcTcke) \
     _(149, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK7, EmcCfgPipe) \
     _(149, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK8, EmcCfgPipe) \
+    _(149, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK9, EmcCfgPipe) \
+    _(149, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK10, EmcCfgPipe) \
     _(150, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_3, OB_DDLL_LONG_DQS_RANK0_BYTE6, EmcPmacroObDdllLongDqsRank0_3) \
     _(150, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_3, OB_DDLL_LONG_DQS_RANK0_BYTE7, EmcPmacroObDdllLongDqsRank0_3) \
-    _(150, EMC, TCKE, TCKE, EmcTcke) \
-    _(150, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK9, EmcCfgPipe) \
-    _(150, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK10, EmcCfgPipe) \
+    _(150, EMC, TRPAB, TRPAB, EmcTrpab) \
     _(150, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE1_BRICK11, EmcCfgPipe) \
     _(150, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK0, EmcCfgPipe) \
+    _(150, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK1, EmcCfgPipe) \
+    _(150, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK2, EmcCfgPipe) \
     _(151, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_4, OB_DDLL_LONG_DQS_RANK0_CMD0, EmcPmacroObDdllLongDqsRank0_4) \
     _(151, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_4, OB_DDLL_LONG_DQS_RANK0_CMD1, EmcPmacroObDdllLongDqsRank0_4) \
-    _(151, EMC, TRPAB, TRPAB, EmcTrpab) \
-    _(151, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK1, EmcCfgPipe) \
-    _(151, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK2, EmcCfgPipe) \
+    _(151, EMC, EINPUT, EINPUT, EmcEInput) \
     _(151, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK3, EmcCfgPipe) \
     _(151, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK4, EmcCfgPipe) \
+    _(151, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK5, EmcCfgPipe) \
+    _(151, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK6, EmcCfgPipe) \
     _(152, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_5, OB_DDLL_LONG_DQS_RANK0_CMD2, EmcPmacroObDdllLongDqsRank0_5) \
     _(152, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK0_5, OB_DDLL_LONG_DQS_RANK0_CMD3, EmcPmacroObDdllLongDqsRank0_5) \
-    _(152, EMC, EINPUT, EINPUT, EmcEInput) \
-    _(152, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK5, EmcCfgPipe) \
-    _(152, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK6, EmcCfgPipe) \
+    _(152, EMC, EINPUT_DURATION, EINPUT_DURATION, EmcEInputDuration) \
     _(152, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK7, EmcCfgPipe) \
     _(152, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK8, EmcCfgPipe) \
+    _(152, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK9, EmcCfgPipe) \
+    _(152, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK10, EmcCfgPipe) \
     _(153, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_0, OB_DDLL_LONG_DQS_RANK1_BYTE0, EmcPmacroObDdllLongDqsRank1_0) \
     _(153, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_0, OB_DDLL_LONG_DQS_RANK1_BYTE1, EmcPmacroObDdllLongDqsRank1_0) \
-    _(153, EMC, EINPUT_DURATION, EINPUT_DURATION, EmcEInputDuration) \
-    _(153, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK9, EmcCfgPipe) \
-    _(153, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK10, EmcCfgPipe) \
+    _(153, EMC, PUTERM_EXTRA, RXTERM, EmcPutermExtra) \
     _(153, EMC, CFG_PIPE, EMC2PMACRO_CFG_BYPASS_OB_PIPE2_BRICK11, EmcCfgPipe) \
     _(153, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ0_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(153, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ1_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(153, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ2_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
     _(154, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_1, OB_DDLL_LONG_DQS_RANK1_BYTE2, EmcPmacroObDdllLongDqsRank1_1) \
     _(154, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_1, OB_DDLL_LONG_DQS_RANK1_BYTE3, EmcPmacroObDdllLongDqsRank1_1) \
-    _(154, EMC, PUTERM_EXTRA, RXTERM, EmcPutermExtra) \
-    _(154, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ1_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
-    _(154, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ2_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(154, EMC, TCKESR, TCKESR, EmcTckesr) \
     _(154, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ3_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
     _(154, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ4_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(154, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ5_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(154, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ6_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
     _(155, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_2, OB_DDLL_LONG_DQS_RANK1_BYTE4, EmcPmacroObDdllLongDqsRank1_2) \
     _(155, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_2, OB_DDLL_LONG_DQS_RANK1_BYTE5, EmcPmacroObDdllLongDqsRank1_2) \
-    _(155, EMC, TCKESR, TCKESR, EmcTckesr) \
-    _(155, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ5_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
-    _(155, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ6_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(155, EMC, TPD, TPD, EmcTpd) \
     _(155, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ7_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
     _(155, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ8_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(155, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSP_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(155, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSN_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
     _(156, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_3, OB_DDLL_LONG_DQS_RANK1_BYTE6, EmcPmacroObDdllLongDqsRank1_3) \
     _(156, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_3, OB_DDLL_LONG_DQS_RANK1_BYTE7, EmcPmacroObDdllLongDqsRank1_3) \
-    _(156, EMC, TPD, TPD, EmcTpd) \
-    _(156, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSP_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
-    _(156, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSN_TX_SEL_CLK_SRC_BYTE0, EmcPmacroTxSelClkSrc0) \
+    _(156, EMC, WDV_MASK, WDV_MASK, EmcWdvMask) \
     _(156, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ0_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
     _(156, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ1_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(156, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ2_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(156, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ3_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
     _(157, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_4, OB_DDLL_LONG_DQS_RANK1_CMD0, EmcPmacroObDdllLongDqsRank1_4) \
     _(157, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_4, OB_DDLL_LONG_DQS_RANK1_CMD1, EmcPmacroObDdllLongDqsRank1_4) \
-    _(157, EMC, WDV_MASK, WDV_MASK, EmcWdvMask) \
-    _(157, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ2_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
-    _(157, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ3_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(157, EMC, WDV_CHK, WDV_CHK_BASE, EmcWdvChk) \
     _(157, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ4_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
     _(157, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ5_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(157, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ6_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(157, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ7_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
     _(158, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_5, OB_DDLL_LONG_DQS_RANK1_CMD2, EmcPmacroObDdllLongDqsRank1_5) \
     _(158, EMC, PMACRO_OB_DDLL_LONG_DQS_RANK1_5, OB_DDLL_LONG_DQS_RANK1_CMD3, EmcPmacroObDdllLongDqsRank1_5) \
-    _(158, EMC, WDV_CHK, WDV_CHK_BASE, EmcWdvChk) \
-    _(158, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ6_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
-    _(158, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ7_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(158, EMC, CMD_BRLSHFT_0, CH0_SUBP0_1T_BRLSHFT, EmcCmdBrlshft0) \
+    _(158, EMC, CMD_BRLSHFT_0, CH0_SUBP1_1T_BRLSHFT, EmcCmdBrlshft0) \
     _(158, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQ8_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
     _(158, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSP_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(158, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSN_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
+    _(158, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ0_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
     _(159, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_0, IB_DDLL_LONG_DQS_RANK0_BYTE0, EmcPmacroIbDdllLongDqsRank0_0) \
     _(159, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_0, IB_DDLL_LONG_DQS_RANK0_BYTE1, EmcPmacroIbDdllLongDqsRank0_0) \
-    _(159, EMC, CMD_BRLSHFT_0, CH0_SUBP0_1T_BRLSHFT, EmcCmdBrlshft0) \
-    _(159, EMC, CMD_BRLSHFT_0, CH0_SUBP1_1T_BRLSHFT, EmcCmdBrlshft0) \
-    _(159, EMC, PMACRO_TX_SEL_CLK_SRC_0, DQSN_TX_SEL_CLK_SRC_BYTE1, EmcPmacroTxSelClkSrc0) \
-    _(159, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ0_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(159, EMC, CMD_BRLSHFT_1, CH1_SUBP0_1T_BRLSHFT, EmcCmdBrlshft1) \
+    _(159, EMC, CMD_BRLSHFT_1, CH1_SUBP1_1T_BRLSHFT, EmcCmdBrlshft1) \
     _(159, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ1_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
     _(159, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ2_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(159, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ3_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(159, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ4_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
     _(160, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_1, IB_DDLL_LONG_DQS_RANK0_BYTE2, EmcPmacroIbDdllLongDqsRank0_1) \
     _(160, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_1, IB_DDLL_LONG_DQS_RANK0_BYTE3, EmcPmacroIbDdllLongDqsRank0_1) \
-    _(160, EMC, CMD_BRLSHFT_1, CH1_SUBP0_1T_BRLSHFT, EmcCmdBrlshft1) \
-    _(160, EMC, CMD_BRLSHFT_1, CH1_SUBP1_1T_BRLSHFT, EmcCmdBrlshft1) \
-    _(160, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ3_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
-    _(160, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ4_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(160, EMC, CMD_BRLSHFT_2, CH0_SUBP0_2T_BRLSHFT, EmcCmdBrlshft2) \
+    _(160, EMC, CMD_BRLSHFT_2, CH0_SUBP1_2T_BRLSHFT, EmcCmdBrlshft2) \
     _(160, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ5_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
     _(160, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ6_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(160, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ7_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(160, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ8_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
     _(161, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_2, IB_DDLL_LONG_DQS_RANK0_BYTE4, EmcPmacroIbDdllLongDqsRank0_2) \
     _(161, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_2, IB_DDLL_LONG_DQS_RANK0_BYTE5, EmcPmacroIbDdllLongDqsRank0_2) \
-    _(161, EMC, CMD_BRLSHFT_2, CH0_SUBP0_2T_BRLSHFT, EmcCmdBrlshft2) \
-    _(161, EMC, CMD_BRLSHFT_2, CH0_SUBP1_2T_BRLSHFT, EmcCmdBrlshft2) \
-    _(161, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ7_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
-    _(161, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ8_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(161, EMC, CMD_BRLSHFT_3, CH1_SUBP0_2T_BRLSHFT, EmcCmdBrlshft3) \
+    _(161, EMC, CMD_BRLSHFT_3, CH1_SUBP1_2T_BRLSHFT, EmcCmdBrlshft3) \
     _(161, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQSP_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
     _(161, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQSN_TX_SEL_CLK_SRC_BYTE2, EmcPmacroTxSelClkSrc1) \
+    _(161, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ0_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(161, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ1_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
     _(162, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_3, IB_DDLL_LONG_DQS_RANK0_BYTE6, EmcPmacroIbDdllLongDqsRank0_3) \
     _(162, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK0_3, IB_DDLL_LONG_DQS_RANK0_BYTE7, EmcPmacroIbDdllLongDqsRank0_3) \
-    _(162, EMC, CMD_BRLSHFT_3, CH1_SUBP0_2T_BRLSHFT, EmcCmdBrlshft3) \
-    _(162, EMC, CMD_BRLSHFT_3, CH1_SUBP1_2T_BRLSHFT, EmcCmdBrlshft3) \
-    _(162, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ0_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
-    _(162, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ1_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(162, EMC, WEV, WEV, EmcWev) \
     _(162, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ2_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
     _(162, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ3_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(162, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ4_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(162, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ5_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
     _(163, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_0, IB_DDLL_LONG_DQS_RANK1_BYTE0, EmcPmacroIbDdllLongDqsRank1_0) \
     _(163, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_0, IB_DDLL_LONG_DQS_RANK1_BYTE1, EmcPmacroIbDdllLongDqsRank1_0) \
-    _(163, EMC, WEV, WEV, EmcWev) \
-    _(163, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ4_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
-    _(163, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ5_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(163, EMC, WSV, WSV, EmcWsv) \
     _(163, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ6_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
     _(163, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ7_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(163, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ8_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(163, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQSP_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
     _(164, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_1, IB_DDLL_LONG_DQS_RANK1_BYTE2, EmcPmacroIbDdllLongDqsRank1_1) \
     _(164, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_1, IB_DDLL_LONG_DQS_RANK1_BYTE3, EmcPmacroIbDdllLongDqsRank1_1) \
-    _(164, EMC, WSV, WSV, EmcWsv) \
-    _(164, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQ8_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
-    _(164, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQSP_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
+    _(164, EMC, CFG_3, MRR_BYTESEL, EmcCfg3) \
+    _(164, EMC, CFG_3, MRR_BYTESEL_X16, EmcCfg3) \
     _(164, EMC, PMACRO_TX_SEL_CLK_SRC_1, DQSN_TX_SEL_CLK_SRC_BYTE3, EmcPmacroTxSelClkSrc1) \
     _(164, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ0_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(164, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ1_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(164, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ2_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
     _(165, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_2, IB_DDLL_LONG_DQS_RANK1_BYTE4, EmcPmacroIbDdllLongDqsRank1_2) \
     _(165, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_2, IB_DDLL_LONG_DQS_RANK1_BYTE5, EmcPmacroIbDdllLongDqsRank1_2) \
-    _(165, EMC, CFG_3, MRR_BYTESEL, EmcCfg3) \
-    _(165, EMC, CFG_3, MRR_BYTESEL_X16, EmcCfg3) \
-    _(165, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ1_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
-    _(165, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ2_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(165, EMC, PUTERM_WIDTH, CFG_STATIC_TERM, EmcPutermWidth) \
+    _(165, EMC, PUTERM_WIDTH, RXTERM_DURATION, EmcPutermWidth) \
     _(165, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ3_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
     _(165, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ4_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(165, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ5_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(165, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ6_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
     _(166, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_3, IB_DDLL_LONG_DQS_RANK1_BYTE6, EmcPmacroIbDdllLongDqsRank1_3) \
     _(166, EMC, PMACRO_IB_DDLL_LONG_DQS_RANK1_3, IB_DDLL_LONG_DQS_RANK1_BYTE7, EmcPmacroIbDdllLongDqsRank1_3) \
-    _(166, EMC, PUTERM_WIDTH, CFG_STATIC_TERM, EmcPutermWidth) \
-    _(166, EMC, PUTERM_WIDTH, RXTERM_DURATION, EmcPutermWidth) \
-    _(166, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ5_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
-    _(166, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ6_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(166, MC, EMEM_ARB_TIMING_RCD, RCD, McEmemArbTimingRcd) \
     _(166, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ7_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
     _(166, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ8_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(166, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSP_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(166, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSN_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
     _(167, EMC, PMACRO_DDLL_LONG_CMD_0, DDLL_LONG_CMD_CKE0, EmcPmacroDdllLongCmd_0) \
     _(167, EMC, PMACRO_DDLL_LONG_CMD_0, DDLL_LONG_CMD_CKE1, EmcPmacroDdllLongCmd_0) \
-    _(167, MC, EMEM_ARB_TIMING_RCD, RCD, McEmemArbTimingRcd) \
-    _(167, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSP_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
-    _(167, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSN_TX_SEL_CLK_SRC_BYTE6, EmcPmacroTxSelClkSrc3) \
+    _(167, MC, EMEM_ARB_TIMING_CCDMW, CCDMW, McEmemArbTimingCcdmw) \
     _(167, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ0_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
     _(167, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ1_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(167, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ2_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(167, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ3_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
     _(168, EMC, PMACRO_DDLL_LONG_CMD_1, DDLL_LONG_CMD_CKE2, EmcPmacroDdllLongCmd_1) \
     _(168, EMC, PMACRO_DDLL_LONG_CMD_1, DDLL_LONG_CMD_CKE3, EmcPmacroDdllLongCmd_1) \
-    _(168, MC, EMEM_ARB_TIMING_CCDMW, CCDMW, McEmemArbTimingCcdmw) \
-    _(168, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ2_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
-    _(168, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ3_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(168, MC, EMEM_ARB_OVERRIDE, ARB_EMEM_AP_OVERRIDE, McEmemArbOverride) \
+    _(168, MC, EMEM_ARB_OVERRIDE, ARB_HUM_FIFO_OVERRIDE, McEmemArbOverride) \
+    _(168, MC, EMEM_ARB_OVERRIDE, ALLOC_ONE_BQ_PER_CLIENT, McEmemArbOverride) \
+    _(168, MC, EMEM_ARB_OVERRIDE, OBSERVED_DIRECTION_OVERRIDE, McEmemArbOverride) \
+    _(168, MC, EMEM_ARB_OVERRIDE, EXPIRE_UPDATE_OVERRIDE, McEmemArbOverride) \
+    _(168, MC, EMEM_ARB_OVERRIDE, GPU_SLICE_MERGE_OVERRIDE, McEmemArbOverride) \
     _(168, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ4_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
     _(168, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ5_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(168, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ6_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(168, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ7_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
     _(169, EMC, PMACRO_DDLL_LONG_CMD_2, DDLL_LONG_CMD_CKE4, EmcPmacroDdllLongCmd_2) \
     _(169, EMC, PMACRO_DDLL_LONG_CMD_2, DDLL_LONG_CMD_CKE5, EmcPmacroDdllLongCmd_2) \
-    _(169, MC, EMEM_ARB_OVERRIDE, ARB_EMEM_AP_OVERRIDE, McEmemArbOverride) \
-    _(169, MC, EMEM_ARB_OVERRIDE, ARB_HUM_FIFO_OVERRIDE, McEmemArbOverride) \
-    _(169, MC, EMEM_ARB_OVERRIDE, ALLOC_ONE_BQ_PER_CLIENT, McEmemArbOverride) \
-    _(169, MC, EMEM_ARB_OVERRIDE, OBSERVED_DIRECTION_OVERRIDE, McEmemArbOverride) \
-    _(169, MC, EMEM_ARB_OVERRIDE, EXPIRE_UPDATE_OVERRIDE, McEmemArbOverride) \
-    _(169, MC, EMEM_ARB_OVERRIDE, GPU_SLICE_MERGE_OVERRIDE, McEmemArbOverride) \
-    _(169, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ6_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
-    _(169, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ7_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
-    _(169, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ8_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
-    _(169, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSP_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(169, EMC, RRD, RRD, EmcRrd) \
+    _(169, EMC, REXT, REXT, EmcRext) \
     _(170, EMC, PMACRO_DDLL_LONG_CMD_3, DDLL_LONG_CMD_CKE6, EmcPmacroDdllLongCmd_3) \
     _(170, EMC, PMACRO_DDLL_LONG_CMD_3, DDLL_LONG_CMD_CKE7, EmcPmacroDdllLongCmd_3) \
-    _(170, EMC, RRD, RRD, EmcRrd) \
-    _(170, EMC, REXT, REXT, EmcRext) \
+    _(170, EMC, TCLKSTOP, TCLKSTOP, EmcTClkStop) \
+    _(170, EMC, WEXT, WEXT, EmcWext) \
     _(171, EMC, PMACRO_PERBIT_FGCG_CTRL_0, DQ0_TX_DISABLE_FGCG_BIT_BYTE0, EmcPmacroPerbitFgcgCtrl0) \
     _(171, EMC, PMACRO_PERBIT_FGCG_CTRL_0, DQ1_TX_DISABLE_FGCG_BIT_BYTE0, EmcPmacroPerbitFgcgCtrl0) \
     _(171, EMC, PMACRO_PERBIT_FGCG_CTRL_0, DQ2_TX_DISABLE_FGCG_BIT_BYTE0, EmcPmacroPerbitFgcgCtrl0) \
@@ -4796,8 +4807,10 @@
     _(171, EMC, PMACRO_PERBIT_FGCG_CTRL_0, DQ8_TX_DISABLE_FGCG_BIT_BYTE1, EmcPmacroPerbitFgcgCtrl0) \
     _(171, EMC, PMACRO_PERBIT_FGCG_CTRL_0, DQSP_TX_DISABLE_FGCG_BIT_BYTE1, EmcPmacroPerbitFgcgCtrl0) \
     _(171, EMC, PMACRO_PERBIT_FGCG_CTRL_0, DQSN_TX_DISABLE_FGCG_BIT_BYTE1, EmcPmacroPerbitFgcgCtrl0) \
-    _(171, EMC, TCLKSTOP, TCLKSTOP, EmcTClkStop) \
-    _(171, EMC, WEXT, WEXT, EmcWext) \
+    _(171, EMC, REFCTRL2, REFRESH_PER_DEVICE, EmcRefctrl2) \
+    _(171, EMC, REFCTRL2, REFPB_PD_THRESHOLD, EmcRefctrl2) \
+    _(171, EMC, REFCTRL2, REFPB_VALID, EmcRefctrl2) \
+    _(171, EMC, WE_DURATION, WE_DURATION, EmcWeDuration) \
     _(172, EMC, PMACRO_PERBIT_FGCG_CTRL_1, DQ0_TX_DISABLE_FGCG_BIT_BYTE2, EmcPmacroPerbitFgcgCtrl1) \
     _(172, EMC, PMACRO_PERBIT_FGCG_CTRL_1, DQ1_TX_DISABLE_FGCG_BIT_BYTE2, EmcPmacroPerbitFgcgCtrl1) \
     _(172, EMC, PMACRO_PERBIT_FGCG_CTRL_1, DQ2_TX_DISABLE_FGCG_BIT_BYTE2, EmcPmacroPerbitFgcgCtrl1) \
@@ -4820,10 +4833,11 @@
     _(172, EMC, PMACRO_PERBIT_FGCG_CTRL_1, DQ8_TX_DISABLE_FGCG_BIT_BYTE3, EmcPmacroPerbitFgcgCtrl1) \
     _(172, EMC, PMACRO_PERBIT_FGCG_CTRL_1, DQSP_TX_DISABLE_FGCG_BIT_BYTE3, EmcPmacroPerbitFgcgCtrl1) \
     _(172, EMC, PMACRO_PERBIT_FGCG_CTRL_1, DQSN_TX_DISABLE_FGCG_BIT_BYTE3, EmcPmacroPerbitFgcgCtrl1) \
-    _(172, EMC, REFCTRL2, REFRESH_PER_DEVICE, EmcRefctrl2) \
-    _(172, EMC, REFCTRL2, REFPB_PD_THRESHOLD, EmcRefctrl2) \
-    _(172, EMC, REFCTRL2, REFPB_VALID, EmcRefctrl2) \
-    _(172, EMC, WE_DURATION, WE_DURATION, EmcWeDuration) \
+    _(172, EMC, WS_DURATION, WS_DURATION, EmcWsDuration) \
+    _(172, EMC, PMACRO_PAD_CFG_CTRL, TX_BPS_AUTOCAL_DRVDEC, EmcPmacroPadCfgCtrl) \
+    _(172, EMC, PMACRO_PAD_CFG_CTRL, E_PWRD, EmcPmacroPadCfgCtrl) \
+    _(172, EMC, PMACRO_PAD_CFG_CTRL, TX_SEL_MV_CYCLE, EmcPmacroPadCfgCtrl) \
+    _(172, EMC, PMACRO_PAD_CFG_CTRL, MEM_MODE, EmcPmacroPadCfgCtrl) \
     _(173, EMC, PMACRO_PERBIT_FGCG_CTRL_2, DQ0_TX_DISABLE_FGCG_BIT_BYTE4, EmcPmacroPerbitFgcgCtrl2) \
     _(173, EMC, PMACRO_PERBIT_FGCG_CTRL_2, DQ1_TX_DISABLE_FGCG_BIT_BYTE4, EmcPmacroPerbitFgcgCtrl2) \
     _(173, EMC, PMACRO_PERBIT_FGCG_CTRL_2, DQ2_TX_DISABLE_FGCG_BIT_BYTE4, EmcPmacroPerbitFgcgCtrl2) \
@@ -4846,11 +4860,8 @@
     _(173, EMC, PMACRO_PERBIT_FGCG_CTRL_2, DQ8_TX_DISABLE_FGCG_BIT_BYTE5, EmcPmacroPerbitFgcgCtrl2) \
     _(173, EMC, PMACRO_PERBIT_FGCG_CTRL_2, DQSP_TX_DISABLE_FGCG_BIT_BYTE5, EmcPmacroPerbitFgcgCtrl2) \
     _(173, EMC, PMACRO_PERBIT_FGCG_CTRL_2, DQSN_TX_DISABLE_FGCG_BIT_BYTE5, EmcPmacroPerbitFgcgCtrl2) \
-    _(173, EMC, WS_DURATION, WS_DURATION, EmcWsDuration) \
-    _(173, EMC, PMACRO_PAD_CFG_CTRL, TX_BPS_AUTOCAL_DRVDEC, EmcPmacroPadCfgCtrl) \
-    _(173, EMC, PMACRO_PAD_CFG_CTRL, E_PWRD, EmcPmacroPadCfgCtrl) \
-    _(173, EMC, PMACRO_PAD_CFG_CTRL, TX_SEL_MV_CYCLE, EmcPmacroPadCfgCtrl) \
-    _(173, EMC, PMACRO_PAD_CFG_CTRL, MEM_MODE, EmcPmacroPadCfgCtrl) \
+    _(173, MC, EMEM_ARB_TIMING_RRD, RRD, McEmemArbTimingRrd) \
+    _(173, MC, EMEM_ARB_TIMING_R2R, R2R, McEmemArbTimingR2R) \
     _(174, EMC, PMACRO_PERBIT_FGCG_CTRL_3, DQ0_TX_DISABLE_FGCG_BIT_BYTE6, EmcPmacroPerbitFgcgCtrl3) \
     _(174, EMC, PMACRO_PERBIT_FGCG_CTRL_3, DQ1_TX_DISABLE_FGCG_BIT_BYTE6, EmcPmacroPerbitFgcgCtrl3) \
     _(174, EMC, PMACRO_PERBIT_FGCG_CTRL_3, DQ2_TX_DISABLE_FGCG_BIT_BYTE6, EmcPmacroPerbitFgcgCtrl3) \
@@ -4873,8 +4884,12 @@
     _(174, EMC, PMACRO_PERBIT_FGCG_CTRL_3, DQ8_TX_DISABLE_FGCG_BIT_BYTE7, EmcPmacroPerbitFgcgCtrl3) \
     _(174, EMC, PMACRO_PERBIT_FGCG_CTRL_3, DQSP_TX_DISABLE_FGCG_BIT_BYTE7, EmcPmacroPerbitFgcgCtrl3) \
     _(174, EMC, PMACRO_PERBIT_FGCG_CTRL_3, DQSN_TX_DISABLE_FGCG_BIT_BYTE7, EmcPmacroPerbitFgcgCtrl3) \
-    _(174, MC, EMEM_ARB_TIMING_RRD, RRD, McEmemArbTimingRrd) \
-    _(174, MC, EMEM_ARB_TIMING_R2R, R2R, McEmemArbTimingR2R) \
+    _(174, MC, EMEM_ARB_TIMING_W2W, W2W, McEmemArbTimingW2W) \
+    _(174, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQ8_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(174, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSP_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(174, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSN_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
+    _(174, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ0_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(174, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ1_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
     _(175, EMC, PMACRO_PERBIT_FGCG_CTRL_4, DQ0_TX_DISABLE_FGCG_BIT_CMD0, EmcPmacroPerbitFgcgCtrl4) \
     _(175, EMC, PMACRO_PERBIT_FGCG_CTRL_4, DQ1_TX_DISABLE_FGCG_BIT_CMD0, EmcPmacroPerbitFgcgCtrl4) \
     _(175, EMC, PMACRO_PERBIT_FGCG_CTRL_4, DQ2_TX_DISABLE_FGCG_BIT_CMD0, EmcPmacroPerbitFgcgCtrl4) \
@@ -4897,12 +4912,16 @@
     _(175, EMC, PMACRO_PERBIT_FGCG_CTRL_4, DQ8_TX_DISABLE_FGCG_BIT_CMD1, EmcPmacroPerbitFgcgCtrl4) \
     _(175, EMC, PMACRO_PERBIT_FGCG_CTRL_4, DQSP_TX_DISABLE_FGCG_BIT_CMD1, EmcPmacroPerbitFgcgCtrl4) \
     _(175, EMC, PMACRO_PERBIT_FGCG_CTRL_4, DQSN_TX_DISABLE_FGCG_BIT_CMD1, EmcPmacroPerbitFgcgCtrl4) \
-    _(175, MC, EMEM_ARB_TIMING_W2W, W2W, McEmemArbTimingW2W) \
-    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_3, DQSN_TX_SEL_CLK_SRC_BYTE7, EmcPmacroTxSelClkSrc3) \
-    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ0_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ1_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
     _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ2_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
     _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ3_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ4_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ5_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ6_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ7_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ8_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSP_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSN_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
+    _(175, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ0_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
     _(176, EMC, PMACRO_PERBIT_FGCG_CTRL_5, DQ0_TX_DISABLE_FGCG_BIT_CMD2, EmcPmacroPerbitFgcgCtrl5) \
     _(176, EMC, PMACRO_PERBIT_FGCG_CTRL_5, DQ1_TX_DISABLE_FGCG_BIT_CMD2, EmcPmacroPerbitFgcgCtrl5) \
     _(176, EMC, PMACRO_PERBIT_FGCG_CTRL_5, DQ2_TX_DISABLE_FGCG_BIT_CMD2, EmcPmacroPerbitFgcgCtrl5) \
@@ -4925,30 +4944,30 @@
     _(176, EMC, PMACRO_PERBIT_FGCG_CTRL_5, DQ8_TX_DISABLE_FGCG_BIT_CMD3, EmcPmacroPerbitFgcgCtrl5) \
     _(176, EMC, PMACRO_PERBIT_FGCG_CTRL_5, DQSP_TX_DISABLE_FGCG_BIT_CMD3, EmcPmacroPerbitFgcgCtrl5) \
     _(176, EMC, PMACRO_PERBIT_FGCG_CTRL_5, DQSN_TX_DISABLE_FGCG_BIT_CMD3, EmcPmacroPerbitFgcgCtrl5) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ4_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ5_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ6_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ7_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ8_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSP_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSN_TX_SEL_CLK_SRC_BYTE4, EmcPmacroTxSelClkSrc2) \
-    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ0_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
     _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ1_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
     _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ2_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ3_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ4_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ5_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ6_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ7_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ8_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSP_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
+    _(176, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSN_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
     _(177, MC, EMEM_ARB_CFG, CYCLES_PER_UPDATE, McEmemArbCfg) \
     _(177, MC, EMEM_ARB_CFG, EXTRA_TICKS_PER_UPDATE, McEmemArbCfg) \
     _(177, MC, EMEM_ARB_CFG, CYCLES_PER_UPDATE_FRACTION, McEmemArbCfg) \
     _(177, MC, EMEM_ARB_CFG, EXTRA_TICKS_PER_UPDATE_FRACTION, McEmemArbCfg) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ3_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ4_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ5_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ6_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ7_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQ8_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSP_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
-    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_2, DQSN_TX_SEL_CLK_SRC_BYTE5, EmcPmacroTxSelClkSrc2) \
     _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ0_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
     _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ1_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ2_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ3_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ4_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ5_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ6_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ7_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ8_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
+    _(177, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSP_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
     _(178, MC, EMEM_ARB_MISC1, BLOCK_LP_CPU_RD_IF_SMMU_INP_HP, McEmemArbMisc1) \
     _(178, MC, EMEM_ARB_MISC1, ALLOW_BCA_HOLDOFF_WHEN_EXP, McEmemArbMisc1) \
     _(178, MC, EMEM_ARB_MISC1, BLOCK_LP_CPU_WR_IF_SMMU_INP_HP, McEmemArbMisc1) \
@@ -4957,40 +4976,34 @@
     _(178, MC, EMEM_ARB_MISC1, EXPIRING_SOON_SLACK_THRESHOLD_PD, McEmemArbMisc1) \
     _(178, MC, EMEM_ARB_MISC1, REFRESH_ACK_THRESHOLD_USAGE, McEmemArbMisc1) \
     _(178, MC, EMEM_ARB_MISC1, DEADLOCK_PREVENTION_SLACK_THRESHOLD, McEmemArbMisc1) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ2_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ3_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ4_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ5_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ6_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ7_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ8_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
-    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSP_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
     _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSN_TX_SEL_CLK_SRC_CMD0, EmcPmacroTxSelClkSrc4) \
     _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ0_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ1_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ2_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ3_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ4_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ5_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ6_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ7_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(178, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ8_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
     _(179, EMC, MRS_WAIT_CNT2, MRS_EXT1_WAIT_CNT, EmcMrsWaitCnt2) \
     _(179, EMC, MRS_WAIT_CNT2, MRS_EXT2_WAIT_CNT, EmcMrsWaitCnt2) \
-    _(179, EMC, PMACRO_IB_RXRT, IB_RXRT, EmcPmacroIbRxrt) \
+    _(179, EMC, ODT_WRITE, ODT_WR_DELAY, EmcOdtWrite) \
+    _(179, EMC, ODT_WRITE, DRIVE_BOTH_ODT, EmcOdtWrite) \
+    _(179, EMC, ODT_WRITE, SHARE_ONE_ODT, EmcOdtWrite) \
+    _(179, EMC, ODT_WRITE, ODT_WR_DURATION, EmcOdtWrite) \
+    _(179, EMC, ODT_WRITE, ENABLE_ODT_DURING_WRITE, EmcOdtWrite) \
     _(180, EMC, MRS_WAIT_CNT, MRS_SHORT_WAIT_CNT, EmcMrsWaitCnt) \
     _(180, EMC, MRS_WAIT_CNT, MRS_LONG_WAIT_CNT, EmcMrsWaitCnt) \
-    _(180, EMC, PMACRO_DDLL_LONG_CMD_4, DDLL_LONG_CMD_RESET, EmcPmacroDdllLongCmd_4) \
+    _(180, EMC, PMACRO_IB_RXRT, IB_RXRT, EmcPmacroIbRxrt) \
     _(181, EMC, AUTO_CAL_INTERVAL, AUTO_CAL_INTERVAL, EmcAutoCalInterval) \
-    _(181, MC, EMEM_ARB_OUTSTANDING_REQ, ARB_MAX_OUTSTANDING, McEmemArbOutstandingReq) \
-    _(181, MC, EMEM_ARB_OUTSTANDING_REQ, LIMIT_DURING_HOLDOFF_OVERRIDE, McEmemArbOutstandingReq) \
-    _(181, MC, EMEM_ARB_OUTSTANDING_REQ, LIMIT_OUTSTANDING, McEmemArbOutstandingReq) \
+    _(181, EMC, PMACRO_DDLL_LONG_CMD_4, DDLL_LONG_CMD_RESET, EmcPmacroDdllLongCmd_4) \
     _(182, MC, EMEM_ARB_REFPB_HP_CTRL, REFPB_THRESH_ENABLE_HP, McEmemArbRefpbHpCtrl) \
     _(182, MC, EMEM_ARB_REFPB_HP_CTRL, REFPB_THRESH_DISABLE_HP, McEmemArbRefpbHpCtrl) \
     _(182, MC, EMEM_ARB_REFPB_HP_CTRL, REFPB_OPEN_WORK_THRESH, McEmemArbRefpbHpCtrl) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ1_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ2_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ3_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ4_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ5_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ6_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ7_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQ8_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSP_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSN_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
-    _(182, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ0_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(182, MC, EMEM_ARB_OUTSTANDING_REQ, ARB_MAX_OUTSTANDING, McEmemArbOutstandingReq) \
+    _(182, MC, EMEM_ARB_OUTSTANDING_REQ, LIMIT_DURING_HOLDOFF_OVERRIDE, McEmemArbOutstandingReq) \
+    _(182, MC, EMEM_ARB_OUTSTANDING_REQ, LIMIT_OUTSTANDING, McEmemArbOutstandingReq) \
     _(183, EMC, XM2COMPPADCTRL2, EMC2TMC_CFG_XM2COMP_PU_RX_MODE, EmcXm2CompPadCtrl2) \
     _(183, EMC, XM2COMPPADCTRL2, EMC2TMC_CFG_XM2COMP_PU_TEST_MODE, EmcXm2CompPadCtrl2) \
     _(183, EMC, XM2COMPPADCTRL2, EMC2TMC_CFG_XM2COMP_PU_DRVUP_ZCTRL, EmcXm2CompPadCtrl2) \
@@ -5099,7 +5112,7 @@
     _(192, EMC, PMACRO_AUTOCAL_CFG_COMMON, E_CAL_UPDATE_DELAY, EmcPmacroAutocalCfgCommon) \
     _(192, EMC, PMACRO_AUTOCAL_CFG_COMMON, E_CAL_UPDATE_HIGH, EmcPmacroAutocalCfgCommon) \
     _(192, EMC, PMACRO_AUTOCAL_CFG_COMMON, E_CAL_BYPASS_DVFS, EmcPmacroAutocalCfgCommon) \
-    _(192, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ1_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(192, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSP_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
     _(193, EMC, PMACRO_DLL_CFG_1, DDLLCAL_CTRL_START_TRIM, EmcPmacroDllCfg1) \
     _(193, EMC, PMACRO_DLL_CFG_1, E_DDLL_PWRD, EmcPmacroDllCfg1) \
     _(193, EMC, PMACRO_DLL_CFG_1, MDDLL_SEL_CLK_SRC, EmcPmacroDllCfg1) \
@@ -5113,8 +5126,8 @@
     _(193, EMC, PMACRO_PERBIT_RFU1_CTRL_2, DQ8_RFU_BYTE5, EmcPmacroPerbitRfu1Ctrl2) \
     _(193, EMC, PMACRO_PERBIT_RFU1_CTRL_2, DQSP_RFU_BYTE5, EmcPmacroPerbitRfu1Ctrl2) \
     _(193, EMC, PMACRO_PERBIT_RFU1_CTRL_2, DQSN_RFU_BYTE5, EmcPmacroPerbitRfu1Ctrl2) \
-    _(193, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ2_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
-    _(193, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ3_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(193, EMC, PMACRO_TX_SEL_CLK_SRC_4, DQSN_TX_SEL_CLK_SRC_CMD1, EmcPmacroTxSelClkSrc4) \
+    _(193, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ0_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
     _(194, EMC, PMACRO_CMD_BRICK_CTRL_FDPD, CMD_BRICK_CTRL_FDPD_RFU_PHASE_BIT0, EmcPmacroCmdBrickCtrlFdpd) \
     _(194, EMC, PMACRO_CMD_BRICK_CTRL_FDPD, CMD_BRICK_CTRL_FDPD_RFU_PHASE_BIT1, EmcPmacroCmdBrickCtrlFdpd) \
     _(194, EMC, PMACRO_CMD_BRICK_CTRL_FDPD, CMD_BRICK_CTRL_FDPD_RFU_PHASE_BIT2, EmcPmacroCmdBrickCtrlFdpd) \
@@ -5130,8 +5143,8 @@
     _(194, EMC, PMACRO_PERBIT_RFU1_CTRL_3, DQ8_RFU_BYTE7, EmcPmacroPerbitRfu1Ctrl3) \
     _(194, EMC, PMACRO_PERBIT_RFU1_CTRL_3, DQSP_RFU_BYTE7, EmcPmacroPerbitRfu1Ctrl3) \
     _(194, EMC, PMACRO_PERBIT_RFU1_CTRL_3, DQSN_RFU_BYTE7, EmcPmacroPerbitRfu1Ctrl3) \
-    _(194, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ4_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
-    _(194, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ5_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(194, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ1_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(194, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ2_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
     _(195, EMC, PMACRO_DATA_BRICK_CTRL_FDPD, DATA_BRICK_CTRL_FDPD_RFU_PHASE_BIT0, EmcPmacroDataBrickCtrlFdpd) \
     _(195, EMC, PMACRO_DATA_BRICK_CTRL_FDPD, DATA_BRICK_CTRL_FDPD_RFU_PHASE_BIT1, EmcPmacroDataBrickCtrlFdpd) \
     _(195, EMC, PMACRO_DATA_BRICK_CTRL_FDPD, DATA_BRICK_CTRL_FDPD_RFU_PHASE_BIT2, EmcPmacroDataBrickCtrlFdpd) \
@@ -5147,8 +5160,8 @@
     _(195, EMC, PMACRO_PERBIT_RFU1_CTRL_4, DQ8_RFU_CMD1, EmcPmacroPerbitRfu1Ctrl4) \
     _(195, EMC, PMACRO_PERBIT_RFU1_CTRL_4, DQSP_RFU_CMD1, EmcPmacroPerbitRfu1Ctrl4) \
     _(195, EMC, PMACRO_PERBIT_RFU1_CTRL_4, DQSN_RFU_CMD1, EmcPmacroPerbitRfu1Ctrl4) \
-    _(195, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ6_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
-    _(195, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ7_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(195, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ3_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(195, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ4_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
     _(196, EMC, DYN_SELF_REF_CONTROL, DSR_THRESHOLD, EmcDynSelfRefControl) \
     _(196, EMC, DYN_SELF_REF_CONTROL, DSR_PER_DEVICE, EmcDynSelfRefControl) \
     _(196, MC, EMEM_ARB_REFPB_BANK_CTRL, REFPB_THRESH_ENABLE_FORCE_CLOSE, McEmemArbRefpbBankCtrl) \
@@ -5169,9 +5182,9 @@
     _(197, EMC, PMACRO_PERBIT_RFU1_CTRL_5, DQ8_RFU_CMD3, EmcPmacroPerbitRfu1Ctrl5) \
     _(197, EMC, PMACRO_PERBIT_RFU1_CTRL_5, DQSP_RFU_CMD3, EmcPmacroPerbitRfu1Ctrl5) \
     _(197, EMC, PMACRO_PERBIT_RFU1_CTRL_5, DQSN_RFU_CMD3, EmcPmacroPerbitRfu1Ctrl5) \
-    _(197, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ8_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
-    _(197, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQSP_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
-    _(197, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQSN_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(197, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ5_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(197, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ6_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(197, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ7_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
     _(198, EMC, PMACRO_DATA_PAD_RX_CTRL, DATA_DQ_RX_MODE, EmcPmacroDataPadRxCtrl) \
     _(198, EMC, PMACRO_DATA_PAD_RX_CTRL, DATA_DQS_RX_MODE, EmcPmacroDataPadRxCtrl) \
     _(198, EMC, PMACRO_DATA_PAD_RX_CTRL, DATA_DQS_RX_E_DIFF_MODE, EmcPmacroDataPadRxCtrl) \
@@ -5181,6 +5194,9 @@
     _(198, EMC, PMACRO_DATA_PAD_RX_CTRL, DATA_DQ_RX_E_DIRECT_ZI, EmcPmacroDataPadRxCtrl) \
     _(198, EMC, PMACRO_DATA_PAD_RX_CTRL, DATA_CMD_RX_E_DIRECT_ZI, EmcPmacroDataPadRxCtrl) \
     _(198, EMC, PMACRO_DATA_PAD_RX_CTRL, DATA_DQ_RX_CTRL, EmcPmacroDataPadRxCtrl) \
+    _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ8_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQSP_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
+    _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQSN_TX_SEL_CLK_SRC_CMD2, EmcPmacroTxSelClkSrc5) \
     _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ0_TX_SEL_CLK_SRC_CMD3, EmcPmacroTxSelClkSrc5) \
     _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ1_TX_SEL_CLK_SRC_CMD3, EmcPmacroTxSelClkSrc5) \
     _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQ2_TX_SEL_CLK_SRC_CMD3, EmcPmacroTxSelClkSrc5) \
@@ -5193,9 +5209,6 @@
     _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQSP_TX_SEL_CLK_SRC_CMD3, EmcPmacroTxSelClkSrc5) \
     _(198, EMC, PMACRO_TX_SEL_CLK_SRC_5, DQSN_TX_SEL_CLK_SRC_CMD3, EmcPmacroTxSelClkSrc5) \
     _(198, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_E_IVREF, EmcPmacroCmdPadTxCtrl) \
-    _(198, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_TX_E_WKPD, EmcPmacroCmdPadTxCtrl) \
-    _(198, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_TX_E_WKPU, EmcPmacroCmdPadTxCtrl) \
-    _(198, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQS_E_IVREF, EmcPmacroCmdPadTxCtrl) \
     _(199, EMC, REFRESH, REFRESH_LO, EmcRefresh) \
     _(199, EMC, REFRESH, REFRESH, EmcRefresh) \
     _(199, EMC, CMDQ, RW_DEPTH, EmcCmdQ) \
@@ -5290,6 +5303,9 @@
     _(215, EMC, PMACRO_CMD_PI_CTRL, CMD_DQS_TX_PI_CTRL, EmcPmacroCmdPiCtrl) \
     _(215, EMC, PMACRO_CMD_PI_CTRL, CMD_DQS_TX_PI_PWRD, EmcPmacroCmdPiCtrl) \
     _(215, EMC, PMACRO_CMD_PI_CTRL, CMD_PI_OFFSET, EmcPmacroCmdPiCtrl) \
+    _(216, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_TX_E_WKPD, EmcPmacroCmdPadTxCtrl) \
+    _(216, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQ_TX_E_WKPU, EmcPmacroCmdPadTxCtrl) \
+    _(216, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQS_E_IVREF, EmcPmacroCmdPadTxCtrl) \
     _(216, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQSP_TX_E_WKPD, EmcPmacroCmdPadTxCtrl) \
     _(216, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQSP_TX_E_WKPU, EmcPmacroCmdPadTxCtrl) \
     _(216, EMC, PMACRO_CMD_PAD_TX_CTRL, CMD_DQSN_TX_E_WKPD, EmcPmacroCmdPadTxCtrl) \
@@ -5470,10 +5486,10 @@
     _(75, NvU32, OVERRIDE_PLLM_MISC2_ALIAS_0, ClkRstControllerPllmMisc2OverrideEnable) \
     _(75, NvU32, EMC_DBG_WRITE_MUX, EmcDbgWriteMux) \
     _(75, NvU32, AHB_ARBITRATION_XBAR_CTRL_0_MEM_INIT_DONE, AhbArbitrationXbarCtrlMemInitDone) \
-    _(91, NvU32, EMC_TIMING_CONTROL_WAIT, EmcTimingControlWait) \
-    _(92, NvU32, EMC_ZCAL_WARM_BOOT_WAIT, EmcZcalWarmBootWait) \
-    _(93, NvU32, WARM_BOOT_WAIT, WarmBootWait) \
-    _(94, NvU32, EMC_PIN_PROGRAM_WAIT, EmcPinProgramWait) \
+    _(90, NvU32, EMC_TIMING_CONTROL_WAIT, EmcTimingControlWait) \
+    _(91, NvU32, EMC_ZCAL_WARM_BOOT_WAIT, EmcZcalWarmBootWait) \
+    _(92, NvU32, WARM_BOOT_WAIT, WarmBootWait) \
+    _(93, NvU32, EMC_PIN_PROGRAM_WAIT, EmcPinProgramWait) \
     _(114, NvU32, EMC_AUTO_CAL_TIME, EmcAutoCalWait) \
     _(215, NvU32, SWIZZLE_RANK_BYTE_ENCODE, SwizzleRankByteEncode) \
 

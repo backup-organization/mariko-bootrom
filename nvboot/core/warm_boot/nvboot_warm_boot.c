@@ -284,37 +284,42 @@ NvBootError NvBootWarmBootUnPackSdramStartPllm()
     NvU32 pllXEnable = 0;
     NvBootError e;
 
-    // Initialize everything needed to restore SDRAM accesses.
-/// TODO: PLLM is a different pll. Therefore, corresponding CAR registers and range constants
-/// for these registers are also different and need to be fixed.
-    // Extract the PLLM related parameters.
-    RegVal = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SCRATCH2_0);
-    M = NV_DRF_VAL(APBDEV_PMC, SCRATCH2, CLK_RST_CONTROLLER_PLLM_BASE_0_PLLM_DIVM, RegVal);
-    N = NV_DRF_VAL(APBDEV_PMC, SCRATCH2, CLK_RST_CONTROLLER_PLLM_BASE_0_PLLM_DIVN, RegVal);
-    P = NV_DRF_VAL(APBDEV_PMC, SCRATCH2, CLK_RST_CONTROLLER_PLLM_BASE_0_PLLM_DIVP, RegVal);
+    NV_BOOT_CHECK_ERROR(NvBootWb0UnpackSdramParams(s_sdRamParamData));
+
+    // Enable Mem clk per Boot GFD. Reference section 1.6, 1.11.
+    // Preserve DRAM = true for SC7.
+    // If PreserveDRAM is true, the following function can only be called after 
+    // unpacking SDRAM parameters.
+    NvBootEnableMemClk (s_sdRamParamData, NV_TRUE);
+    
+    // Only start PLLM if required
+    RegVal = NV_DRF_VAL(CLK_RST_CONTROLLER,
+                                 CLK_SOURCE_EMC,
+                                 EMC_2X_CLK_SRC,
+                                 s_sdRamParamData->EmcClockSource);
+    
+    if((RegVal == CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_2X_CLK_SRC_PLLM_UD)   ||
+       (RegVal == CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0_EMC_2X_CLK_SRC_PLLM_OUT0))
+    {
+    
     // PLLM KVCO, KCP etc.
     Misc2 = NV_DRF_NUM(MISC2, CLK_RST_CONTROLLER_PLLM_MISC2, PLLM_KVCO, \
-                NV_DRF_VAL(APBDEV_PMC, SCRATCH2, CLK_RST_CONTROLLER_PLLM_MISC2_0_PLLM_KVCO, RegVal)) | \
+                    s_sdRamParamData->PllMKVCO) | \
             NV_DRF_NUM(MISC2, CLK_RST_CONTROLLER_PLLM_MISC2, PLLM_KCP, \
-                NV_DRF_VAL(APBDEV_PMC, SCRATCH2, CLK_RST_CONTROLLER_PLLM_MISC2_0_PLLM_KCP, RegVal));
+                    s_sdRamParamData->PllMKCP);
 
-    RegVal = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SCRATCH35_0);
     Misc1 = NV_DRF_NUM(MISC1, CLK_RST_CONTROLLER_PLLM_MISC1, PLLM_SETUP, \
-                NV_DRF_VAL(APBDEV_PMC, SCRATCH35, CLK_RST_CONTROLLER_PLLM_MISC1_0_PLLM_SETUP, RegVal));
+                    s_sdRamParamData->PllMSetupControl);
 
-    // Read the start time delays
-    RegVal = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SCRATCH4_0);
-    pllXStabilizationDelay = NV_DRF_VAL(APBDEV_PMC, SCRATCH4, PLLX_STABLE_TIME,
-                                       RegVal);
-    pllMStabilizationDelay = NV_DRF_VAL(APBDEV_PMC, SCRATCH4, PLLM_STABLE_TIME,
-                                       RegVal);
+        pllMStabilizationDelay = s_sdRamParamData->PllMStableTime;
 
     // If PLLM auto-restart is enabled, skip the starting of PLLM.
     if(!(NvBootPmcIsPllmOverrideEnabled()))
     {
         // Start PLLM for EMC/MC
-        ///TODO scratch is not updated for all the PLLM params
-        NvBootClocksStartPll(NvBootClocksPllId_PllM, M, N, P, Misc1, Misc2, \
+            NvBootClocksStartPll(NvBootClocksPllId_PllM, s_sdRamParamData->PllMInputDivider,
+                                                         s_sdRamParamData->PllMFeedbackDivider,
+                                                         s_sdRamParamData->PllMPostDivider, Misc1, Misc2, \
                              &pllMStableTime);
     }
     else
@@ -329,14 +334,9 @@ NvBootError NvBootWarmBootUnPackSdramStartPllm()
     pllMStableTime = NV_READ32(NV_ADDRESS_MAP_TMRUS_BASE +
                                TIMERUS_CNTR_1US_0) +
         pllMStabilizationDelay;
-
-    s_sdRamParamData->PllMInputDivider = M ;
-    s_sdRamParamData->PllMFeedbackDivider = N;
-    s_sdRamParamData->PllMPostDivider = P;
-    s_sdRamParamData->PllMKVCO = NV_DRF_VAL(MISC2, CLK_RST_CONTROLLER_PLLM_MISC2, PLLM_KVCO, Misc2);
-    s_sdRamParamData->PllMKCP = NV_DRF_VAL(MISC2, CLK_RST_CONTROLLER_PLLM_MISC2, PLLM_KCP, Misc2);
-    s_sdRamParamData->PllMSetupControl = NV_DRF_VAL(MISC1, CLK_RST_CONTROLLER_PLLM_MISC1, PLLM_SETUP, Misc1);
-    s_sdRamParamData->PllMStableTime = pllMStableTime ;
+        // Poll for PLLM lock bit and timeout on polling loop
+        while (!(NvBootClocksIsPllStable(NvBootClocksPllId_PllM, pllMStableTime)));
+    }
 
     // start PLLX using data in PMC
     // extract the PLLX data from PMC
@@ -345,6 +345,10 @@ NvBootError NvBootWarmBootUnPackSdramStartPllm()
     pllXEnable = NV_DRF_VAL(APBDEV_PMC, SCRATCH3, CLK_RST_CONTROLLER_PLLX_ENABLE, RegVal);
     if(pllXEnable)
     {
+        RegVal = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SCRATCH4_0);
+        pllXStabilizationDelay = NV_DRF_VAL(APBDEV_PMC, SCRATCH4, PLLX_STABLE_TIME,
+                                       RegVal);
+    
         M = NV_DRF_VAL(APBDEV_PMC, SCRATCH3, CLK_RST_CONTROLLER_PLLX_BASE_0_PLLX_DIVM, RegVal);
         N = NV_DRF_VAL(APBDEV_PMC, SCRATCH3, CLK_RST_CONTROLLER_PLLX_BASE_0_PLLX_DIVN, RegVal);
         P = NV_DRF_VAL(APBDEV_PMC, SCRATCH3, CLK_RST_CONTROLLER_PLLX_BASE_0_PLLX_DIVP, RegVal);
@@ -370,10 +374,6 @@ NvBootError NvBootWarmBootUnPackSdramStartPllm()
 
     }
 
-    // Poll for PLLM lock bit and timeout on polling loop
-    while (!(NvBootClocksIsPllStable(NvBootClocksPllId_PllM, pllMStableTime)));
-
-    NV_BOOT_CHECK_ERROR(NvBootWb0UnpackSdramParams(s_sdRamParamData));
 
     return NvBootError_Success;
 }
@@ -428,7 +428,11 @@ NvBootError NvBootWarmBootOemProcessRecoveryCode()
     //                                           then mitigation is not useful.
     e_auth_result = NvBootCryptoMgrOemAuthSc7Fw(OemSc7Header);
     if(e_auth_result != NvBootError_Success)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
         return e_auth_result;
+    }
     FI_counter1 += COUNTER1;
 
     // Random delay before re-checking e. Should never return an error. No response sent
@@ -437,7 +441,11 @@ NvBootError NvBootWarmBootOemProcessRecoveryCode()
 
     // FI mitigation, double check e_auth_result. It must be success.
     if(e_auth_result != NvBootError_Success)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
         return e_auth_result;
+    }
     FI_counter1 += COUNTER1;
 
     // Re-initialize e to a non success value.
@@ -466,7 +474,11 @@ NvBootError NvBootWarmBootOemProcessRecoveryCode()
     // Check if function counter is the expected value. If not, some instruction skipping might
     // have occurred.
     if(FI_counter1 != COUNTER1 * NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS)
-        do_exception();
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return NvBootError_Fault_Injection_Detection;
+    }
 
     // Decrement function counter.
     FI_counter1 -= COUNTER1 * NvBootWarmBootOemProcessRecoveryCode_COUNTER_STEPS;
@@ -476,8 +488,12 @@ NvBootError NvBootWarmBootOemProcessRecoveryCode()
 
     // Re-check counter.
     if(FI_counter1 != 0)
-        do_exception();
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
+        return NvBootError_Fault_Injection_Detection;
+    }
 
-    return NvBootError_Success;
+    return (e|e_auth_result);
 }
 

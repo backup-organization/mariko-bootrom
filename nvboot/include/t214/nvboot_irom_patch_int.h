@@ -75,8 +75,8 @@ NvU32 NvBootGetSwCYA(void);
 // NVBOOT_SW_CYA_AHB_COHERENCY_DISABLE = 1 means coherency check disabled.
 #define NVBOOT_SW_CYA_AHB_COHERENCY_DISABLE  (1 << 6)
 
-// Disable OSC_CLK input for UTMIP. Use PLLU instead.
-#define NVBOOT_SW_CYA_USE_PLLU_SRC_UTMIP (1 << 7)
+// Make RNG SRC use LSFR instead of Entropy
+#define NVBOOT_SW_CYA_RNG_SRC_LFSR (1<<7)
 
 // PLL auto-restart CYAs. PLLx_OVERRIDE_ENABLE
 // NVBOOT_SW_CYA_PLLP_OVERRIDE_ENABLE = 0 means set PLLP_OVERRIDE_ENABLE to 0
@@ -105,7 +105,6 @@ NvU32 NvBootGetSwCYA(void);
 // NVBOOT_SW_CYA_WDT_RST_DISABLE = 1 , do not issue second reset
 // NVBOOT_SW_CYA_WDT_RST_DISABLE = 0 , issue second reset
 #define NVBOOT_SW_CYA_WDT_RST_DISABLE (1<<15)
-
 
 
 

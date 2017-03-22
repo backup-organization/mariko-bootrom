@@ -21,10 +21,10 @@
 #include "project.h"
 
 #define MAX_FAULTS      0xffffff
-#define PERSIST_REG     APBDEV_PMC_SCRATCH128_0
+#define PERSIST_REG     APBDEV_PMC_SECURE_SCRATCH124_0
 
-#define FUSE_RESERVED_SW_0_NOBOOT_RANGE     15:15
-#define FUSE_RESERVED_ODM25_0_RMA_RANGE     15:15
+#define FUSE_RESERVED_SW_0_NOBOOT_RANGE     9:9
+#define FUSE_RESERVED_FIELD_0_RMA_RANGE     1:0
 
 static uint32_t FT_NONSECURE LoadFaultCounter(void)
 {
@@ -50,8 +50,8 @@ void FT_NONSECURE NvBootCheckRMAStatus(void)
 
     RegData = NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_RESERVED_SW_0);
     if (NV_DRF_VAL(FUSE, RESERVED_SW, NOBOOT, RegData)) {
-        RegData = NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_RESERVED_ODM25_0);
-        if (NV_DRF_VAL(FUSE, RESERVED_ODM25, RMA, RegData))
+        RegData = NV_READ32(NV_ADDRESS_MAP_FUSE_BASE + FUSE_RESERVED_FIELD_0);
+        if (NV_DRF_VAL(FUSE, RESERVED_FIELD, RMA, RegData))
             do_exception();
     }
 }

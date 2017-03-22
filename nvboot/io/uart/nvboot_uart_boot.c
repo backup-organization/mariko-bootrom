@@ -25,7 +25,6 @@
 #include "nvboot_fuse_int.h"
 #include "nvboot_util_int.h"
 #include "nvboot_reset_int.h"
-//FIXME #include "nvboot_bpmp_int.h"
 #include "nvboot_strap_int.h"
 #include "nvboot_bpmp_int.h"
 
@@ -174,12 +173,7 @@ void FT_NONSECURE NvBootUartDownload_internal (NvBootClocksOscFreq OscFreq)
     BootInfoTable.SdramInitialized = NV_FALSE;
     BootInfoTable.BctValid         = NV_FALSE;
     BootInfoTable.SafeStartAddr    = (uintptr_t) &BootConfigTable;
-#ifdef DO_COVERAGE
-#if DO_COVERAGE
-        void codecov_dump(void);
-        codecov_dump();
-#endif
-#endif
+
     // need same trick as for boot mainline code, need to encapsulate in line assembler function
     NvBootUartJump((uintptr_t) &BootConfigTable);
         // should never get here.

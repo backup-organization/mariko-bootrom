@@ -325,6 +325,8 @@ Validate(NvBootRcmMsg *pRcmMsg)
         FI_counter1 += COUNTER1;
         if(e_auth_result != NvBootError_Success)
         {
+            /// Introduces code distance between error detection and response.
+            FI_ADD_DISTANCE_STEP(2);
             HandleError(NvBootRcmResponse_HashOrSignatureCheckFailed);
             return e_auth_result;
         }
@@ -337,13 +339,18 @@ Validate(NvBootRcmMsg *pRcmMsg)
         if(e_auth_result != NvBootError_Success)
         {
             HandleError(NvBootRcmResponse_HashOrSignatureCheckFailed);
+            /// Introduces code distance between error detection and response.
+            FI_ADD_DISTANCE_STEP(2);
             return e_auth_result;
         }
 
-        // Decrypt message in encrypted. Cryptomgr will sense this from fuses and
-        // do the needful.
+        // Decrypt message if encrypted. Cryptomgr will sense this from fuses and
+        // decrypt if needed.
         e = NvBootCryptoMgrOemDecryptRcmPayload(pRcmMsg);
                                 
+        // Ideally e_auth_result will be NvBootError_Success at this point
+        e|= e_auth_result;
+
         if(e != NvBootError_Success)
         {
             HandleError(NvBootRcmResponse_DecryptionError);
@@ -433,7 +440,11 @@ Validate(NvBootRcmMsg *pRcmMsg)
     // Check if function counter is the expected value. If not, some instruction skipping might
     // have occurred.
     if(FI_counter1 != COUNTER1 * RcmValidate_COUNTER_STEPS)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
         return NvBootError_Fault_Injection_Detection;
+    }
 
     // Decrement function counter.
     FI_counter1 -= COUNTER1 * RcmValidate_COUNTER_STEPS;
@@ -443,9 +454,13 @@ Validate(NvBootRcmMsg *pRcmMsg)
 
     // Re-check counter.
     if(FI_counter1 != 0)
+    {
+        /// Introduces code distance between error detection and response.
+        FI_ADD_DISTANCE_STEP(2);
         return NvBootError_Fault_Injection_Detection;
+    }
 
-    return NvBootError_Success;
+    return e;
 }
 
 /**
@@ -628,7 +643,7 @@ NvBootError NvBootRCMSendUniqueId(void)
 /* Rcm Main Loop */
 NvBootError NvBootRCMProcessMsgs(void)
 {
-    NvBootError e;
+    volatile NvBootError e = NvBootError_NotInitialized;
     NvBool LaunchApplet;
     NvBootRcmMsg *pRcmMsg;
     s_State.FirstMessageProcessed = NV_FALSE;

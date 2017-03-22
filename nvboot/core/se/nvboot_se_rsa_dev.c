@@ -148,7 +148,9 @@ NvBootError NvBootSeRsaDevModularExponentiation(const uint32_t *Base,
 
 bool NvBootSeRsaDevIsEngineBusy(void)
 {
-    return (bool) NvBootSeIsEngineBusy();
+    // RSA in t214 will not write to DRAM so we don't need AHB coherency check.
+    // Pass a dummy address to force mem check alone.
+    return (bool) NvBootSeIsEngineBusy((NvU8*)NV_ADDRESS_MAP_IRAM_A_BASE);
 }
 
 /**

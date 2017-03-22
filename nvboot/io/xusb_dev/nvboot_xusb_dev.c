@@ -90,7 +90,7 @@ void DEBUG_PRINT(char* Msg)
     {
         Tmp++;
     }
-    NvBootUartPollingWrite(Msg, Tmp-Msg,&BytesPrinted); 
+    NvBootUartPollingWrite((const uint8_t*)Msg, Tmp-Msg,(size_t*)&BytesPrinted);
 }
 char* ITOA(NvU32 num)
 {

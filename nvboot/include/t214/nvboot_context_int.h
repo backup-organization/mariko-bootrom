@@ -76,6 +76,12 @@ typedef struct NvBootContextRec
     NvBool             Rcm_CopyKeysToSysram;
 
     NvBootFlowStatusContext BootFlowStatus;//__attribute__((aligned(4)));
+
+    // SE sticky bits to be restored in context restore stage 3.
+    uint32_t SeSecuritySe1;
+    uint32_t SeSecuritySe2;
+    uint32_t SeTzramSecurity;
+    uint32_t Pka1Security;
 } NvBootContext;
 
 

@@ -18,9 +18,11 @@
 #include "nvcommon.h"
 #include "nvrm_drf.h"
 #include "arse.h"
+#include "arahb_arbc.h"
 #include "arpka1.h"
 #include "project.h"
 #include "nvboot_bit.h"
+#include "nvboot_context_int.h"
 #include "nvboot_clocks_int.h"
 #include "nvboot_pmc_int.h"
 #include "nvboot_se_aes.h"
@@ -38,6 +40,8 @@
 #include "nvboot_fuse_int.h"
 #include "nvboot_rng_int.h"
 #include "nvboot_crypto_sha_param.h"
+#include "nvboot_kcv_int.h"
+#include "nvboot_ahb_int.h"
 
 //---------------------MACRO DEFINITIONS--------------------------------------
 
@@ -89,6 +93,8 @@
 NV_ALIGN (4) static SeLinkedList s_InputLinkedList;
 
 extern NvBootInfoTable BootInfoTable;
+extern NvBootContext     Context;
+
 /**
  *  Need 2 instances for for parallel execution of SE1/SE2
  */
@@ -189,7 +195,7 @@ NvBootSeDisableTzram()
 }
 
 static void
-NvBootSeInstanceDisableSe()
+NvBootSeInstanceDisableSe(NvBootSeInstance Instance)
 {
     NvU32 SeConfigReg = 0;
 
@@ -202,7 +208,7 @@ NvBootSeInstanceDisableSe()
     SeConfigReg &= ~(SE_SE_SECURITY_0_SE_HARD_SETTING_FIELD | SE_SE_SECURITY_0_PERKEY_SETTING_FIELD);
     SeConfigReg |= (ARSE_SECURE << SE_SE_SECURITY_0_SE_HARD_SETTING_SHIFT) |
                    (ARSE_SECURE << SE_SE_SECURITY_0_PERKEY_SETTING_SHIFT);
-    NvBootSetSeReg(SE_SE_SECURITY_0, SeConfigReg);
+    NvBootSetSeInstanceReg(Instance, SE_SE_SECURITY_0, SeConfigReg);
 
     return;
 }
@@ -419,39 +425,68 @@ NvBootSeInitializeSE(void)
     return;
 }
 
-NvBootError NvBootSeEnableAtomicSeContextSave()
+NvBool NvBootSeIsAtomicSeContextSaveEnabled(NvBootSeInstance Instance)
 {
-    uint32_t RegData = 0;
 
+    NvU8 Status = 0;
+    NvU32 SeConfigReg = 0;
+
+    SeConfigReg = NvBootGetSeInstanceReg(Instance, SE_CTX_SAVE_AUTO_0);
+    Status = NV_DRF_VAL(SE, CTX_SAVE_AUTO, ENABLE, SeConfigReg);
+
+    if(Status == SE_CTX_SAVE_AUTO_0_ENABLE_YES)
+    {
+        return  NV_TRUE;
+    } else {
+        return  NV_FALSE;
+    }
+}
+
+void NvBootSeInstanceEnableAtomicSeContextSave(NvBootSeInstance Instance)
+{
     // Random delay before enabling SE atomic context save.
     NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
 
     if( (NvBootGetSwCYA() & NVBOOT_SW_CYA_ATOMIC_SE_CONTEXT_SAVE_ENABLE) ||
         (NvBootFuseIsSeContextAtomicSaveEnabled()) )
     {
-        // Enable atomic SE context save.
-        RegData = NvBootGetSeInstanceReg(NvBootSeInstance_Se1, SE_CTX_SAVE_AUTO_0);
-        RegData = NV_FLD_SET_DRF_DEF(SE, CTX_SAVE_AUTO, ENABLE, YES, RegData);
-        RegData = NV_FLD_SET_DRF_DEF(SE, CTX_SAVE_AUTO, LOCK, YES, RegData);
-        NvBootSetSeInstanceReg(NvBootSeInstance_Se1, SE_CTX_SAVE_AUTO_0, RegData);
+        // Enable atomic SE context save for Instance.
+        uint32_t CtxSaveAutoReg = NvBootGetSeInstanceReg(Instance, SE_CTX_SAVE_AUTO_0);
+        CtxSaveAutoReg = NV_FLD_SET_DRF_DEF(SE, CTX_SAVE_AUTO, ENABLE, YES, CtxSaveAutoReg);
+        CtxSaveAutoReg = NV_FLD_SET_DRF_DEF(SE, CTX_SAVE_AUTO, LOCK, YES, CtxSaveAutoReg);
+        NvBootSetSeInstanceReg(Instance, SE_CTX_SAVE_AUTO_0, CtxSaveAutoReg);
 
         // Program SE context blob locations into the assigned secure scratch
         // registers.
-        // Secure scratch 116 <-- ARSE_TZRAM_CARVEOUT_ADDR_SE2 (0x7C04D000)
-        // Secure scratch 117 <-- ARSE_TZRAM_CARVEOUT_ADDR_SE1 (0x7C04C000)
+        // If SE1, program Secure scratch 117 <-- ARSE_TZRAM_CARVEOUT_ADDR_SE1 (0x7C04C000)
+        // If SE2/PKA1, program Secure scratch 116 <-- ARSE_TZRAM_CARVEOUT_ADDR_SE2 (0x7C04D000)
+        uint32_t PmcScratchLock = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_0);
+        uint32_t PmcScratchLockNs = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_NS_0);
+        if(Instance == NvBootSeInstance_Se1)
+        {
         NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH117_0, ARSE_TZRAM_CARVEOUT_ADDR_SE1);
+            PmcScratchLock = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE117, ON, PmcScratchLock);
+            PmcScratchLockNs = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8_NS, WRITE117, ON, PmcScratchLockNs);
+        }
+        else
+        {
         NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH116_0, ARSE_TZRAM_CARVEOUT_ADDR_SE2);
-
-        // Set WRITE lock for the two PMC secure scratch registers above.
-        RegData = 0;
-        RegData = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE117, ON, RegData);
-        RegData = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE116, ON, RegData);
+            PmcScratchLock = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE116, ON, PmcScratchLock);
+            PmcScratchLockNs = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8_NS, WRITE116, ON, PmcScratchLockNs);
+        }
 
         // Set both the non-secure disables and the TZ disables for completeness.
-        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_0, RegData);
-        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_NS_0, RegData);
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_0, PmcScratchLock);
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_NS_0, PmcScratchLockNs);
     }
+}
 
+NvBootError NvBootSeEnableAtomicSeContextSave()
+{
+    NvBootSeInstanceEnableAtomicSeContextSave(NvBootSeInstance_Se1);
+    NvBootSeInstanceEnableAtomicSeContextSave(NvBootSeInstance_Se2);
+
+    // Must return an NvBootError for use in a dispatcher table.
     return NvBootError_Success;
 }
 
@@ -463,6 +498,8 @@ NvBootError NvBootSeEnableAtomicSeContextSave()
 #define PKA1_SLCG_CTRL_0_CLK_OVR_ON_FIELD _MK_FIELD_CONST(0x1, PKA1_SLCG_CTRL_0_CLK_OVR_ON_SHIFT)
 #define PKA1_SLCG_CTRL_0_CLK_OVR_ON_RANGE 0:0
 
+extern int32_t FI_counter1;
+
 NvBootError NvBootSeHousekeepingBeforeBRExit()
 {
     // BIT available for all boot paths. Per http://nvbugs/1859111, do this
@@ -472,50 +509,23 @@ NvBootError NvBootSeHousekeepingBeforeBRExit()
         // Clear RSA key slots.
         for (uint32_t seRsaSlot = NvBootSeRsaKeySlot_1; seRsaSlot < NvBootSeRsaKeySlot_Num; seRsaSlot++)
         {
-            // Clearing only the SE1 instance, since we didn't use SE2
-            // RSA key slots.
-            NvBootSeRsaClearKeySlot(seRsaSlot);
+            // Clear the RSA key slots for both SE instances.
+            NvBootSeInstanceRsaClearKeySlot(NvBootSeInstance_Se1, seRsaSlot);
+            NvBootSeInstanceRsaClearKeySlot(NvBootSeInstance_Se2, seRsaSlot);
         }
 
         // Clear all PKA key slots.
         NvBootPkaClearAllKeySlots();
     }
-
-    /**
-     * Unconditionally disable read access to every key slot per key slot
-     * allocation table.
-     * Even though SC7 context restore should restore these to the proper state
-     * do this unconditionally for safety.
-     */
-    for(uint32_t aes_keyslot = 0; aes_keyslot < NvBootSeAesKeySlot_Num; aes_keyslot++)
-    {
-        NvBootSeInstanceDisableKeySlotReadAccess(NvBootSeInstance_Se1,
-                                                 aes_keyslot,
-                                                 SE_CRYPTO_KEYIV_PKT_WORD_QUAD_KEYS_0_3);
-        NvBootSeInstanceDisableKeySlotReadAccess(NvBootSeInstance_Se1,
-                                                 aes_keyslot,
-                                                 SE_CRYPTO_KEYIV_PKT_WORD_QUAD_ORIGINAL_IVS);
-        NvBootSeInstanceDisableKeySlotReadAccess(NvBootSeInstance_Se1,
-                                                 aes_keyslot,
-                                                 SE_CRYPTO_KEYIV_PKT_WORD_QUAD_UPDATED_IVS);
-
-        NvBootSeInstanceDisableKeySlotReadAccess(NvBootSeInstance_Se2,
-                                                 aes_keyslot,
-                                                 SE_CRYPTO_KEYIV_PKT_WORD_QUAD_KEYS_0_3);
-        NvBootSeInstanceDisableKeySlotReadAccess(NvBootSeInstance_Se2,
-                                                 aes_keyslot,
-                                                 SE_CRYPTO_KEYIV_PKT_WORD_QUAD_ORIGINAL_IVS);
-        NvBootSeInstanceDisableKeySlotReadAccess(NvBootSeInstance_Se2,
-                                                 aes_keyslot,
-                                                 SE_CRYPTO_KEYIV_PKT_WORD_QUAD_UPDATED_IVS);
-    }
+    FI_counter1 += COUNTER1;
 
     // [BR] Write 32 to PKA1_CTRL_CG_SLCG_THRESHOLD.
-    // Per JerryZ, and SE IAS, write PKA1_CTRL_CG_SLCG_THRESHOLD to 0x32.
+    // Per JerryZ, and SE IAS, write PKA1_CTRL_CG_SLCG_THRESHOLD to 32.
     uint32_t RegData = NvBootPkaGetPka0Reg(PKA1_CTRL_CG);
     RegData = NV_FLD_SET_DRF_NUM(PKA1, SLCG_CTRL, THRESHOLD, 32, RegData);
     RegData = NV_FLD_SET_DRF_NUM(PKA1, SLCG_CTRL, CLK_OVR_ON, 0, RegData);
     NvBootPkaSetPka0Reg(PKA1_CTRL_CG, RegData);
+    FI_counter1 += COUNTER1;
 
     // Clear ERR_STATUS/INT_STATUS in SE1
     // Clear out AES0, RSA INT_STATUS, write 1 to clear.
@@ -536,22 +546,69 @@ NvBootError NvBootSeHousekeepingBeforeBRExit()
                CLK_RST_CONTROLLER_LVL2_CLK_GATE_OVRB_0,
                RegData);
 
+    FI_counter1 += COUNTER1;
+
     return NvBootError_Success;
 }
 
 NvBool 
-NvBootSeInstanceIsEngineBusy(NvBootSeInstance Instance)
+NvBootSeInstanceIsEngineBusy(NvBootSeInstance Instance, NvU8 *DestAddr)
 {
     NvU8 Status = 0;
+    NvU8 MemStatus = 0;
     NvU32 SeConfigReg = 0;
+    NvBool Busy = NV_TRUE;
+    NvU32 MstId = ARAHB_MST_ID_SE;
 
     SeConfigReg = NvBootGetSeInstanceReg(Instance, SE_STATUS_0);
     Status = NV_DRF_VAL(SE, STATUS, STATE, SeConfigReg);
 
     if(Status == NVBOOT_SE_OP_STATUS_IDLE)
     {
-        return  NV_FALSE;
+        Busy = NV_FALSE;
     } else {
+        Busy = NV_TRUE;
+    }
+    
+    /**
+     *  SE operations that write to memory (IRAM/DRAM/TZRAM) need to check this bit
+     *  in addition to SE engine status to confirm completion of operation.
+     *  http://nvbugs/200279346
+     */
+    if(DestAddr)
+    {
+        MemStatus = NV_DRF_VAL(SE, STATUS, MEM_INTERFACE, SeConfigReg);
+        if(MemStatus != SE_STATUS_0_MEM_INTERFACE_IDLE)
+        {
+            Busy |= NV_TRUE;
+        }
+        
+        if(NvBootAhbCheckIsExtMemAddr(DestAddr))
+        {
+            if(Instance == NvBootSeInstance_Se2)
+            {
+                MstId = ARAHB_MST_ID_SE2;
+            }
+            NvBootAhbWaitCoherency(MstId); // 200000 microseconds timeout (= 200 ms)
+        }
+    }
+    return Busy;
+}
+
+/**
+ * Is the particular SE instance enabled or disabled?
+ * True if enabled, false if disabled.
+ */
+NvBool NvBootSeInstanceIsEngineEnabled(NvBootSeInstance Instance)
+{
+    NvU32 SeConfigReg = NvBootGetSeInstanceReg(Instance, SE_SE_SECURITY_0);
+    if (NV_DRF_VAL(SE, SE_SECURITY, SE_ENG_DIS, SeConfigReg) ==
+            SE_SE_SECURITY_0_SE_ENG_DIS_TRUE)
+    {
+        return NV_FALSE;
+    }
+    else
+    {
         return  NV_TRUE;
     }
 }
@@ -559,8 +616,18 @@ NvBootSeInstanceIsEngineBusy(NvBootSeInstance Instance)
 void
 NvBootSeClearTzram(void) 
 {
-    NvBootUtilMemset((void *) NV_ADDRESS_MAP_TZRAM_BASE, 0, ARSE_TZRAM_BYTE_SIZE); 
-    return;
+    uint32_t SizeToClear = ARSE_TZRAM_BYTE_SIZE;
+    if(NvBootSeIsAtomicSeContextSaveEnabled(NvBootSeInstance_Se1) == NV_TRUE ||
+       NvBootSeIsAtomicSeContextSaveEnabled(NvBootSeInstance_Se2) == NV_TRUE )
+    {
+        // Both carveouts will always be enabled by Boot ROM.
+        SizeToClear = ARSE_TZRAM_BYTE_SIZE - ARSE_TZRAM_CARVEOUT_BYTE_SIZE;
+    }
+    else
+    {
+        SizeToClear = ARSE_TZRAM_BYTE_SIZE;
+    }
+    NvBootUtilMemset((void *) NV_ADDRESS_MAP_TZRAM_BASE, 0, SizeToClear);
 }
 
 void
@@ -583,6 +650,7 @@ NvBootSeInstanceSetupOpMode(NvBootSeInstance Instance, NvBootSeOperationMode Mod
     {
         case SE_OP_MODE_AES_CBC:
         case SE_OP_MODE_AES_CMAC_HASH:
+        case SE_OP_MODE_AES_ECB:
         /**
          * 1. Configure SE for AES-CBC encrypt operation. The message input is one
          *    AES block of zeroes.
@@ -665,6 +733,12 @@ NvBootSeInstanceSetupOpMode(NvBootSeInstance Instance, NvBootSeOperationMode Mod
             NvBootSetSeInstanceReg(Instance, SE_CRYPTO_CONFIG_0, SeConfigReg);
 
         }
+        else if(Mode == SE_OP_MODE_AES_ECB)
+        {
+            SeConfigReg = NvBootGetSeInstanceReg(Instance, SE_CRYPTO_CONFIG_0);
+            SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CRYPTO_CONFIG, XOR_POS, BYPASS, SeConfigReg);
+            NvBootSetSeInstanceReg(Instance, SE_CRYPTO_CONFIG_0, SeConfigReg);
+        }
         break;
         default:
         break;
@@ -718,6 +792,58 @@ void NvBootSeRsaReadKey(NvU32 *pKeyBuffer, NvU32 RsaKeySizeBits, NvU8 RsaKeySlot
 
     return;
 }
+
+#if 0
+/*
+ *  Archiving SE instance RSA read key slot code. Not needed since SE key slots
+ *  are read locked at POR.
+ *  Read RSA key slot.
+ *  
+ *  @param SeInstance SE instance to read from.
+ *  @param pKeyBuffer Pointer to the input key buffer. 
+ *  @param RsaKeySizeBits Specifies the RSA key size in bits.
+ *  @param RsaKeySlot Specifies the RSA key slot number.
+ *  @param ExpModSel Specify SE_RSA_KEY_PKT_EXPMOD_SEL_EXPONENT or SE_RSA_KEY_PKT_EXPMOD_SEL_MODULUS.
+ * 
+ */
+void NvBootSeInstanceRsaReadKey(NvBootSeInstance SeInstance, NvU32 *pKeyBuffer, NvU32 RsaKeySizeBits, NvU8 RsaKeySlot, NvU8 ExpModSel)
+{
+    NvU32 SeRsaKeytableAddr = 0;
+    NvU32 SeRsaKeyPkt = 0;
+    NvU32 i = 0;
+
+    NV_ASSERT(pKeyBuffer != NULL);
+    NV_ASSERT(RsaKeySizeBits <= NVBOOT_SE_RSA_MODULUS_LENGTH_BITS);
+    NV_ASSERT(RsaKeySlot <  NvBootSeRsaKeySlot_Num);
+    NV_ASSERT((ExpModSel == SE_RSA_KEY_PKT_EXPMOD_SEL_EXPONENT) || 
+              (ExpModSel == SE_RSA_KEY_PKT_EXPMOD_SEL_MODULUS));
+
+    // Create SE_RSA_KEY_PKT
+    // Set EXPMOD_SEL to either MODULUS or EXPONENT
+    // Set WORD_ADDR to one of the 64 exponent/modulus words for access
+    SeRsaKeyPkt = ( \
+            (RsaKeySlot << SE_RSA_KEY_PKT_KEY_SLOT_SHIFT) | \
+            (ExpModSel << SE_RSA_KEY_PKT_EXPMOD_SEL_SHIFT) );
+    SeRsaKeytableAddr |= SeRsaKeyPkt;
+
+    for (i = 0; i < (RsaKeySizeBits / 32); i++) 
+    {
+        // Set WORD_ADDR field
+        SeRsaKeyPkt &= ~SE_RSA_KEY_PKT_WORD_ADDR_FIELD;
+        SeRsaKeyPkt |= (i << SE_RSA_KEY_PKT_WORD_ADDR_SHIFT);
+
+        SeRsaKeytableAddr &= ~SE_RSA_KEYTABLE_ADDR_0_PKT_FIELD;
+        SeRsaKeytableAddr |= SeRsaKeyPkt;
+
+        // Start Rsa key slot read.
+        NvBootSetSeInstanceReg(SeInstance, SE_RSA_KEYTABLE_ADDR_0, SeRsaKeytableAddr);
+
+        *pKeyBuffer++ = NvBootGetSeInstanceReg(SeInstance, SE_RSA_KEYTABLE_DATA_0);
+    }
+
+    return;
+}
+#endif
 
 /*
  *  Write RSA key to a key slot via DMA / memory buffer method. 
@@ -779,7 +905,7 @@ void NvBootSeInstanceRsaWriteKey(NvBootSeInstance SeInstance, NvU32 *pKeyBuffer,
     NvBootSetSeInstanceReg(SeInstance, SE_RSA_KEYTABLE_ADDR_0, SeRsaKeytableAddr);
 
     // Wait until engine becomes IDLE.
-    while(NvBootSeInstanceIsEngineBusy(SeInstance))
+    while(NvBootSeInstanceIsEngineBusy(SeInstance, NULL)) 
         ;
 
     return;
@@ -806,6 +932,32 @@ void NvBootSeRsaClearKeySlot(NvU8 RsaKeySlot)
                         ARSE_RSA_MAX_MODULUS_SIZE, 
                         ARSE_RSA_MAX_EXPONENT_SIZE, 
                         RsaKeySlot);            
+
+    return;
+}
+
+/*
+ * Set an RSA key slot to zero.
+ *
+ * Assumes: The RSA key slot does not have its WRITE protection bit set.
+ *
+ * @param RsaKeySlot  A valid SE RSA key slot.
+ *
+ */
+void NvBootSeInstanceRsaClearKeySlot(NvBootSeInstance SeInstance, NvU8 RsaKeySlot)
+{
+    NvBootSeRsaKey2048  PublicKey __attribute__ ((aligned (4)));
+
+    NV_ASSERT(RsaKeySlot < NvBootSeRsaKeySlot_Num);
+
+    NvBootUtilMemset(&PublicKey.Modulus[0], 0, ARSE_RSA_MAX_MODULUS_SIZE / 8);
+    NvBootUtilMemset(&PublicKey.Exponent[0], 0, ARSE_RSA_MAX_EXPONENT_SIZE / 8);
+
+    NvBootSeInstanceRsaWriteKey(SeInstance,
+                        (NvU32 *) &PublicKey,
+                        ARSE_RSA_MAX_MODULUS_SIZE,
+                        ARSE_RSA_MAX_EXPONENT_SIZE,
+                        RsaKeySlot);
 
     return;
 }
@@ -909,6 +1061,99 @@ NvBootError NvBootSeRsaModularExp(NvU8 RsaKeySlot, NvU32 RsaKeySizeBits, NvU32 I
      */
     SeConfigReg = NV_DRF_DEF(SE, OPERATION, OP, START);
     NvBootSetSeReg(SE_OPERATION_0, SeConfigReg);
+
+    return NvBootError_Success;
+}
+
+/**
+ *
+ *  Calls the HW RSA engine and computes the modular exponentiation 
+ *  of InputMessage ^ Exponent (mod n). 
+ *
+ *  The exponent and modulus is expected to have already been loaded
+ *  into an SE RSA key slot before calling this function. As well, 
+ *  SE_RSA_KEY_SIZE and SE_RSA_EXP_SIZE should have been programmed
+ *  in the key write operation.
+ *
+ *  Input:
+ *
+ *  @param  RsaKeySizeBits Specifies the RSA key size in bits.
+ *                         Assumes both the modulus and the exponent are 
+ *                         the same key size. 
+ *
+ */
+NvBootError NvBootSeInstanceRsaModularExp(NvBootSeInstance SeInstance, NvU8 RsaKeySlot, NvU32 RsaKeySizeBits, NvU32 InputMessageLengthBytes, NvU32 *pInputMessage, NvU32 *pOutputDestination)
+{
+    NvU32   SeConfigReg = 0;
+
+    // Program size of key to be written into SE_RSA_EXP_SIZE or SE_RSA_KEY_SIZE
+    // SE_RSA_*_SIZE is specified in units of 4-byte / 32-bits blocks. 
+    NvBootSetSeInstanceReg(SeInstance, SE_RSA_EXP_SIZE_0, RsaKeySizeBits / 32);
+    NvBootSetSeInstanceReg(SeInstance, SE_RSA_KEY_SIZE_0, NvBootSeConvertRsaKeySize(RsaKeySizeBits));            
+    
+    // Create input linked list data structure
+    // Assumes a contiguous buffer, so there is only one entry 
+    // in the LL. Therefore, n = 0.
+    InputLinkedList[SeInstance].LastBufferNumber = 0;
+    InputLinkedList[SeInstance].LLElement.StartByteAddress  = (NvU32) pInputMessage;
+    InputLinkedList[SeInstance].LLElement.BufferByteSize = InputMessageLengthBytes;
+
+    // Program SE_IN_LL_ADDR with pointer to SeInLLAddr
+    NvBootSetSeInstanceReg(SeInstance, SE_IN_LL_ADDR_0, (NvU32) &InputLinkedList[SeInstance]);
+    
+    /**
+     * 1. Set SE to RSA modular exponentiation operation 
+     * SE_CONFIG.DEC_ALG = NOP
+     * SE_CONFIG.ENC_ALG = RSA
+     * SE_CONFIG.DEC_MODE = DEFAULT (use SE_MODE_PKT)
+     * SE_CONFIG.ENC_MODE = Don't care (using SW_DEFAULT value)
+     * SE_CONFIG.DST = RSA_REG or MEMORY depending on OutputDestination
+     *
+     */
+    // Can initialize this to zero because we touch all of the fields in
+    // SE_CONFIG
+    SeConfigReg = 0;
+    if (pOutputDestination == NULL)
+    {
+        SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CONFIG, DST, RSA_REG, SeConfigReg);    
+    } else {
+        SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CONFIG, DST, MEMORY, SeConfigReg);    
+
+        // Setup Output Lined List
+        // Only one entry in LL, so n = 0
+        OutputLinkedList[SeInstance].LastBufferNumber = 0;
+        OutputLinkedList[SeInstance].LLElement.StartByteAddress = (NvU32) pOutputDestination;
+        OutputLinkedList[SeInstance].LLElement.BufferByteSize = InputMessageLengthBytes;
+
+        // Program SE_OUT_LL_ADDR with pointer from SeOutLLAddr
+        NvBootSetSeInstanceReg(SeInstance, SE_OUT_LL_ADDR_0, (NvU32) &OutputLinkedList[SeInstance]);
+    }
+    SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CONFIG, DEC_ALG, NOP, SeConfigReg);    
+    SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CONFIG, ENC_ALG, RSA, SeConfigReg);    
+    SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CONFIG, DEC_MODE, DEFAULT, SeConfigReg);    
+    SeConfigReg = NV_FLD_SET_DRF_DEF(SE, CONFIG, ENC_MODE, DEFAULT, SeConfigReg);    
+
+    // Write to SE_CONFIG register
+    NvBootSetSeInstanceReg(SeInstance, SE_CONFIG_0, SeConfigReg);
+
+    /** 
+     * Set key slot number
+     * 
+     * SE_RSA_CONFIG Fields:
+     *      KEY_SLOT = RsaKeySlot
+     *      
+     */
+    SeConfigReg = 0;
+    SeConfigReg = NV_FLD_SET_DRF_NUM(SE, RSA_CONFIG, KEY_SLOT, RsaKeySlot, SeConfigReg);
+    
+    // Write to SE_RSA_CONFIG register
+    NvBootSetSeInstanceReg(SeInstance, SE_RSA_CONFIG_0, SeConfigReg);
+
+    /**
+     * Issue START command in SE_OPERATION.OP
+     */
+    SeConfigReg = NV_DRF_DEF(SE, OPERATION, OP, START);
+    NvBootSetSeInstanceReg(SeInstance, SE_OPERATION_0, SeConfigReg);
 
     return NvBootError_Success;
 }
@@ -1125,7 +1370,7 @@ NvBootSeSHAHash(NvU32 *pInputMessage, NvU32 InputMessageSizeBytes, NvU32 *pInput
         NvBootSetSeReg(SE_OPERATION_0, SeConfigReg);
 
         // Poll for OP_DONE. 
-        while(NvBootSeIsEngineBusy())        
+        while(NvBootSeIsEngineBusy((NvU8*)pOutputDestination))        
             ;
     }
 
@@ -1557,6 +1802,20 @@ NvBootSeLockSbk(void)
     return;
 }
 
+void
+NvBootSeDisableAesKeySlotRead(NvBootSeInstance Instance, uint8_t KeySlot)
+{
+    NvBootSeInstanceDisableKeySlotReadAccess(Instance,
+                                             KeySlot,
+                                             SE_CRYPTO_KEYIV_PKT_WORD_QUAD_KEYS_0_3);
+    NvBootSeInstanceDisableKeySlotReadAccess(Instance,
+                                             KeySlot,
+                                             SE_CRYPTO_KEYIV_PKT_WORD_QUAD_ORIGINAL_IVS);
+    NvBootSeInstanceDisableKeySlotReadAccess(Instance,
+                                             KeySlot,
+                                             SE_CRYPTO_KEYIV_PKT_WORD_QUAD_UPDATED_IVS);
+}
+
 /**
  * Parse decrypted context in IRAM into usable format.
  */
@@ -1603,11 +1862,10 @@ void NvBootSeInstanceParseDecryptedContext(
     NvU32 SeSecurity0=pSeLp0ContextStickyBits->SeSecurity0_2_0;
     // Soft Setting
     SeSecurity0 = NV_FLD_SET_DRF_NUM(SE, SE_SECURITY, SE_SOFT_SETTING, pSeLp0ContextStickyBits->SeSecurity0_SoftSetting, SeSecurity0);
+    SeSecurity0 = NV_FLD_SET_DRF_NUM(SE, SE_SECURITY, CTX_SAVE_TZ_LOCK, pSeLp0ContextStickyBits->SeSecurity0_4, SeSecurity0);
     pNvBootSeContextStickyBitsRegBuf->SE_SE_SECURITY = SeSecurity0;
 
     pNvBootSeContextStickyBitsRegBuf->SE_TZRAM_SECURITY = pSeLp0ContextStickyBits->SeTzramSecurity0_1_0;
-    
-    
     
     pNvBootSeContextStickyBitsRegBuf->SE_CRYPTO_SECURITY_PERKEY = pSeLp0ContextStickyBits->SeCryptoSecurityPerKey15_0;
 
@@ -1685,8 +1943,8 @@ void NvBootSeInstanceParseDecryptedContext(
         Pka1MutexRRTmout = NV_FLD_SET_DRF_NUM(PKA1, CTRL_PKA_MUTEX_RR_TMOUT, LOCK, pSePka1Lp0ContextStickyBits->Pka1MutexRRTmoutLock, Pka1MutexRRTmout);
         /// Warrants special attention as sticky bits cross boundary.
         Pka1MutexRRTmout = NV_FLD_SET_DRF_NUM(PKA1, CTRL_PKA_MUTEX_RR_TMOUT, VAL, \
-                                             pSePka1Lp0ContextStickyBits->Pka1MutexRRTmoutVal_1_0 | \
-                                            (pSePka1Lp0ContextStickyBits->Pka1MutexRRTmoutVal_19_2 << 0x2),\
+                                             pSePka1Lp0ContextStickyBits->Pka1MutexRRTmoutVal_2_0 | \
+                                            (pSePka1Lp0ContextStickyBits->Pka1MutexRRTmoutVal_19_3 << 0x3),\
                                              Pka1MutexRRTmout);
         pNvBootSeContextStickyBitsRegBuf->CTRL_PKA_MUTEX_RR_TMOUT = Pka1MutexRRTmout;
         
@@ -1805,11 +2063,31 @@ void NvBootLP0ContextRestoreDisable(NvBootSeInstance SeInstance, void *pSeDecryp
     // Disable all crypto operations and expanded key table access. Force 
     // access to PERKEY_SETTING and SE register accesses/operations
     // in secure mode only. 
-    NvBootSeInstanceDisableSe();
+    NvBootSeInstanceDisableSe(SeInstance);
 
     // Even though known pattern check failed, let's clear the bad 
     // decrypted data from IRAM. 
     NvBootUtilMemset(pSeDecryptedContext, 0, ContextSize);
+}
+
+void NvBootSeRsaKeySlotSwapModExp(NvBootSeRsaKey2048 *RsaKey)
+{
+    // NvBootSeRsaKey2048 RsaKey2048[NvBootSeRsaKeySlot_Num]; // 32 Blks * 2 slots = 64 Blks
+    // NvU32 Modulus[2048 / 8 / 4];
+    // The exponent size is 2048-bits.
+    //NvU32 Exponent[2048 / 8 / 4];
+    NvU32 TempModulus[NVBOOT_RSA_MAX_EXPONENT_SIZE_WORDS];
+
+    // Save modulus into temp buffer, source from the Exponent field.
+    NvBootUtilMemcpy(&TempModulus, &RsaKey->Exponent, sizeof(TempModulus));
+    // Copy data Modulus field (which contains exponent data) to Exponent
+    // field.
+    NvBootUtilMemcpy(&RsaKey->Exponent, &RsaKey->Modulus, sizeof(TempModulus));
+    // Copy temporarily saved modulus into real Modulus field.
+    NvBootUtilMemcpy(&RsaKey->Modulus, &TempModulus, sizeof(TempModulus));
+
+    // Clear temporary buffer.
+    NvBootUtilMemset(&TempModulus, 0, sizeof(TempModulus));
 }
 
 void NvBootLP0ContextRestoreStage2(NvBootSeInstance SeInstance, void *pSeDecryptedContext)
@@ -1872,12 +2150,50 @@ void NvBootLP0ContextRestoreStage2(NvBootSeInstance SeInstance, void *pSeDecrypt
      */
     for (Slot = NvBootSeRsaKeySlot_1; Slot < NvBootSeRsaKeySlot_Num; Slot++) 
     {
+        // Swap context of modulus and exponent; WAR for atomic save issue.
+        NvBootSeRsaKeySlotSwapModExp(&pSeInstancedDecryptedContext->RsaKey2048[Slot]);
+
         NvBootSeInstanceRsaWriteKey(SeInstance, 
                             &pSeInstancedDecryptedContext->RsaKey2048[Slot].Modulus[0], 
                             ARSE_RSA_MAX_MODULUS_SIZE, 
                             ARSE_RSA_MAX_EXPONENT_SIZE, 
                             Slot);        
     }
+
+    if(SeInstance == NvBootSeInstance_Se2)
+    {
+        /**
+         * Restore PKA1 key slots
+         */
+        NvBootSe2Lp0Context *pSeInstancedDecryptedContext = (NvBootSe2Lp0Context *)pSeDecryptedContext;
+        for (Slot = 0; Slot < ARSE_PKA1_NUM_KEY_SLOTS; Slot++)
+        {
+            NvBootPkaWriteKeySlot(&pSeInstancedDecryptedContext->Pka1KeySlot[Slot].SlotData[0], Slot);
+        }
+        /**
+         * Restore key slot security related info, PKA1_KEYTABLE_ACCESS, 
+         * PKA1_SECURITY_PERKEY, PKA1_MUTEX_RR_TMOUT
+         */
+        for (Slot = 0; Slot < ARSE_PKA1_NUM_KEY_SLOTS; Slot++)
+        {
+            NvBootPkaSetPka0Reg(
+                PKA1_PKA1_KEYTABLE_ACCESS(Slot),
+                s_NvBootSeContextStickyBitsRegBuf.PKA1_KEYTABLE_ACCESS[Slot]);
+
+            NvBootPkaSetPka0Reg(
+               PKA1_PKA1_SECURITY_PERKEY(Slot),
+                s_NvBootSeContextStickyBitsRegBuf.PKA1_SECURITY_PERKEY_OWNER[Slot]);
+        }
+
+        NvBootPkaSetPka0Reg(PKA1_CTRL_PKA_MUTEX_RR_TMOUT, s_NvBootSeContextStickyBitsRegBuf.CTRL_PKA_MUTEX_RR_TMOUT);
+
+        /**
+         * Restore PKA1 other seecurity registers, PKA1_SECURITY.
+         * Move to later in SC7 exit sequence in Stage 3.
+         */
+        Context.Pka1Security = s_NvBootSeContextStickyBitsRegBuf.PKA1_SECURITY;
+    }
+
     /**
      * SW must erase the decrypted data stored in memory.
      */
@@ -1928,59 +2244,34 @@ void NvBootLP0ContextRestoreStage2(NvBootSeInstance SeInstance, void *pSeDecrypt
         SE_RSA_SECURITY_PERKEY_0,
         s_NvBootSeContextStickyBitsRegBuf.SE_RSA_SECURITY_PERKEY);
     
-    if(SeInstance == NvBootSeInstance_Se2)
-    {
-        /**
-         * 18. Restore PKA1 key slots
-         */
-        NvBootSe2Lp0Context *pSeInstancedDecryptedContext = (NvBootSe2Lp0Context *)pSeDecryptedContext;
-        for (Slot = 0; Slot < ARSE_PKA1_NUM_KEY_SLOTS; Slot++)
-        {
-            NvBootPkaWriteKeySlot(&pSeInstancedDecryptedContext->Pka1KeySlot[Slot].SlotData[0], Slot);
-        }
-        /**
-         * Restore key slot security related info, PKA1_KEYTABLE_ACCESS, 
-         * PKA1_SECURITY_PERKEY, PKA1_MUTEX_RR_TMOUT
-         */
-        for (Slot = 0; Slot < ARSE_PKA1_NUM_KEY_SLOTS; Slot++)
-        {
-            NvBootPkaSetPka0Reg(
-                PKA1_PKA1_KEYTABLE_ACCESS(Slot),
-                s_NvBootSeContextStickyBitsRegBuf.PKA1_KEYTABLE_ACCESS[Slot]);
-
-            NvBootPkaSetPka0Reg(
-               PKA1_PKA1_SECURITY_PERKEY(Slot),
-                s_NvBootSeContextStickyBitsRegBuf.PKA1_SECURITY_PERKEY_OWNER[Slot]);
-        }
-
-        NvBootPkaSetPka0Reg(PKA1_CTRL_PKA_MUTEX_RR_TMOUT, s_NvBootSeContextStickyBitsRegBuf.CTRL_PKA_MUTEX_RR_TMOUT);
-
-        /**
-         * 23. Restore PKA1 other seecurity registers, PKA1_SECURITY.
-         */
-        NvBootPkaSetPka0Reg(PKA1_PKA1_SECURITY, s_NvBootSeContextStickyBitsRegBuf.PKA1_SECURITY);
-    }
-
     // TZRAM Bits apply only to SE1
     if(SeInstance == NvBootSeInstance_Se1)
     {
         // These are global and apply to SE1 only.
-        // Restore SE_TZRAM_SECURITY_0
-        NvBootSetSeInstanceReg(
-            SeInstance,
-            SE_TZRAM_SECURITY_0,
-            s_NvBootSeContextStickyBitsRegBuf.SE_TZRAM_SECURITY);
+        // Save value to restore to SE_TZRAM_SECURITY_0 for later restoration.
+        Context.SeTzramSecurity = s_NvBootSeContextStickyBitsRegBuf.SE_TZRAM_SECURITY;
     }
 
-    // Restore SE_SE_SECURITY_0
-    NvBootSetSeInstanceReg(
-        SeInstance,
-        SE_SE_SECURITY_0,
-        s_NvBootSeContextStickyBitsRegBuf.SE_SE_SECURITY);
+    // Re-enable SE atomic context save feature before programming
+    // SE_SECURITY_0.
+    NvBootSeInstanceEnableAtomicSeContextSave(SeInstance);
+
+    // Save SE_SE_SECURITY_0 for restoration at the end of BR SC7 exit.
+    // Do a read/modify/write here, since not all of the bits in this register are
+    // saved/restored by this sequence.
+    uint32_t SeSecurity0 = NvBootGetSeInstanceReg(SeInstance, SE_SE_SECURITY_0);
+    // Bit 5, SE_TZ_LOCK_SOFT is not saved/restored by SE context save/restore,
+    // preserve POR value.
+    SeSecurity0 &= SE_SE_SECURITY_0_SE_TZ_LOCK_SOFT_FIELD;
+    SeSecurity0 |= s_NvBootSeContextStickyBitsRegBuf.SE_SE_SECURITY;
+
+    if(SeInstance == NvBootSeInstance_Se1)
+        Context.SeSecuritySe1 = SeSecurity0;
+    else
+        Context.SeSecuritySe2 = SeSecurity0;
     
     // Clear the sticky bits buffer memory
     NvBootUtilMemset(&s_NvBootSeContextStickyBitsRegBuf, 0, sizeof(NvBootSeContextStickyBitsRegBuf));
-
 }
 
 NvBootError NvBootLP0ContextRestore(void)
@@ -2004,10 +2295,10 @@ NvBootError NvBootLP0ContextRestore(void)
      *  Poll for completion of both engines
      */
     // Wait till SE1 is idle.
-    while(NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se1));
+    while(NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se1, (NvU8*)pSe1DecryptedContext));
 
     // Wait till SE2 is idle.
-    while(NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se2));
+    while(NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se2, (NvU8*)pSe2DecryptedContext));
 
     /**
      * SW checks decyrpted known pattern. If it matches the expected known 
@@ -2032,6 +2323,31 @@ NvBootError NvBootLP0ContextRestore(void)
 
     NvBootLP0ContextRestoreStage2(NvBootSeInstance_Se1, pSe1DecryptedContext);
 
+    return NvBootError_Success;
+}
+
+NvBootError NvBootLP0ContextRestoreStage3()
+{
+    if(BootInfoTable.BootType == NvBootType_Sc7)
+    {
+        // If the engines are disabled these register writes are
+        // silently dropped. They might cause an issue in RTL sim (flagged with an error/warning)
+        // , when the engine is is set to secure (a step BR does in when the known pattern
+        // check fails), engine is disabled after SE context restore fails, and BPMP
+        // (non-secure client) tries to write this register.
+
+        // Follow the original restoration order from Stage2.
+        // First restore SE2. PKA1_SECURITY, then SE_SECURITY.
+        // Only one PKA engine.
+        NvBootPkaSetPka0Reg(PKA1_PKA1_SECURITY, Context.Pka1Security);
+        NvBootSetSeInstanceReg(NvBootSeInstance_Se2, SE_SE_SECURITY_0, Context.SeSecuritySe2);
+    
+        // Secondly, restore SE1. TZRAM_SECURITY, then SE_SECURITY.
+        // Only one copy of SE_TZRAM_SECURITY_0
+        NvBootSetSeInstanceReg(NvBootSeInstance_Se1, SE_TZRAM_SECURITY_0, Context.SeTzramSecurity);
+        NvBootSetSeInstanceReg(NvBootSeInstance_Se1, SE_SE_SECURITY_0, Context.SeSecuritySe1);
+    }
+    // Dispatcher routines need NvBootError returned.
     return NvBootError_Success;
 }
 
@@ -2100,7 +2416,7 @@ void NvBootSeAesCmacGenerateSubkey(NvU8 KeySlot, NvU8 KeySize, NvU32 *pK1, NvU32
     NvBootSetSeReg(SE_OPERATION_0, SeConfigReg);
 
     // Poll for OP_DONE.
-    while(NvBootSeIsEngineBusy())
+    while(NvBootSeIsEngineBusy((NvU8*)L))
         ;
 
     // L := AES-{128,192,256}(K, const_Zero);
@@ -2207,7 +2523,7 @@ NvBootSeAesCmacHashBlocks (NvU32 *pK1, NvU32 *pK2, NvU32 *pInputMessage, NvU8 *p
             if(NumBlocks > 1)
             {
                 // Check if SE is idle.
-                while(NvBootSeIsEngineBusy())
+                while(NvBootSeIsEngineBusy(NULL))
                     ;
 
                 // Encrypt the input data for blocks zero to NumBLocks - 1.
@@ -2236,7 +2552,7 @@ NvBootSeAesCmacHashBlocks (NvU32 *pK1, NvU32 *pK2, NvU32 *pInputMessage, NvU8 *p
                 NvBootSetSeReg(SE_OPERATION_0, SeConfigReg);
 
                 // Poll for OP_DONE.
-                while(NvBootSeIsEngineBusy())
+                while(NvBootSeIsEngineBusy(NULL))
                     ;
             }
 
@@ -2280,14 +2596,14 @@ NvBootSeAesCmacHashBlocks (NvU32 *pK1, NvU32 *pK2, NvU32 *pInputMessage, NvU8 *p
             NvBootSetSeReg(SE_OPERATION_0, SeConfigReg);
 
             // Poll for OP_DONE.
-            while(NvBootSeIsEngineBusy())
+            while(NvBootSeIsEngineBusy(pHash))
                 ;
 
         }
         else
         {
             // Check if SE is idle.
-            while(NvBootSeIsEngineBusy())
+            while(NvBootSeIsEngineBusy(NULL))
                 ;
 
             // Encrypt the input data for blocks zero to NumBLocks.
@@ -2376,7 +2692,7 @@ void NvBootSeAesDecrypt (
     // When called in the reader code, the UpdateCryptoStatus2 function will make sure no new
     // operations will start before the engine is idle.
     // Poll for OP_DONE.
-    while(NvBootSeIsEngineBusy())
+    while(NvBootSeIsEngineBusy(Dst));
         ;
 
     return;
@@ -2502,12 +2818,73 @@ void NvBootSeAesEncrypt (
     // When called in the reader code, the UpdateCryptoStatus2 function will make sure no new
     // operations will start before the engine is idle.
     // Poll for OP_DONE.
-    while(NvBootSeIsEngineBusy())
+    while(NvBootSeIsEngineBusy(Dst))
         ;
 
     return;
 }
 
+void NvBootSeInstanceAesEncryptECBStart (
+        NvBootSeInstance SeInstance,
+        NvU8     KeySlot,
+        NvU8     KeySize,
+        NvBool   First,
+        NvU32    NumBlocks,
+        NvU8    *Src,
+        NvU8    *Dst)
+{
+    NvU32   SeConfigReg;
+
+    NV_ASSERT(KeySlot < NvBootSeAesKeySlot_Num);
+    NV_ASSERT(NumBlocks * NVBOOT_SE_AES_BLOCK_LENGTH_BYTES < NVBOOT_SE_LL_MAX_BUFFER_SIZE_BYTES);
+    NV_ASSERT(NumBlocks > 0);
+    NV_ASSERT( (KeySize  == SE_MODE_PKT_AESMODE_KEY128) ||
+               (KeySize == SE_MODE_PKT_AESMODE_KEY192) ||
+               (KeySize == SE_MODE_PKT_AESMODE_KEY256) );
+
+    // Setup SE engine parameters for AES ECB encrypt operation.
+    NvBootSeInstanceSetupOpMode(SeInstance,
+                        SE_OP_MODE_AES_ECB,
+                        NV_TRUE,
+                        First,
+                        SE_CONFIG_0_DST_MEMORY,
+                        KeySlot,
+                        KeySize);
+
+    // Setup input linked list.
+    InputLinkedList[SeInstance].LastBufferNumber = 0;
+    InputLinkedList[SeInstance].LLElement.StartByteAddress = (NvU32) Src;
+    InputLinkedList[SeInstance].LLElement.BufferByteSize = NumBlocks * NVBOOT_SE_AES_BLOCK_LENGTH_BYTES;
+
+    // Set address of input linked list.
+    NvBootSetSeInstanceReg(SeInstance, SE_IN_LL_ADDR_0, (NvU32) &InputLinkedList[SeInstance]);
+
+    OutputLinkedList[SeInstance].LastBufferNumber = 0;
+    OutputLinkedList[SeInstance].LLElement.StartByteAddress = (NvU32) Dst;
+    OutputLinkedList[SeInstance].LLElement.BufferByteSize = NumBlocks * NVBOOT_SE_AES_BLOCK_LENGTH_BYTES;
+
+    // Set address of output linked list.
+    NvBootSetSeInstanceReg(SeInstance, SE_OUT_LL_ADDR_0, (NvU32) &OutputLinkedList[SeInstance]);
+
+    // The SE_CRYPTO_LAST_BLOCK_0 value is calculated by the following formula
+    // given in the SE IAS section 3.2.3.1 AES Input Data Size.
+    // Input Bytes = 16 bytes * (1 + SE_CRYPTO_LAST_BLOCK)
+    // NumBlocks*16 = 16 * (1 + SE_CRYPTO_LAST_BLOCK)
+    // NumBlocks - 1 = SE_CRYPTO_LAST_BLOCK
+    NvBootSetSeInstanceReg(SeInstance, SE_CRYPTO_LAST_BLOCK_0, NumBlocks-1);
+
+    /**
+     * Issue START command in SE_OPERATION.OP
+     */
+    SeConfigReg = NV_DRF_DEF(SE, OPERATION, OP, START);
+    NvBootSetSeInstanceReg(SeInstance, SE_OPERATION_0, SeConfigReg);
+
+    // When called in the reader code, the UpdateCryptoStatus2 function will make sure no new
+    // operations will start before the engine is idle.
+    // Calling function should poll for OP_DONE.
+
+    return;
+}
         
 void NvBootSeInstanceAesDecryptKeyIntoKeySlot (
         NvBootSeInstance Instance,
@@ -2577,7 +2954,7 @@ void NvBootSeInstanceAesDecryptKeyIntoKeySlot (
     NvBootSetSeInstanceReg(Instance, SE_OPERATION_0, SeConfigReg);
 
     // Wait until engine becomes IDLE.
-    while(NvBootSeInstanceIsEngineBusy(Instance))
+    while(NvBootSeInstanceIsEngineBusy(Instance, NULL))
         ;
 
     // If the target key size to be loaded directly into the SE key slot is
@@ -2612,8 +2989,58 @@ void NvBootSeInstanceAesDecryptKeyIntoKeySlot (
     NvBootSetSeInstanceReg(Instance, SE_OPERATION_0, SeConfigReg);
 
     // Wait until engine becomes IDLE.
-    while(NvBootSeInstanceIsEngineBusy(Instance))
+    while(NvBootSeInstanceIsEngineBusy(Instance, NULL))
         ;
 
     return;
 }
+
+void NvBootSeGetSeStickyBits(NvBootSePkaState *pSePkaState)
+{
+    // SE1
+    for(uint32_t i = 0; i < sizeof(NvBootSeStickyBitsOffsets) / 4; i++)
+    {
+        pSePkaState->Se1StickyBits[i] = NvBootGetSeInstanceReg(NvBootSeInstance_Se1, NvBootSeStickyBitsOffsets[i]);
+    }
+
+    // SE2
+    for(uint32_t i = 0; i < sizeof(NvBootSeStickyBitsOffsets) / 4; i++)
+    {
+        pSePkaState->Se2StickyBits[i] = NvBootGetSeInstanceReg(NvBootSeInstance_Se2, NvBootSeStickyBitsOffsets[i]);
+
+    }
+
+    // PKA1
+    for(uint32_t i = 0; i < sizeof(NvBootPkaStickyBitsOffsets) / 4; i++)
+    {
+        pSePkaState->Pka1StickyBits[i]= NvBootPkaGetPka0Reg(NvBootPkaStickyBitsOffsets[i]);
+    }
+}
+
+void NvBootSeGetSePkaState(NvBootSePkaState *pSePkaState)
+{
+    NvBootUtilMemset(pSePkaState, 0, sizeof(NvBootSePkaState));
+
+    // Calculate KCVs of SE key slots and save.
+    for(uint8_t KeySlot = 0; KeySlot < NvBootSeAesKeySlot_Num; KeySlot++)
+    {
+        // Save KCVs to TZRAM for comparison at SC7 exit.
+        NvBootKcvComputeKcvSE(&pSePkaState->SE1_KCV[KeySlot], NvBootSeInstance_Se1, KeySlot, AES_KEY_128);
+    }
+
+    for(uint8_t KeySlot = 0; KeySlot < NvBootSeAesKeySlot_Num; KeySlot++)
+    {
+        // Save KCVs to TZRAM for comparison at SC7 exit.
+        NvBootKcvComputeKcvSE(&pSePkaState->SE2_KCV[KeySlot], NvBootSeInstance_Se2, KeySlot, AES_KEY_128);
+    }
+
+    // Save PKA key slots
+    for (uint8_t Slot = 0; Slot < ARSE_PKA1_NUM_KEY_SLOTS; Slot++)
+    {
+        NvBootPkaReadKeySlot((NvU32 *)&pSePkaState->Pka1KeySlot[Slot], Slot);
+    }
+
+    // Save all sticky bits to the buffer
+    NvBootSeGetSeStickyBits(pSePkaState);
+}
+

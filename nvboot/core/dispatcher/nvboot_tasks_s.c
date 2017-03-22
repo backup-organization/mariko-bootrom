@@ -45,32 +45,48 @@ NvBootError NvBootMemSysRamSetup();
 static const NvBootTask CryptoInitTasks[] = {
     { &NvBootCryptoMgrInit, 0x71},
     { &NvBootCryptoMgrDecKeys, 0x72},
-    { &NvBootCryptoMgrLoadDefaultSEKeys, 0x73},
     // Note: SSK generated for all boot paths, but in the keyslot holding the SSK
     // SC7 is overwritten by SE context restore.
-    { &NvBootSskGenerate, 0x74},
-    { &NvBootSeEnableAtomicSeContextSave, 0x75},
+    { &NvBootSskGenerate, 0x73}
 };
 
 static const NvBootTask RCMTasks[] = {
     { &NvBootRCMInit, 0x201 },
     { &NvBootRCMSendUniqueId, 0x202 },
-    { &NvBootRCMProcessMsgs, 0x203 }
+    { &NvBootRCMProcessMsgs, 0x203 },
+    // NV FEK in the SE key slot is wiped out by default SE keys generation.
+    // Note NV FEK is needed for coldboot FSKP and RCM.
+    // OEM FEK is already wiped out after
+    // NvBootCryptoMgrDecKeys or else it would also get replaced
+    // by this function.
+    // In SC7, the NV FEK is wiped by the process of SE context restore.
+    { &NvBootCryptoMgrLoadDefaultSEKeys, 0x204},
 };
 
 // Tasks related to Coldboot flow
 static const NvBootTask ColdBootTasks[] = {
-    { &NvBootColdBootInit, 		0x101 },
-    { &NvBootColdBootReadBct, 	0x102 },
-    { &NvBootColdBootSetupSdram, 0x103 },
-    { &NvBootColdBootReInit,	0x104 },
-    { &NvBootColdBootLoadBl, 	0x105 }
+    // Unconditional SE atomic save enablement only in coldboot. SC7 exit has its own
+    // special sequencing during SE context restore.
+    { &NvBootSeEnableAtomicSeContextSave, 0x101},
+    { &NvBootColdBootInit, 		0x102 },
+    { &NvBootColdBootReadBct, 	0x103 },
+    { &NvBootColdBootSetupSdram, 0x104 },
+    { &NvBootColdBootReInit,	0x105 },
+    { &NvBootColdBootLoadBl, 	0x106 },
+    // NV FEK in the SE key slot is wiped out by default SE keys generation.
+    // Note NV FEK is needed for coldboot FSKP and RCM.
+    // OEM FEK is already wiped out after
+    // NvBootCryptoMgrDecKeys or else it would also get replaced
+    // by this function.
+    // In SC7, the NV FEK is wiped by the process of SE context restore.
+    { &NvBootCryptoMgrLoadDefaultSEKeys, 0x107},
 };
 
 // Tasks related to BR Secure Exit flow
 static const NvBootTask SecureExitBootTasks[] = {
     { &NvBootSeHousekeepingBeforeBRExit, 0x501},
-    { &NvBootBpmpSecureExitStart, 0x502}
+    { &NvBootLP0ContextRestoreStage3, 0x502},
+    { &NvBootBpmpSecureExitStart, 0x503}
 };
 
 // Tasks related to Warmboot/SC7 flow
@@ -82,8 +98,9 @@ static const NvBootTask WarmBootTasks[] = {
     { &NvBootWarmBootSdramInit, 0x605},
     { &NvBootWb0CopyHeaderAndFirmware, 0x606},
     { &NvBootWarmBootOemProcessRecoveryCode, 0x607},
-    { &NvBootLP0ContextRestore, 0x608}, // Must be placed after SE/PKA is used to authenticate/decrypt SC7 FW.
-    { &NvBootArcDisableUnconditional, 0x609},
+    { &NvBootArcDisableUnconditional, 0x608},
+    { &NvBootLP0ContextRestore, 0x609}, // Must be placed after SE/PKA is used to authenticate/decrypt SC7 FW.
+    
 };
 
 

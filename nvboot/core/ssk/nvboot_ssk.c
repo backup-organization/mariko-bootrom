@@ -42,7 +42,8 @@ NvBootSskGenerate()
 
     // Make sure engine is idle.  Encrypt device Key with the SBK, storing
     // the result in dk.  Finally, wait for engine to become idle.
-    while(NvBootSeIsEngineBusy())
+    // Passing Dummy IRAM address to ensure no outstanding memory transactions.
+    while(NvBootSeIsEngineBusy((NvU8*)NV_ADDRESS_MAP_IRAM_A_BASE))
         ;
 
     // Initialize OriginalIv[127:0] to zero
@@ -67,7 +68,7 @@ NvBootSskGenerate()
     // Make sure engine is idle. Compute the final SSK value by performing
     // a second SBK encryption operation, and store the result in ssk.
     // Wait for engine to become idle.
-    while(NvBootSeIsEngineBusy())
+    while(NvBootSeIsEngineBusy((NvU8*)dk))
         ;
 
     // Initialize OriginalIv[127:0] to zero

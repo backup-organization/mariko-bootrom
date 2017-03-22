@@ -135,43 +135,31 @@ void NvBootBpmpAonXusbUfsLogicReset()
 #endif
 }
 
-#if 0
 NvBootError NvBootBpmpSubSystemInit(void)
 {
-    if(NvBootQueryRstStatusColdBootFlag())
-    {
-        //deassert mc/emc reset for sysram access
-        // 1579893 
-        // " MSS resets must be deasserted to enable SYSRAM access. This is expected to be done in bootrom. 
-        //	 "MC reset deassert enables SYSRAM path, EMC reset deassert enables CAR to change clock freq due to handshake w/ EMC"
+    NvU32 RegData;
         
-        //for cold boot sdramparams is NUll, preservedram and ramDump is N/A 
-        //(const NvBootSdramParams *pData, NvBool preserveDram, NvBool ramDump)
-        NvBootEnableMemClk(0, 0, 0);
-    }
-	else if(NvBootQueryRstStatusWDTFourthExpiryIdleSc0Flag())
-	{
-	    // L2 Wdt Boot 
-        //check for Dram in SR and SR timeout condition
-        if(NvBootQueryRstStatusRamDumpDramSRTimedOut())
-        {
-            // L2 boot with MC not returning SR ack - same as cold boot except with ramdump=1
-            Context.BootFlowStatus.NvBootPreserveDram = 0;
-            Context.BootFlowStatus.NvBootRamDumpEnabled = 1;
-            //pData == NULL
-            NvBootEnableMemClk(0, Context.BootFlowStatus.NvBootPreserveDram, Context.BootFlowStatus.NvBootRamDumpEnabled);
+    // Check if the reset status is LP0 or not. This check is important
+    // because this function will also be utilized outside of Boot ROM (uartmon).
+    // If called in uartmon during an SC7 exit the NvBootEnableMemClk function call
+    // below with PreserveDRAM = false will cause loss of DRAM contents.
+    RegData = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_RST_STATUS_0);
+    if (NV_DRF_VAL(APBDEV_PMC, RST_STATUS, RST_SOURCE, RegData) !=
+            APBDEV_PMC_RST_STATUS_0_RST_SOURCE_LP0)
+    {
+        // For T214, this function should only be called
+        // in a NON-SC7 path. SC7 path will do its own function call of
+        // NvBootEnableMemClk because you will need the pointer to the unpacked SDRAM parameters.
+        //
+        // Enable Mem clk per Boot GFD. Reference section 1.6, 1.11.
+        // Preserve DRAM = true for SC7.
+        // If PreserveDRAM is true, the following function can only be called after 
+        // unpacking SDRAM parameters.
+        NvBootEnableMemClk (NULL, NV_FALSE);
         }
-	}
 
-    // 7.3.19	Bring AO-logic out of reset for ufs/xusb.
-    NvBootBpmpAonXusbUfsLogicReset();
-
-    //log BIT
-    BootInfoTable.BootROMtracker = NvBootFlowStatus_MSSInitialized;
     return NvBootError_Success;
-
 }
-#endif
 
 void FT_NONSECURE NvBootBpmpFabricInit(void)
 {
@@ -373,6 +361,38 @@ NvBootBpmpSecureRomEnterBeforeScatter()
     NvBootClocksSetAvpClockBeforeScatterLoad();
 }
 
+/**
+ *  t210 bug fix http://nvbugs/1867566
+ *  Tegra should not re-sample strapping option on PMC.MAIN_RST and Tegra WDT reset
+ */
+void FT_NONSECURE NvBootOverrideNonPORStraps(void)
+{
+    NvU32 RegData;
+    NvU32 Straps;
+    
+    // Check if Coldboot (POR) or any other boot.
+    RegData = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_RST_STATUS_0);
+    
+    if(NV_DRF_VAL(APBDEV_PMC, RST_STATUS, RST_SOURCE, RegData) == \
+        APBDEV_PMC_RST_STATUS_0_RST_SOURCE_POR)
+    {
+        // Sample straps on POR and store in Secure Scratch 111 after clearing RCM straps.
+        // Note: RCM straps are active low so OR with 0x7 to disable.
+        Straps = NV_READ32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_STRAPPING_OPT_A_0);
+        Straps |=  APB_MISC_PP_STRAPPING_OPT_A_0_RCM_STRAPS_FIELD;
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH111_0, Straps);    
+    }
+    else{
+        // Non PoR boot; Override with straps sampled in POR.
+        Straps =  NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SECURE_SCRATCH111_0);
+        NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE + APB_MISC_PP_STRAPPING_OPT_A_0, Straps);
+    }
+
+    // Write lock Secure Scratch 111
+    RegData = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_0);
+    RegData = NV_FLD_SET_DRF_DEF(APBDEV_PMC, SEC_DISABLE8, WRITE111, ON, RegData);
+    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_SEC_DISABLE8_0, RegData);
+}
 
 // The T210 function name was NvBootMainNonsecureConfigureClocks.
 void FT_NONSECURE NvBootBpmpSetupOscClk(void)
@@ -932,6 +952,12 @@ void NvBootBpmpSecureExit(NvU32 BootloaderEntryAddress,
 	NvU32 StopClearAddress, 
 	NvU32 SecureRegisterValueAddr)
 {
+#ifdef DO_COVERAGE
+#if DO_COVERAGE
+    void codecov_dump(void);
+    codecov_dump();
+#endif
+#endif    
     NvBootMainAsmSecureExit(BootloaderEntryAddress,
                             StartClearAddress,
                             StopClearAddress,

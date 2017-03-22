@@ -121,7 +121,7 @@ extern "C"
 /**
  * Defines the maximum size needed by the BIT.
  */
-#define NVBOOT_BIT_REQUIRED_SIZE 1024
+#define NVBOOT_BIT_REQUIRED_SIZE 1124
 
 /**
  * Defines the maximum number of bootloader descriptions in the BCT.
@@ -392,8 +392,7 @@ extern "C"
 // Use a prime number as the counter to track correctness of execution path.
 #define COUNTER1 17
 // Number of critical counter increments in NvBootSeHousekeepingBeforeBRExit().
-// 1 increment for the RSA key slot clearing + 16 SE key slots.
-#define SE_HOUSEKEEPING_STEPS (1+16)
+#define SE_HOUSEKEEPING_STEPS (3)
 
 // Hardcoded instruction step counter for FI mitigation.
 #define READY_ENC_KEY_STEPS (7)
@@ -406,6 +405,10 @@ extern "C"
 #define NvBootWb0CopyHeaderAndFirmware_COUNTER_STEPS (6)
 
 #define RcmValidate_COUNTER_STEPS (10)
+
+#define BctValidate_COUNTER_STEPS (6)
+
+#define BootloaderValidate_COUNTER_STEPS (7)
 
 // 10-bits; up to 1024 values.
 #define INSTRUCTION_DELAY_ENTROPY_BITS (1 << 10)

@@ -38,6 +38,9 @@
           _(EMC_CMD_MAPPING_CMD3_1_0) \
           _(EMC_CMD_MAPPING_CMD3_2_0) \
           _(EMC_CMD_MAPPING_BYTE_0) \
+          _(EMC_ADR_CFG_0) \
+          _(EMC_FBIO_CFG8_0) \
+          _(EMC_FBIO_SPARE_0) \
           _(EMC_PMACRO_BRICK_MAPPING_0_0) \
           _(EMC_PMACRO_BRICK_MAPPING_1_0) \
           _(EMC_PMACRO_BRICK_MAPPING_2_0)
@@ -55,10 +58,24 @@
       _(MC_VIDEO_PROTECT_BOM_0) \
       _(MC_VIDEO_PROTECT_BOM_ADR_HI_0) \
       _(MC_VIDEO_PROTECT_SIZE_MB_0) \
+      _(MC_VIDEO_PROTECT_VPR_OVERRIDE_0) \
+      _(MC_VIDEO_PROTECT_VPR_OVERRIDE1_0) \
       _(MC_VIDEO_PROTECT_GPU_OVERRIDE_0_0) \
       _(MC_VIDEO_PROTECT_GPU_OVERRIDE_1_0) \
+      _(MC_VIDEO_PROTECT_REG_CTRL_0) \
+      _(MC_IRAM_BOM_0) \
+      _(MC_IRAM_TOM_0) \
+      _(MC_IRAM_ADR_HI_0) \
+      _(MC_IRAM_REG_CTRL_0) \
+      _(MC_TZ_SECURITY_CTRL_0) \
       _(MC_MTS_CARVEOUT_BOM_0) \
       _(MC_MTS_CARVEOUT_ADR_HI_0) \
+      _(MC_MTS_CARVEOUT_SIZE_MB_0) \
+      _(MC_MTS_CARVEOUT_REG_CTRL_0) \
+      _(MC_SEC_CARVEOUT_BOM_0) \
+      _(MC_SEC_CARVEOUT_SIZE_MB_0) \
+      _(MC_SEC_CARVEOUT_ADR_HI_0) \
+      _(MC_SEC_CARVEOUT_REG_CTRL_0) \
       _(MC_SECURITY_CARVEOUT1_CFG0_0) \
       _(MC_SECURITY_CARVEOUT2_CFG0_0) \
       _(MC_SECURITY_CARVEOUT3_CFG0_0) \
@@ -67,7 +84,6 @@
       _(MC_UNTRANSLATED_REGION_CHECK_0)
 
 #define CAR_SPARE_WHITELIST(_) \
-      _(CLK_RST_CONTROLLER_RST_DEV_H_SET_0) \
       _(CLK_RST_CONTROLLER_RST_DEV_H_CLR_0) \
       _(CLK_RST_CONTROLLER_PLLM_BASE_0) \
       _(CLK_RST_CONTROLLER_PLLM_MISC1_0) \
@@ -75,6 +91,8 @@
       _(CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0) \
       _(CLK_RST_CONTROLLER_CLK_SOURCE_EMC_DLL_0) \
       _(CLK_RST_CONTROLLER_CLK_ENB_W_CLR_0) \
+      _(CLK_RST_CONTROLLER_CLK_ENB_W_SET_0) \
+      _(CLK_RST_CONTROLLER_CLK_ENB_H_SET_0) \
       _(CLK_RST_CONTROLLER_CLK_ENB_X_SET_0) 
 
 #define PMC_SPARE_WHITELIST(_) \
@@ -451,6 +469,7 @@ void NvBootEnableMemClk (const NvBootSdramParams *pData, NvBool preserveDram)
 
         dpd3_val = 0x0000FFFF |
                    NV_DRF_DEF(APBDEV_PMC, IO_DPD3_REQ, CODE, DPD_OFF);
+
         dpd4_val = 0x3FFFFFFF |  NV_DRF_DEF(APBDEV_PMC, IO_DPD4_REQ, CODE, DPD_OFF);
         wb_val      = 0;
         
@@ -476,7 +495,11 @@ void NvBootEnableMemClk (const NvBootSdramParams *pData, NvBool preserveDram)
     NvBootPmcUtilWaitUS(1);
 
     // Enable the clocks for EMC, MC, and ROCj
-    //NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_W_CLR_0, NV_DRF_NUM(CLK_RST_CONTROLLER, CLK_ENB_W_CLR, CLR_CLK_ENB_MC1, 1));
+    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_H_SET_0,
+          NV_DRF_NUM(CLK_RST_CONTROLLER, CLK_ENB_H_SET, SET_CLK_ENB_MEM, 1) |
+          NV_DRF_NUM(CLK_RST_CONTROLLER, CLK_ENB_H_SET, SET_CLK_ENB_EMC, 1));
+    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_W_SET_0,
+          NV_DRF_NUM(CLK_RST_CONTROLLER, CLK_ENB_W_SET, SET_CLK_ENB_MC1, 1));
 
     NvBootPmcUtilWaitUS(1); // add a wait to make sure we give enough time for reset deassert to propagate
 
@@ -497,7 +520,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     NvU32 dpd4_val;
     NvU32 dpd3_val;
     NvU32 dpd3_val_sel_dpd;
-    //NvU32 addr;
+    NvU32 Reg, Fld;
     const NvU32 EmcBase =
         NV_ADDRESS_MAP_EMC_BASE;
 
@@ -506,59 +529,35 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     NV_ASSERT(pData);
 
-//      We may need CH1 to be out of reset, and clocks to be on for clock sequencing even in single channel mode. 
-//      Note for T148/T124: Ideally, we should fix this with an ECO, but it's too late for T114. 
+    if(!IsWarmboot) {
+        // Set VDDP select
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_VDDP_SEL_0, pData->PmcVddpSel);
+        NvBootUtilWaitUS(pData->PmcVddpSelWait);
 
-//      T114: No special treatment for clocks/resets, since CH1 clocks will be not disabled, and CH1 will not be put in reset, even for single channel mode. This will waste power, but since single channel is a not a shipping configuration, we will live with this. 
-// 
-//     if(pData->McEmemAdrCfgChannelMask == 0 || pData->McEmemAdrCfgChannelMask == 0xffffffff)// single channel 
-// 
-//     {
-//         // In single channel mode, get mc0/emc0 out of reset and enable their clock, and for mc1/emc1 disable their clock and leave them in reset.
-//         // Enable the clocks for EMC(EMC0) and MC(MC0)
-//         NvBootClocksSetEnable(NvBootClocksClockId_EmcId, NV_TRUE);
-//         NvBootClocksSetEnable(NvBootClocksClockId_McId,  NV_TRUE);
-// 
-//       Don't disable clocks. We may need Ch1 EMC to be on during clock change sequence. per Robert in review meeting. 
-//         NvBootClocksSetEnable(NvBootClocksClockId_Emc1Id, NV_TRUE); 
-//         NvBootClocksSetEnable(NvBootClocksClockId_Mc1Id,  NV_TRUE);
-// 
-//         // Remove the EMC(EMC0) and MC(MC0) controllers from Reset.
-//         // Must be done after clk enable to complete to reset correctly
-//         NvBootResetSetEnable(NvBootResetDeviceId_EmcId, NV_FALSE);
-// //        NvBootResetSetEnable(NvBootResetDeviceId_McId,  NV_FALSE); SW reset to MC has not effect. Bug 922205
-// 
-//         // Do not put  the EMC1and MC1 controllers into Reset.
-//      // For xusb boot, reset to EMC1 and MC1 has already been applied. So we do not put them into reset to avoid 2 resets to the module. Clocks to EMC1/MC1 are gated though.
-//      // For other boot sources, it doesn't matter as it will already be in reset. 
-//  
-//     //    NvBootResetSetEnable(NvBootResetDeviceId_Emc1Id, NV_TRUE);
-//     //    NvBootResetSetEnable(NvBootResetDeviceId_Mc1Id,  NV_TRUE);
-//     }
-//     else
+        #define COPY_PMC_FLD(reg, fld, var) \
+        do {\
+            Fld = NV_DRF_VAL(APBDEV_PMC, reg, fld, pData->var); \
+            Reg = NV_FLD_SET_DRF_NUM(APBDEV_PMC, reg, fld, Fld, Reg); \
+        } while(0)
 
+        // Turn on MEM IO power
+        Reg = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_NO_IOPOWER_0);
+        COPY_PMC_FLD(NO_IOPOWER, MEM, PmcNoIoPower); // make sure mem power is on
+        COPY_PMC_FLD(NO_IOPOWER, MEM_COMP, PmcNoIoPower); // make sure mem power is on
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_NO_IOPOWER_0, Reg);
 
-    // Set VDDP select
-    //NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_VDDP_SEL_0,
-    //           pData->PmcVddpSel);
-    //NvBootUtilWaitUS(pData->PmcVddpSelWait);
+        //Clear TX_FORCE_TRISTATE
+        NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_DDR_CNTRL_0, pData->PmcDdrCntrl);
+    }
 
-    //// Turn on MEM IO power
-    //Reg = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_NO_IOPOWER_0);
-    //COPY_PMC_FLD(NO_IOPOWER, MEM, PmcNoIoPower); // make sure mem power is on
-    //COPY_PMC_FLD(NO_IOPOWER, MEM_COMP, PmcNoIoPower); // make sure mem power is on
-    ////COPY_PMC_FLD(NO_IOPOWER, VI, PmcNoIoPower); // possibly needed on lpddr2 pop
-    //NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_NO_IOPOWER_0,
-    //           pData->PmcNoIoPower);
-    //if (!IsWarmboot) {
-    //   NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_REG_SHORT_0, pData->PmcRegShort);
-
-    //   NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_DDR_CNTRL_0, pData->PmcDdrCntrl);
-    //}
-    
     // Patch 1 using BCT Spare Variables
     if(pData->EmcBctSpare0)
       NvBootMssSpareWrite(pData->EmcBctSpare0 , pData->EmcBctSpare1);
+
+    if (pData->ClkRstControllerPllmMisc2OverrideEnable) {
+      NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_PLLM_MISC2_0, pData->ClkRstControllerPllmMisc2Override);
+    }
+
 
     // use this to enable the E_WB on powered down BRICKS based of the sel_dpd config
     wb_enables = ((pData->EmcPmcScratch1 ^ 0x00000FFF) & 0x00000FFF) << 18 ; // setting WB only for bricks
@@ -581,11 +580,10 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     dpd4_val = NV_FLD_SET_DRF_DEF(APBDEV_PMC, IO_DPD4_REQ, CODE, DPD_ON,  (0x00001FFF & ~pData->EmcPmcScratch2));
     NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_IO_DPD4_REQ_0, dpd4_val);
 
-	
-    NvBootUtilWaitUS(1); // add a wait to make sure we give enough time for clk_switch to take place. 
-
+    NvBootUtilWaitUS(1);
 
     // Enable the clocks for EMC and MC
+    // T214 - MH - shouldn't be needed, but leave in case not all TB's use EnableMemClk -- HAS NO IMPACT
     NvBootClocksSetEnable(NvBootClocksClockId_EmcId, NV_TRUE);
     NvBootClocksSetEnable(NvBootClocksClockId_McId,  NV_TRUE);
 
@@ -593,58 +591,20 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
       NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_X_SET_0, CLK_RST_CONTROLLER_CLK_ENB_X_SET_0_SET_CLK_ENB_EMC_DLL_FIELD);
     }
 
-    // Remove the EMC and MC controllers from Reset
-    NvBootResetSetEnable(NvBootResetDeviceId_EmcId, NV_FALSE);
-    NvBootResetSetEnable(NvBootResetDeviceId_McId,  NV_FALSE);
-
-// Removing Mark's change for now
-//    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE +
-//               CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0,
-//               EmcClkSource_RegData);
-
-
-    // Update emc clock source register
-
-    // Update emc clock source register from pData ->EmcClockSource
-    //        CLK_SOURCE_EMC.EMC_2X_CLK_SRC
-    //        EMC_2X_CLK_DIVISOR
-    //        MC_EMC_SAME_FREQ -- derived from pData->McEmemArbMisc0
-    //        FORCE_CC_TRIGGER
-    RegData = pData ->EmcClockSource; 
-
-    // Copy MC_EMC_SAME_FREQ flag from MC register
-    RegData = NV_FLD_SET_DRF_NUM(CLK_RST_CONTROLLER,
-                                 CLK_SOURCE_EMC,
-                                 MC_EMC_SAME_FREQ,
-                                 NV_DRF_VAL(MC,
-                                            EMEM_ARB_MISC0,
-                                            MC_EMC_SAME_FREQ,
-                                            pData->McEmemArbMisc0),
-                                 RegData);
-
-    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE +
-               CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0,
-               RegData);
-
-    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_SOURCE_EMC_DLL_0, pData->EmcClockSourceDll);
-
-    if (pData->ClkRstControllerPllmMisc2OverrideEnable) {
-      NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_PLLM_MISC2_0, pData->ClkRstControllerPllmMisc2Override);
-    }
-
-    NvBootUtilWaitUS(5); // add a wait to make sure we give enough time for clk_switch to take place. 
-
     // Disable clk to unused channel
     NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_ENB_W_CLR_0, NV_DRF_NUM(CLK_RST_CONTROLLER, CLK_ENB_W_CLR, CLR_CLK_ENB_MC1, pData->ClearClk2Mc1));
 
-    // this line is used on fakeboot/wb_code test and all executions through emc_reg_calc (e.g Simfront). The command does not need to get into the bootrom
-    // as it's already covered in the code above:  
     // Remove the EMC and MC controllers from Reset
+    // T214 - MH - shouldn't be needed, but leave in case not all TB's use EnableMemClk -- HAS NO IMPACT
+    NvBootResetSetEnable(NvBootResetDeviceId_EmcId, NV_FALSE);
+    NvBootResetSetEnable(NvBootResetDeviceId_McId,  NV_FALSE);
+
     //   NvBootResetSetEnable(NvBootResetDeviceId_EmcId, NV_FALSE);
     //   NvBootResetSetEnable(NvBootResetDeviceId_McId,  NV_FALSE);
     // Ideally that code needs to be converted to NV_WRITE32 or converted to be parsed by the warmboot code test
     //NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_RST_DEV_H_CLR_0,CLK_RST_CONTROLLER_RST_DEV_H_CLR_0_CLR_EMC_RST_FIELD | CLK_RST_CONTROLLER_RST_DEV_H_CLR_0_CLR_MEM_RST_FIELD);
 
+    //  T214 - this was bug in T186 - cmd/brick mapping must be done before timing_update
     // Program CMD mapping.  Required to be done before brick mapping, otherwise
     //  We can't gurantee CK will be differential at all times
     HW_REGW(EmcBase, EMC, FBIO_CFG7, pData->EmcFbioCfg7);
@@ -681,13 +641,22 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
       NvBootMssSpareWrite(pData->EmcBctSpareSecure4, pData->EmcBctSpareSecure5);
 
     HW_REGW(EmcBase, EMC, TIMING_CONTROL, 1); // Trigger timing update so above take effect
-    NvBootUtilWaitUS(10); // add a wait to make sure we give enough time for regulators to settle
+    NvBootUtilWaitUS(2 + pData->PmcVddpSelWait); // add a wait to make sure we give enough time for regulators to settle
+
+    // Update emc clock source register from pData ->EmcClockSource
+    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0, pData ->EmcClockSource);
+
+    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_SOURCE_EMC_DLL_0, pData->EmcClockSourceDll);
+
+    NvBootUtilWaitUS(5); // add a wait to make sure we give enough time for clk_switch to take place. 
+
+
+    // this line is used on fakeboot/wb_code test and all executions through emc_reg_calc (e.g Simfront). The command does not need to get into the bootrom
+    // as it's already covered in the code above:  
+    // Remove the EMC and MC controllers from Reset
 
     HW_REGW(EmcBase, EMC, DBG, pData->EmcDbg | NV_DRF_NUM(EMC,DBG, WRITE_MUX, pData->EmcDbgWriteMux));
     
-    //NvU32 common_pad_macro_reset_settings = NV_RESETVAL(EMC,PMACRO_COMMON_PAD_TX_CTRL);
-    //NvU32 common_pad_macro_mask1 = 0x00000001;
-    //NvU32 common_pad_macro_step1 = common_pad_macro_reset_settings & (pData->EmcPmacroCommonPadTxCtrl | ~common_pad_macro_mask1);
 
     // Patch 2 using BCT Spare Variables
     if(pData->EmcBctSpare2)
@@ -738,6 +707,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_CONFIG6,          pData->EmcAutoCalConfig6);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_CONFIG7,          pData->EmcAutoCalConfig7);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_CONFIG8,          pData->EmcAutoCalConfig8);
+
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, PMACRO_RX_TERM,            pData->EmcPmacroRxTerm);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, PMACRO_DQ_TX_DRV,          pData->EmcPmacroDqTxDrv);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, PMACRO_CA_TX_DRV,          pData->EmcPmacroCaTxDrv);
@@ -775,7 +745,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(EmcBase, EMC, PMACRO_DATA_PAD_TX_CTRL, pData->EmcPmacroDataPadTxCtrl);
     HW_REGW(EmcBase, EMC, PMACRO_DATA_RX_TERM_MODE, pData->EmcPmacroDataRxTermMode);
     HW_REGW(EmcBase, EMC, PMACRO_CMD_RX_TERM_MODE, pData->EmcPmacroCmdRxTermMode);
-    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl & 0xEFFFFFFF);
+    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl & 0xEFFFFFFF); //MH - T214 review - masks CMD_DQS_TX_DISABLE_CAL_UPDATE for initial autocal cycle
 
     HW_REGW(EmcBase, EMC, CFG_3, pData->EmcCfg3);
     HW_REGW(EmcBase, EMC, PMACRO_TX_PWRD_0, pData->EmcPmacroTxPwrd0);
@@ -914,7 +884,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(McBase, MC, EMEM_ADR_CFG_BANK_MASK_1, pData->McEmemAdrCfgBankMask1);
     HW_REGW(McBase, MC, EMEM_ADR_CFG_BANK_MASK_2, pData->McEmemAdrCfgBankMask2);
     HW_REGW(McBase, MC, EMEM_CFG, pData->McEmemCfg);
-    
+
     // Move sticky bit EMEM_CFG_ACCESS_CTRL to end of sequence
     HW_REGW(McBase, MC, SEC_CARVEOUT_BOM          ,pData->McSecCarveoutBom);
     HW_REGW(McBase, MC, SEC_CARVEOUT_ADR_HI       ,pData->McSecCarveoutAdrHi);
@@ -965,6 +935,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, PMACRO_AUTOCAL_CFG_0,      pData->EmcPmacroAutocalCfg0);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, PMACRO_AUTOCAL_CFG_1,      pData->EmcPmacroAutocalCfg1);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, PMACRO_AUTOCAL_CFG_2,      pData->EmcPmacroAutocalCfg2);
+
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_VREF_SEL_0,       pData->EmcAutoCalVrefSel0);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_VREF_SEL_1,       pData->EmcAutoCalVrefSel1);
     HW_REGW(NV_ADDRESS_MAP_EMC_BASE, EMC, AUTO_CAL_INTERVAL,         pData->EmcAutoCalInterval);
@@ -1073,12 +1044,6 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     HW_REGW(EmcBase, EMC, PMACRO_DSR_VTTGEN_CTRL_0, pData->EmcPmacroDsrVttgenCtrl0);
 
 
-// Removing Mark's change for now
-//    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE +
-//               CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0,
-//               EmcClkSource_RegData | 0x08000000);
-
-
     // Set appropriate pipe_enables in EMC_CFG before sending any DRAM cmds. 
     // Other bits in EMC_CFG must come after REFCTRL
     RegData = NV_RESETVAL (EMC, CFG); 
@@ -1095,7 +1060,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     // the address range supported is 0x7000_0000 to 0x7001_FFFF
     if (pData->BootRomPatchControl) {
       NvBootMssSpareWrite(pData->BootRomPatchControl, pData->BootRomPatchData);
-        HW_REGW(McBase, MC, TIMING_CONTROL, 1);  // trigger MC just in case the patch needs it
+      HW_REGW(McBase, MC, TIMING_CONTROL, 1);  // trigger MC just in case the patch needs it
     }
 
     if(pData->EmcBctSpareSecure12)
@@ -1115,10 +1080,7 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
         
     NvBootPmcUtilWaitUS(pData->PmcIoDpd3ReqWait);
 
-    if (pData->EmcAutoCalInterval == 0) {
-      HW_REGW(EmcBase, EMC, AUTO_CAL_CONFIG, pData->EmcAutoCalConfig | NV_DRF_DEF(EMC, AUTO_CAL_CONFIG, AUTO_CAL_MEASURE_STALL, ENABLE));
-    }
-    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl);
+    HW_REGW(EmcBase, EMC, PMACRO_CMD_PAD_TX_CTRL, pData->EmcPmacroCmdPadTxCtrl);//MH - T214 review - sets final value -- bits masked above
 
     // ZQ CAL setup, not actually issuing ZQ CAL now.
     if (!IsWarmboot && NV_DRF_VAL(EMCZCAL, BOOT_ENABLE, COLDBOOT, pData->EmcZcalWarmColdBootEnables)) {
@@ -1325,7 +1287,23 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
             #endif // DONT_INTEGRATE_LEGACY_DRAM_TYPES
         }
 
- 
+        // Insert a burst refreshes.
+        if (pData->EmcExtraRefreshNum > 0)
+        {
+            HW_REGW(EmcBase, EMC, REF, 
+                    NV_DRF_NUM(EMC, REF, REF_CMD,    1) | /* Trigger bit */ 
+                    NV_DRF_NUM(EMC, REF, REF_NORMAL, 1) |
+                    NV_DRF_NUM(EMC, REF, REF_NUM,
+                               (1 << pData->EmcExtraRefreshNum) - 1)|
+                    NV_DRF_NUM(EMC, REF, REF_DEV_SELECTN, pData->EmcDevSelect));
+        }
+
+        // Enable refresh on both devices.
+        HW_REGW(EmcBase, EMC, REFCTRL,
+                NV_DRF_NUM(EMC, REFCTRL, DEVICE_REFRESH_DISABLE,
+                           pData->EmcDevSelect) |
+                NV_DRF_DEF(EMC, REFCTRL, REF_VALID, ENABLED));
+
 
         // one time ZQ calibration
         
@@ -1459,27 +1437,27 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     // Re-trigger the Timing value after writing ZCAL*
     HW_REGW(EmcBase, EMC, TIMING_CONTROL, 1); // Trigger - just needs non-zero arg
 
-    // Insert a burst refreshes.
-    if (pData->EmcExtraRefreshNum > 0)
-    {
-        HW_REGW(EmcBase, EMC, REF, 
-                NV_DRF_NUM(EMC, REF, REF_CMD,    1) | /* Trigger bit */ 
-                NV_DRF_NUM(EMC, REF, REF_NORMAL, 1) |
-                NV_DRF_NUM(EMC, REF, REF_NUM,
-                           (1 << pData->EmcExtraRefreshNum) - 1)|
-                NV_DRF_NUM(EMC, REF, REF_DEV_SELECTN, pData->EmcDevSelect));
+    if( !IsWarmboot ) {
+        // Insert a burst refreshes.
+        if (pData->EmcExtraRefreshNum > 0)
+        {
+            HW_REGW(EmcBase, EMC, REF, 
+                    NV_DRF_NUM(EMC, REF, REF_CMD,    1) | /* Trigger bit */ 
+                    NV_DRF_NUM(EMC, REF, REF_NORMAL, 1) |
+                    NV_DRF_NUM(EMC, REF, REF_NUM,
+                               (1 << pData->EmcExtraRefreshNum) - 1)|
+                    NV_DRF_NUM(EMC, REF, REF_DEV_SELECTN, pData->EmcDevSelect));
+        }
+
+        // Enable refresh on both devices.
+        HW_REGW(EmcBase, EMC, REFCTRL,
+                NV_DRF_NUM(EMC, REFCTRL, DEVICE_REFRESH_DISABLE,
+                           pData->EmcDevSelect) |
+                NV_DRF_DEF(EMC, REFCTRL, REF_VALID, ENABLED));
     }
-
-    // Enable refresh on both devices.
-    HW_REGW(EmcBase, EMC, REFCTRL,
-            NV_DRF_NUM(EMC, REFCTRL, DEVICE_REFRESH_DISABLE,
-                       pData->EmcDevSelect) |
-            NV_DRF_DEF(EMC, REFCTRL, REF_VALID, ENABLED));
-
     // Note: Programming CFG must happen after REFCTRL to delay active power-
     //       down to after init. (DDR2 constraint).
     HW_REGW(EmcBase, EMC, DYN_SELF_REF_CONTROL,   pData->EmcDynSelfRefControl);
-    HW_REGW(EmcBase, EMC, CFG_UPDATE,             pData->EmcCfgUpdate);
     HW_REGW(EmcBase, EMC, CFG,                    pData->EmcCfg);
 	HW_REGW(EmcBase, EMC, FDPD_CTRL_DQ,  pData->EmcFdpdCtrlDq);
 	HW_REGW(EmcBase, EMC, FDPD_CTRL_CMD,  pData->EmcFdpdCtrlCmd);
@@ -1491,30 +1469,14 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
     // Re-trigger the Timing value to latch power saving functions
     HW_REGW(EmcBase, EMC, TIMING_CONTROL, 1); // Trigger - just needs non-zero arg
 
+    HW_REGW(EmcBase, EMC, CFG_UPDATE,             pData->EmcCfgUpdate);
     // Enable EMC pipe clock gating 
     HW_REGW(EmcBase, EMC, CFG_PIPE_CLK, pData->EmcCfgPipeClk);
 
     // Depending on frequency, enable CMD/CLK fdpd 
     HW_REGW(EmcBase, EMC, FDPD_CTRL_CMD_NO_RAMP, pData->EmcFdpdCtrlCmdNoRamp);
 
-    // SW should set this bit to access the SDRAM after memory has been
-    // initialized.
-    RegData =
-        NV_READ32(NV_ADDRESS_MAP_AHB_ARBC_BASE + AHB_ARBITRATION_XBAR_CTRL_0);
-
-    RegData = 
-        NV_FLD_SET_DRF_NUM(
-            AHB,
-            ARBITRATION_XBAR_CTRL,
-            MEM_INIT_DONE,
-            pData->AhbArbitrationXbarCtrlMemInitDone,
-            RegData);
-
-    NV_WRITE32(NV_ADDRESS_MAP_AHB_ARBC_BASE + AHB_ARBITRATION_XBAR_CTRL_0,
-               RegData);
-
     // Write out all access ctrl lock bits at the end of the sequence
-
     HW_REGW(McBase, MC, UNTRANSLATED_REGION_CHECK, pData->McUntranslatedRegionCheck);
     HW_REGW(McBase, MC, VIDEO_PROTECT_REG_CTRL    ,pData->McVideoProtectWriteAccess);
     HW_REGW(McBase, MC, SEC_CARVEOUT_REG_CTRL      ,pData->McSecCarveoutProtectWriteAccess); 
@@ -1593,41 +1555,26 @@ static void DoSdramInit(const NvBootSdramParams *pData, NvBool IsWarmboot)
 
     // This register must be written last since the wb0_code_test stops once it hits this register
     HW_REGW(McBase, MC, EMEM_CFG_ACCESS_CTRL, 1); // lock emem_cfg registers. (this differs from emc_reg_calc, we don't lock for sim testing purposes)
+
+    // SW should set this bit to access the SDRAM after memory has been
+    // initialized.
+    RegData =
+        NV_READ32(NV_ADDRESS_MAP_AHB_ARBC_BASE + AHB_ARBITRATION_XBAR_CTRL_0);
+    RegData = 
+        NV_FLD_SET_DRF_NUM(
+            AHB,
+            ARBITRATION_XBAR_CTRL,
+            MEM_INIT_DONE,
+            pData->AhbArbitrationXbarCtrlMemInitDone,
+            RegData);
+
+    NV_WRITE32(NV_ADDRESS_MAP_AHB_ARBC_BASE + AHB_ARBITRATION_XBAR_CTRL_0,
+               RegData);
+
 }
 
 void NvBootSdramInit(const NvBootSdramParams *pData)
 {
-    NvU32 Reg, Fld;
-
-    // These PMC registers need to be programmed before clock-enable
-    // and de-reset of MC and EMC. The programming is not necessary
-    // at warmboot since these registers are preserved in PMC.
-
-    #define COPY_PMC_FLD(reg, fld, var) \
-    do {\
-        Fld = NV_DRF_VAL(APBDEV_PMC, reg, fld, pData->var); \
-        Reg = NV_FLD_SET_DRF_NUM(APBDEV_PMC, reg, fld, Fld, Reg); \
-    } while(0)
-
-    // Set VDDP select
-    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_VDDP_SEL_0,
-               pData->PmcVddpSel);
-    NvBootUtilWaitUS(pData->PmcVddpSelWait);
-
-    // Turn on MEM IO power
-    Reg = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_NO_IOPOWER_0);
-    COPY_PMC_FLD(NO_IOPOWER, MEM, PmcNoIoPower); // make sure mem power is on
-    COPY_PMC_FLD(NO_IOPOWER, MEM_COMP, PmcNoIoPower); // make sure mem power is on
-    //COPY_PMC_FLD(NO_IOPOWER, VI, PmcNoIoPower); // possibly needed on lpddr2 pop
-    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_NO_IOPOWER_0,
-               pData->PmcNoIoPower);
-    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_REG_SHORT_0, pData->PmcRegShort);
-
-    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + APBDEV_PMC_DDR_CNTRL_0, pData->PmcDdrCntrl);
-    
-    // Patch 1 using BCT Spare Variables
-    //if(pData->EmcBctSpare0)
-    //  NvBootMssSpareWrite(pData->EmcBctSpare0 , pData->EmcBctSpare1);
 
     // SDRAM initialization
     DoSdramInit(pData, NV_FALSE);

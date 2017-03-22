@@ -79,17 +79,59 @@ NvU32 NvBootGetSeInstanceReg(NvBootSeInstance Instance, NvU32 Reg);
     
 void NvBootSetSeInstanceReg(NvBootSeInstance Instance, NvU32 Reg, NvU32 Data);
 
-NvBool NvBootSeInstanceIsEngineBusy(NvBootSeInstance Instance);
+/**
+ *  Check for operations pending, pending memory write (through SE status) and AHB 
+ *  coherency if Dest Addr in DRAM range.
+ */
+NvBool NvBootSeInstanceIsEngineBusy(NvBootSeInstance Instance, NvU8* DestAddr);
+
+/**
+ * Is the particular SE instance enabled or disabled?
+ * True if enabled, false if disabled.
+ */
+NvBool NvBootSeInstanceIsEngineEnabled(NvBootSeInstance Instance);
 
 void NvBootSeInitializeSE(void);
 
 /**
- * Enable Atomic SE context save feature.
+ * Check if atomic SE context save/restore is enabled for
+ * a partulcar SE instance.
+ */
+NvBool NvBootSeIsAtomicSeContextSaveEnabled(NvBootSeInstance Instance);
+
+/**
+ * Enable Atomic SE context save feature for all instsances
+ * of SE.
  * Program and locks address of the SE context blobs into secure scratch.
+ *
+ * Must be called BEFORE TZRAM is cleared for exit because the 
+ * TZRAM clearing function uses the enablement of SE context save
+ * as an input.
  *
  */
 NvBootError NvBootSeEnableAtomicSeContextSave(void);
 
+/**
+ * Enable Atomic SE context save feature for a particular instance.
+ * Program and locks the save address of the SE context blob
+ * into secure scratch for the particular instance.
+ *
+ * Must be called BEFORE TZRAM is cleared for exit because the 
+ * TZRAM clearing function uses the enablement of SE context save
+ * as an input.
+ *
+ */
+void NvBootSeInstanceEnableAtomicSeContextSave(NvBootSeInstance Instance);
+
+/**
+ * If SE atomic context save/restore is enabled, only clear
+ * TZRAM up to the TZRAM carveouts reserved for SE context blobs.
+ * Otherwise, clear all TZRAM.
+ *
+ * Must be called AFTER atomic SE context save feature is enabled
+ * as this function uses the enablement of this feature to know
+ * how much TZRAM to clear.
+ */
 void NvBootSeClearTzram(void);
 
 /**
@@ -136,6 +178,11 @@ void NvBootSeLockSbk(void);
 
 void  NvBootSeAesDecryptContext(NvU32 *pEncryptedContext, NvU32 *pDecryptedContext);
 
+/**
+ * Swap Exponent and Modulus of RSA key struct.
+ */
+void NvBootSeRsaKeySlotSwapModExp(NvBootSeRsaKey2048 *RsaKey);
+
 //TODO: make static?
 NvBool  NvBootSeCheckKnownPattern(NvU8 *pPattern);
 
@@ -155,6 +202,13 @@ void NvBootLP0ContextRestoreDisable(NvBootSeInstance SeInstance, void *pSeDecryp
  *  Parses the decrypted context, set key slots and sticky bits according to SE Instance
  */
 void NvBootLP0ContextRestoreStage2(NvBootSeInstance SeInstance, void *pSeDecryptedContext);
+
+/**
+ *  Restore SE_SECURITY_0 (per instance), SE_TZRAM_SECURITY, TZRAM_SECURITY, PKA1_SECURITY
+ *  after all SE operations/register writes are done. Uses the Context struct
+ *  to save the values to be restored.
+ */
+NvBootError NvBootLP0ContextRestoreStage3(void);
 
 /**
  * Parse Decrypted context into register buffer. 
@@ -183,10 +237,21 @@ void NvBootSeSHAHash(NvU32 *pInputMessage, NvU32 InputMessageSizeBytes, NvU32 *p
  */
 //TODO: add documentation
 void NvBootSeRsaReadKey(NvU32 *pKeyBuffer, NvU32 RsaKeySizeBits, NvU8 RsaKeySlot, NvU8 ExpModSel);
+/*
+ * Archiving Se Instance RSA read key.
+ * void NvBootSeInstanceRsaReadKey(NvBootSeInstance SeInstance, NvU32 *pKeyBuffer, NvU32 RsaKeySizeBits, NvU8 RsaKeySlot, NvU8 ExpModSel);
+ */
+
 void NvBootSeInstanceRsaWriteKey(NvBootSeInstance SeInstance, NvU32 *pKeyBuffer, NvU32 RsaModulusSizeBits, NvU32 RsaKeySizeBits, NvU8 RsaKeySlot);
 void NvBootSeRsaClearKeySlot(NvU8 RsaKeySlot);
+void NvBootSeInstanceRsaClearKeySlot(NvBootSeInstance SeInstance, NvU8 RsaKeySlot);
 
+/**
+ * Initiate Modular exponentiation operation for a particular SE instance
+ */
 NvBootError NvBootSeRsaModularExp(NvU8 RsaKeySlot, NvU32 RsaKeySizeBits, NvU32 InputMessageLengthBytes, NvU32 *pInputMessage, NvU32 *pOutputDestination);
+
+NvBootError NvBootSeInstanceRsaModularExp(NvBootSeInstance SeInstance, NvU8 RsaKeySlot, NvU32 RsaKeySizeBits, NvU32 InputMessageLengthBytes, NvU32 *pInputMessage, NvU32 *pOutputDestination);
 
 NvBootError
 NvBootSeRsaPssSignatureVerify(NvU8 RsaKeySlot, NvU32 RsaKeySizeBits, NvU32 *pInputMessage, NvU32 *pMessageHash, NvU32 InputMessageLengthBytes, NvU32 *pSignature, NvU8 HashAlgorithm, NvS8 sLen);
@@ -307,6 +372,40 @@ void NvBootSeAesEncrypt (
         NvU8    *Dst);
 
 /**
+ * Encrypt AES-block size chunks of data using ECB block mode of operation.
+ *
+ * @param SeInstance Instance number of SE engine
+ * @param KeySlot SE key slot.
+ * @param KeySize AES key size, specified by SE_MODE_PKT_AESMODE_KEY*
+ * @param First NV_TRUE if this is the first chunk to be processed. NV_TRUE
+ *              also means original IV is used. If NV_FALSE, updated IV will be
+ *              used.
+ * @param NumBlocks Message size specified in AES blocks.
+ * @param Src Pointer to message.
+ * @param Dst Pointer to encrypted plaintext.
+ *
+ * Note: This implementation requires the message size to be multiples of AES
+ *       block size (16 bytes).
+ *       This function can currently handle NVBOOT_SE_LL_MAX_SIZE_BYTES at a time.
+ *       This is more than enough to handle the maximum IRAM buffer size
+ *       (see nvboot_buffers_int.h).
+ *       First specifies the use of ORIGINAL IV or UPDATED IV. The
+ *       caller MUST load the correct ORIGINAL IV to be used into the SE
+ *       before calling this function. If continuing an AES-encrylt operation
+ *       and the updated IV is to be used, you can specify NV_FALSE for First.
+ *
+ *       The caller must check if the SE is idle first.
+ */
+void NvBootSeInstanceAesEncryptECBStart (
+        NvBootSeInstance SeInstance,
+        NvU8     KeySlot,
+        NvU8     KeySize,
+        NvBool   First,
+        NvU32    NumBlocks,
+        NvU8    *Src,
+        NvU8    *Dst);
+
+/**
  *  Non blocking and instanced version of Aes Decrypt
  */
 void NvBootSeInstanceAesDecryptStart (
@@ -352,8 +451,8 @@ void NvBootSeInstanceAesDecryptKeyIntoKeySlot (
 #define NvBootSe2SetupOpMode(Mode, Encrypt, UseOrigIv, Dst, KeySlot, KeySize) \
     NvBootSeInstanceSetupOpMode(NvBootSeInstance_Se2, Mode, Encrypt, UseOrigIv, Dst, KeySlot, KeySize)
 /***************************************************************************************************/
-#define NvBootSeIsEngineBusy()   NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se1)
-#define NvBootSe2IsEngineBusy()  NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se2)
+#define NvBootSeIsEngineBusy(DestAddr)   NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se1, DestAddr)
+#define NvBootSe2IsEngineBusy(DestAddr)  NvBootSeInstanceIsEngineBusy(NvBootSeInstance_Se2, DestAddr)
 /***************************************************************************************************/
 #define NvBootSeKeySlotReadKeyIV(KeySlot, KeySize, KeyType, KeyData) \
         NvBootSeInstanceKeySlotReadKeyIV(NvBootSeInstance_Se1, KeySlot, KeySize, KeyType, KeyData)
@@ -391,6 +490,20 @@ void NvBootSeInstanceAesDecryptKeyIntoKeySlot (
  * key slots. Should be called at BR secure exit.
  */
 NvBootError NvBootSeHousekeepingBeforeBRExit();
+
+/**
+ * Save all SE1/SE2/PKA1 sticky bits to NvBootSePkaState.
+ */
+void NvBootSeGetSeStickyBits(NvBootSePkaState *pSePkaState);
+
+/**
+ * Calculate KCVs of SE key slots.
+ * Save PKA key slots (leave them read unlocked).
+ * Save all sticky bits.
+ * Save all data to pSaveLocation.
+ *
+ */
+void NvBootSeGetSePkaState(NvBootSePkaState *pSePkaState);
 
 #if defined(__cplusplus)
 }

@@ -138,6 +138,13 @@ static NvBool NvBootResetQueryWDTFlag()
     return NV_FALSE;
 }
 
+NvU32 CalculateBlockLength(NvU32 numCmds, NvBool is16Or32)
+{
+    size_t CmdSize = is16Or32 ? 4 : 2;
+    // Blocks are DWORD aligned, this is a Ceiling function for DWORD size
+    return (((CmdSize*numCmds) + 4 - 1)/4)*4 + HEADER_SIZE;
+}
+
 static void NvBootResetTsenseHandler(NvU32 RstFlags, NvU32 WdtDuringBR)
 {
     NvU32 RegData, AReg = 0;
@@ -284,6 +291,12 @@ void NvBootResetRailsAndResetHandler()
         return;
     }
 
+    RegData = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + SCRATCH_RAIL_WDT_INFO);
+    WdtDuringBr = NV_DRF_VAL(SCRATCH_RAIL, WDT_INFO, WDT_DURING_BR, RegData);
+    // WDT, TSense, and SW_MAIN should have WDT_DURING_DR (SCRATCH190) set
+    RegData = NV_FLD_SET_DRF_NUM(SCRATCH_RAIL, WDT_INFO, WDT_DURING_BR, 1, RegData);
+    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + SCRATCH_RAIL_WDT_INFO, RegData);
+
     // As of t210 We only support one I2C config, but keep the table for ease
     const NvBootI2cCntlrTbl I2cPmuCntlrData = {NvBootResetDeviceId_I2c5Id,
                                                NvBootClocksClockId_I2c5Id};
@@ -292,13 +305,6 @@ void NvBootResetRailsAndResetHandler()
     // Wait as the PMIC will not accept i2c commands immediately after warm reset
     // This is for MAX77660 and TPS65913, related bug is #1215721
     NvBootUtilWaitUS(33 * 1000);
-
-    RegData = NV_READ32(NV_ADDRESS_MAP_PMC_BASE + SCRATCH_RAIL_WDT_INFO);
-    WdtDuringBr = NV_DRF_VAL(SCRATCH_RAIL, WDT_INFO, WDT_DURING_BR, RegData);
-    // WDT, TSense, and SW_MAIN should have WDT_DURING_DR (SCRATCH190) set
-    // not doing a read modify write here to reflect behavior of BR after patch
-    RegData = NV_FLD_SET_DRF_NUM(SCRATCH_RAIL, WDT_INFO, WDT_DURING_BR, 1, 0);
-    NV_WRITE32(NV_ADDRESS_MAP_PMC_BASE + SCRATCH_RAIL_WDT_INFO, RegData);
 
     // First Try Reset, then Program Power Rails if we make it here 
     NvBootResetTsenseHandler(RstFlags, WdtDuringBr);
@@ -362,7 +368,7 @@ static NvBootError NvBootResetI2CSlaveBlock(NvU32 BlockNumber, NvU32 InterComman
         Is32BitOp = NV_DRF_VAL(SCRATCH, RAIL_BLOCK_HEADER, 16BITOP, RegData) ? NV_TRUE : NV_FALSE;
 
         if(i < BlockNumber) {
-            SlaveBlockOffset += ((Is32BitOp ? 4 : 2)*NumberOfCommands / 4 + 1) * 4;
+            SlaveBlockOffset += CalculateBlockLength(NumberOfCommands, Is32BitOp);
         }
     }
         
@@ -372,6 +378,7 @@ static NvBootError NvBootResetI2CSlaveBlock(NvU32 BlockNumber, NvU32 InterComman
     }
 
     //Sum of all bytes in payload AND 0xFF should equal 0
+    // Don't use calculate block length here, to match t210 behvaior
     BytesToCheck = HEADER_SIZE + (Is32BitOp ? 4 : 2)*NumberOfCommands;
     for(i = 0; i < BytesToCheck; i++) {
         Checksum += NV_READ8(NV_ADDRESS_MAP_PMC_BASE + SCRATCH_RAIL_HEADER + SlaveBlockOffset + i);

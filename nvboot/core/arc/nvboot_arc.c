@@ -15,6 +15,7 @@
 #include "nvboot_hardware_access_int.h"
 #include "nvboot_reset_int.h"
 #include "nvboot_util_int.h"
+#include "nvboot_sdram_int.h"
 #include "project.h"
 
 #define HW_REGR(d, p, r)  NV_READ32(NV_ADDRESS_MAP_##d##_BASE + p##_##r##_0)
@@ -31,14 +32,11 @@ void NvBootArcEnable(void)
     {
         // ARC enabling - see nvbug 1170178
      
-        // Enable the clocks for EMC and MC
-        NvBootClocksSetEnable(NvBootClocksClockId_EmcId, NV_TRUE);
-        NvBootClocksSetEnable(NvBootClocksClockId_McId,  NV_TRUE);
+        // Clocks for EMC and MC should be enabled already by calling
+        // NvBootEnableMemClk. For coldboot/RCM this is done by NvBootBpmpSubSystemInit. For
+        // SC7 this is done in NvBootWarmBootUnPackSdramStartPllm.
 
-        // Remove the EMC and MC controllers from Reset.
-        // Must be done after clk enable to complete to reset correctly
-        NvBootResetSetEnable(NvBootResetDeviceId_EmcId, NV_FALSE);
-        NvBootResetSetEnable(NvBootResetDeviceId_McId,  NV_FALSE);
+        // Resets for EMC and MC should have been deasserted in NvBootEnableMemClk.
         
         RegData = NV_READ32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_CLK_SOURCE_EMC_0);
         RegData = NV_FLD_SET_DRF_DEF(CLK_RST_CONTROLLER, CLK_SOURCE_EMC, 

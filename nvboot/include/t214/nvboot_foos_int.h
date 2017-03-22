@@ -2,7 +2,7 @@
 #define FOOS_INT_H
 #include "nvboot_device_int.h"
 
-#define FOOS_DATA_LOCATION NV_ADDRESS_MAP_IRAM_C_BASE
+#define FOOS_DATA_LOCATION NV_ADDRESS_MAP_IRAM_D_BASE
 // Block size 8192
 #define FOOS_BLOCKSIZELOG2 14
 // Page size 512

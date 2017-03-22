@@ -25,6 +25,10 @@ extern "C"
 
 /**
  * Enable memory region access
+ * Prerequisites: Clocks for EMC and MC should be enabled already by calling
+ * NvBootEnableMemClk. For coldboot/RCM this is done by NvBootBpmpSubSystemInit.
+ * For SC7 this is done in NvBootWarmBootUnPackSdramStartPllm.
+ *
  * @retval None
  */
 void NvBootArcEnable(void);

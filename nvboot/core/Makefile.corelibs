@@ -47,3 +47,5 @@ CORELIB += platform
 CORELIB += debug
 CORELIB += rng
 CORELIB += fidet
+CORELIB += kcv
+

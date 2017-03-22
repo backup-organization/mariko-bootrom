@@ -12,12 +12,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-//FIXME #include "address_map_new.h"
 #include "project.h"
 #include "arapb_misc.h"
 #include "aruart.h"
-//FIXME #include "armiscreg.h"
-//FIXME #include "arpadctl_DEBUG.h"
 
 #include "nvrm_drf.h"
 #include "nvboot_bct.h"
@@ -31,7 +28,6 @@
 #include "nvboot_version_rom.h"
 #include "nvboot_util_int.h"
 #include "nvboot_reset_int.h"
-//FIXME #include "nvboot_bpmp_int.h"
 #include "nvboot_strap_int.h"
 
 /*

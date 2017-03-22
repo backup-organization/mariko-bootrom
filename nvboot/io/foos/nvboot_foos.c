@@ -16,6 +16,7 @@
 #include "nvboot_fuse_int.h"
 #include "nvboot_device_int.h"
 #include "nvboot_dispatcher_int.h"
+#include "nvboot_arc_int.h"
 #include "project.h"
 
 /** Foos is a dummy device which allows to test the entire bootrom flow on fpga or QT.
@@ -69,6 +70,7 @@ NvBootFoosInit(NvBootFoosContext *pFoosContext)
 
     foosContext->PageSizeLog2  = FOOS_PAGESIZELOG2;
     foosContext->BlockSizeLog2  = FOOS_BLOCKSIZELOG2;
+    NvBootArcEnable();
     return NvBootError_Success;
 }
 
@@ -77,11 +79,12 @@ NvBootError NvBootFoosReadPage(const NvU32 Block, const NvU32 Page, const NvU32 
     NV_ASSERT(Dest != NULL);
     NV_ASSERT(Page < (1 << (FOOS_BLOCKSIZELOG2 - foosContext->PageSizeLog2)));
 
+    NvU32 LenCeiled = ((Len+0x0200-1)/0x200)*0x200;
     NvBootUtilMemcpy(Dest,
                      (uint8_t*)(FOOS_DATA_LOCATION +
                                (Block << foosContext->BlockSizeLog2) +
                                (Page << foosContext->PageSizeLog2)),
-                     Len);// read only as per Len
+                     LenCeiled);// read only as per Len
     return NvBootError_Success;
 }
 

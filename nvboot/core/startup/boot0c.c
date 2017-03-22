@@ -36,6 +36,11 @@ NvBootConfigTable *pBootConfigTable;
 
 // global counter for FI mitigation.
 int32_t FI_counter1;
+/**
+ *  Global counter to increase code distance between error detection and response.
+ *  FI mitigation technique.
+ */
+int32_t FI_IncrDist;
 
 extern void NvBootMainNonSecureBootLoader();
 NvBool IsRcmMode()
@@ -169,6 +174,11 @@ int main(void)
         BootInfoTable.OscFrequency	 = NvBootClocksGetOscFreq();
         BootInfoTable.SafeStartAddr  = PTR_TO_ADDR(&BootInfoTable) +
         sizeof(NvBootInfoTable);
+
+        // Subsystem init for t214 is only mem clock enable. This
+        // should only be called in non-sc7 paths. SC7 paths will handle
+        // mem clock init itself.
+        Error = NvBootBpmpSubSystemInit();
 
         // check for Forced RCM mode
         IsRcmMode_Status = IsRcmMode();

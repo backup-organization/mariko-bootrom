@@ -56,7 +56,7 @@ NvBootError NvBootSecureDispatcher(NvBootTaskListId TaskListId)
 {
     int i = 0;
     NvBootTaskPtr TaskPtr;
-    NvBootError Error = NvBootError_NotInitialized;
+    volatile NvBootError Error = NvBootError_NotInitialized;
     volatile NvBootDispatchStat stat;
     int cnt;
     NvBootError (*func)(void);
@@ -83,6 +83,8 @@ NvBootError NvBootSecureDispatcher(NvBootTaskListId TaskListId)
         if(Error == NvBootError_Fault_Injection_Detection)
         {
             do_exception();
+            do_exception();
+            do_exception();
         }
         
         stat.nTicks = NvBootUtilGetTimeUS() - funcStartTick;
@@ -91,14 +93,24 @@ NvBootError NvBootSecureDispatcher(NvBootTaskListId TaskListId)
 
         if(Error != NvBootError_Success)
             return Error;
+
+        NvBootRngWaitRandomLoop(INSTRUCTION_DELAY_ENTROPY_BITS);
+
+        // Double check the error returned as FI mitigation.
+        if(Error != NvBootError_Success)
+            return Error;
     }
     
     // Double check that the dispatcher executed all tasks in the table.
     int cnt_verify = GetCntTasks(TaskListId);
-    if(cnt != cnt_verify)
+    if(i != cnt_verify)
+    {
         do_exception();
+        do_exception();
+        do_exception();
+    }
 
-    return NvBootError_Success;
+    return Error;
 }
 
 void FT_NONSECURE UpdateBootFlowTracker(NvU32 Init, NvU32 Exit, NvU32 Id, NvU32 Status)

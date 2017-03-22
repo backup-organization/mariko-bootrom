@@ -29,6 +29,8 @@
 #include "nvboot_rng_hw.h"
 #include "nvboot_rng_int.h"
 #include "nvboot_fuse_int.h"
+#include "nvboot_irom_patch_int.h"
+#include "nvboot_platform_int.h"
 
 
 /**
@@ -46,6 +48,12 @@ NvU32 NvBootSeRngOperation(NvBootSeRngOp RngOp)
     NvU32 RegData;
     NvU32   L[NVBOOT_SE_AES_BLOCK_LENGTH];
 
+    /// If SE is disabled, return 0
+    if(!NvBootSeInstanceIsEngineEnabled(NvBootSeInstance_Se1))
+    {
+        return 0;
+    }
+    
     /// Force reseed if counter is exhausted.
     RegData = NvBootGetSeReg(SE_INT_STATUS_0);
     if(NV_DRF_VAL(SE, INT_STATUS, RESEED_CNTR_EXHAUSTED, RegData))
@@ -54,7 +62,23 @@ NvU32 NvBootSeRngOperation(NvBootSeRngOp RngOp)
         NvBootSetSeReg(SE_INT_STATUS_0, NV_DRF_DEF(SE, INT_STATUS, RESEED_CNTR_EXHAUSTED, SW_CLEAR));
     }
     
+    /// Set configuration for RNG seeded with H/W Entropy and Random number destination=Memory
+    RegData = 0;
+    RegData = NV_FLD_SET_DRF_DEF(SE, CONFIG, ENC_ALG, RNG, RegData);
+    RegData = NV_FLD_SET_DRF_DEF(SE, CONFIG, DEC_ALG, NOP, RegData);
+    RegData = NV_FLD_SET_DRF_NUM(SE, CONFIG, ENC_MODE, SE_MODE_PKT_AESMODE_KEY128, RegData);
+    RegData = NV_FLD_SET_DRF_DEF(SE, CONFIG, DST, MEMORY, RegData);
+    NvBootSetSeReg(SE_CONFIG_0, RegData);
+    
+    RegData = 0;
+    RegData = NV_FLD_SET_DRF_DEF(SE, CRYPTO_CONFIG, XOR_POS, BYPASS, RegData);
+    RegData = NV_FLD_SET_DRF_DEF(SE, CRYPTO_CONFIG, INPUT_SEL, RANDOM, RegData);
+    RegData = NV_FLD_SET_DRF_DEF(SE, CRYPTO_CONFIG, HASH_ENB, DISABLE, RegData);
+    RegData = NV_FLD_SET_DRF_DEF(SE, CRYPTO_CONFIG, CORE_SEL, ENCRYPT, RegData);
+    NvBootSetSeReg(SE_CRYPTO_CONFIG_0, RegData);
+    
     /// Setup the mode
+    
     RegData = NvBootGetSeReg(SE_RNG_CONFIG_0);
     RegData = NV_FLD_SET_DRF_NUM(SE, RNG_CONFIG, MODE,  RngOp, RegData);
     NvBootSetSeReg(SE_RNG_CONFIG_0, RegData);
@@ -75,7 +99,7 @@ NvU32 NvBootSeRngOperation(NvBootSeRngOp RngOp)
      NvBootSetSeReg(SE_OPERATION_0, RegData);
 
     // Poll for OP_DONE.
-     while(NvBootSeIsEngineBusy())
+     while(NvBootSeIsEngineBusy((NvU8*)L))
          ;
     
     return L[0]; 
@@ -99,16 +123,8 @@ NvBootError NvBootSeRngHwInit(NvBootRngState *RngState)
     if(NvBootFuseIsJtagSecureIdFuseSet() == NV_FALSE)
     {
         *RngState = RNG_DISABLED;
-        
-        if(NvBootFuseIsNvProductionModeFuseSet() == NV_TRUE) /// This is an invalid combination.
-        {
-            return NvBootError_NotInitialized;
-        }
-        else
-        {
             return NvBootError_Success;
         }
-    }
     
     /** 
      *  SE clock might have been brought up already but just in case, enable and de-assert Reset.
@@ -152,9 +168,30 @@ NvBootError NvBootSeRngHwInit(NvBootRngState *RngState)
     
     NvBootSetSeReg(SE_RNG_RESEED_INTERVAL_0, 0);
     
+    // CYA in case Entropy is busted.
+    NvU32 Cya = NvBootGetSwCYA() & NVBOOT_SW_CYA_RNG_SRC_LFSR;
     RegData = NvBootGetSeReg(SE_RNG_CONFIG_0);
+    if(Cya)
+    {
+        RegData = NV_FLD_SET_DRF_DEF(SE, RNG_CONFIG, SRC, LFSR, RegData);
+    }
+    else
+    {
     RegData = NV_FLD_SET_DRF_DEF(SE, RNG_CONFIG, SRC, ENTROPY, RegData);
+    }
+
     NvBootSetSeReg(SE_RNG_CONFIG_0, RegData);
+    
+    /**
+     *  Bypass VN filter on fpga. FPGA entropy quality is likely bad so the filter will discard and 
+     *  RNG operation won't complete. 
+     */
+    if(NvBootIsPlatformFpga())
+    {
+        RegData = NvBootGetSeReg(SE_MISC_0);
+        RegData = NV_FLD_SET_DRF_DEF(SE, MISC, ENTROPY_VN_BYPASS, ENABLE, RegData);
+        NvBootSetSeReg(SE_MISC_0, RegData);
+    }
     
     NvBootSeRngOperation(INSTANTIATE);
     

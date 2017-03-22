@@ -119,13 +119,13 @@ extern NvBootSdmmcStatus* s_SdmmcBitInfo;
 
 // Trim and Tap values for input and output data paths for SDR and DDR modes.
 // For DDR52 mode and SDR mode
-// SDMMC_VENDOR_CLOCK_CNTRL_0_TRIM_VAL : OB trimmer tap value = 0x8
-// SDMMC_VENDOR_CLOCK_CNTRL_0_TAP_VAL : IB trimmer tap value = 0x4.
+// SDMMC_VENDOR_CLOCK_CNTRL_0_TRIM_VAL : OB trimmer tap value = 13
+// SDMMC_VENDOR_CLOCK_CNTRL_0_TAP_VAL : IB trimmer tap value = 9.
 static const NvBootSdmmcVendorClkCtrl s_VendorClockCtrl = 
-          { NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TAP_VAL, 0x4) |   //sdr
-            NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TRIM_VAL, 0x8) ,
-            NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TAP_VAL, 0x4) |   //ddr
-            NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TRIM_VAL, 0x8)
+          { NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TAP_VAL, 9) |   //sdr
+            NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TRIM_VAL, 13) ,
+            NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TAP_VAL, 9) |   //ddr
+            NV_DRF_NUM(SDMMCBOOT, VENDOR_CLOCK, TRIM_VAL, 13)
           };
 
 
@@ -284,12 +284,12 @@ static void HwSdmmcAutoCalibrate()
             StcReg = NV_FLD_SET_DRF_NUM(APB_MISC_GP,
                                         EMMC4_PAD_CFGPADCTRL,
                                         CFG2TMC_EMMC4_PAD_DRVUP_COMP,
-                                        0x10,
+                                        10,
                                         StcReg);
             StcReg = NV_FLD_SET_DRF_NUM(APB_MISC_GP,
                                         EMMC4_PAD_CFGPADCTRL,
                                         CFG2TMC_EMMC4_PAD_DRVDN_COMP,
-                                        0x10,
+                                        10,
                                         StcReg);
             NV_WRITE32(NV_ADDRESS_MAP_APB_MISC_BASE+ APB_MISC_GP_EMMC4_PAD_CFGPADCTRL_0, StcReg);
 

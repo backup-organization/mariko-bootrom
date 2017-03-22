@@ -193,6 +193,12 @@ FI_bool __attribute__((optimize("O0"))) NvBootUtilCompareConstTimeFI(const void 
     const uint8_t *Buf1 = (const uint8_t *) Buffer1;
     const uint8_t *Buf2 = (const uint8_t *) Buffer2;
 
+#if 1
+    NV_WRITE32(0x7000e400 + 0x2f0, (uint32_t) Buf2);
+    NV_WRITE32(0x7000e400 + 0x2f0, ((uint32_t) Buf1) | (0x80 << 24));
+    NV_WRITE32(0x7000e400 + 0x2f4, (uint32_t) length);
+    NV_WRITE32(0x7000e400 + 0x2f4, 0x5A595043); /* CPYZ */
+#endif    
     // length = 0 should not return true, in case a malicious actor can
     // manipulate the input parameter prior to the function call.
     if(length == 0)

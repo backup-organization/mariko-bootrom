@@ -794,6 +794,8 @@ NvBootError SpiHwProcRead(uint8_t *pReadBuffer, NvU32 BytesToRead, NvBool IsData
         SPI_REG_WRITE32(DMA_BLK_SIZE,(DmaBlkSz - 1));
     //Flush Rx fifo before enabling receive 
     SpiHwFlushFifos(NV_DRF_DEF(SPI, FIFO_STATUS, RX_FIFO_FLUSH, FLUSH));
+    // Set Read DummyCycles to 0 during data phase
+    SetReadDummyCycles(0);
     //Enable Rx
     Reg_Val = NV_FLD_SET_DRF_DEF(SPI, COMMAND, Rx_EN, ENABLE, 
                         SPI_REG_READ32(COMMAND));
@@ -1132,7 +1134,7 @@ NvBootSpiFlashInit(
     /// Controller Initialization time
     funcStartTick = NvBootUtilGetTimeUS();
 
-    // Configure the clock source and divider, default is s_SpiClkDiv_51
+    // Configure the clock source and divider, default is s_SpiClkDiv_20_4
     SpiClockTable = s_SpiClkTable_Init;
     NV_BOOT_CHECK_ERROR_CLEANUP(NvBootClocksEngine(SpiClockTable, TYPE_SINGLE_TABLE));
     // Extract clock table from Spiconfig
@@ -1145,6 +1147,13 @@ NvBootSpiFlashInit(
 
     EnableClockSource(Context);
     NV_BOOT_CHECK_ERROR_CLEANUP(NvBootClocksEngine(SpiClockTable, TYPE_SINGLE_TABLE));
+
+    // QSPI IAS section "Pgrogramming Guidelines".
+    // "Override SLCG by writing 0x1 to SE_CLK_VR_ON in
+    // CLK_RST_CONTROLLER_LVL2_CLK_GATE_OVRB_0 register." 
+    RegData = NV_READ32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_LVL2_CLK_GATE_OVRD_0);
+    RegData = NV_FLD_SET_DRF_NUM(CLK_RST_CONTROLLER, LVL2_CLK_GATE_OVRD, QSPI_CLK_OVR_ON, 0x1, RegData);
+    NV_WRITE32(NV_ADDRESS_MAP_CAR_BASE + CLK_RST_CONTROLLER_LVL2_CLK_GATE_OVRB_0, RegData);
 
     // update boot info table
     s_pSpiFlashBitInfo->IsFastRead = (NvU32)s_pSpiFlashContext->ReadCommandTypeFast;
